@@ -1,0 +1,645 @@
+
+/*====音乐播放====*/
+soundManager.onready(function () {
+    soundManager.createSound({
+        id: "Beep",
+        url: "/assets/images/beep.mp3"
+    });
+});
+
+
+/*==== iPhone/iPad 判断 ====*/
+
+var isip = false;
+
+if ('standalone' in navigator && !navigator.standalone && (/iphone|ipod|ipad/gi).test(navigator.platform) && (/Safari/i).test(navigator.appVersion)) {
+	isip = (/iphone/gi).test(navigator.platform);
+	document.title = jsmtitle;
+}
+
+if (isip) {
+    document.write('<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">');
+} else {
+    document.write('<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">');
+}
+
+
+/*====  调整尺寸 ====*/
+
+var ht_adjustsize = false;
+
+function AdjustSize() {
+    ht_adjustsize = true;
+    $('table').hide();
+    ht_adjsizesync_init = true;
+    adjsizesync();
+}
+
+var ht_adjsizesync_init;
+function adjsizesync() {
+    var FontSize = 30;
+
+    if (ht_adjsizesync_init) {
+        ht_adjsizesync_init = false;
+        SetFontSize(FontSize);
+        setTimeout(adjsizesync, 250);
+        return;
+    }
+
+    var changeby = 30; // initial chanbe by 30
+    var Minchangeby = 8;
+
+    while (true) {
+        SetFontSize(FontSize);
+
+        if ($('table').width() > getAvailableWidth()) {
+            FontSize -= changeby;
+
+            if (changeby == Minchangeby) break;
+
+            changeby /= 2;
+
+            if (changeby < Minchangeby) {
+                changeby = Minchangeby;
+            }
+        }
+
+        FontSize += changeby;
+    }
+
+    ht_adjustsize = false;
+    $('table').show();
+}
+
+function getAvailableWidth() {
+    return $('body').width() - 50;
+}
+
+function SetFontSize(pFontSize) {
+    $('.Time').css('fontSize', pFontSize); // 110
+    var FontSize2 = pFontSize * .33;
+    $('button').css('fontSize', FontSize2); // 36
+    $('#Milliseconds').css('fontSize', FontSize2); // 36
+}
+
+function GetWidthAndHeightString() {
+    var oWindow = $(window);
+    function Round(pNumber) {
+        return Math.round(pNumber / 10) * 10;
+    }
+    var WidthAndHeight = Round(oWindow.width()) + "x" + Round(oWindow.height());
+    return WidthAndHeight;
+}
+
+var ht_TrackWindowSizeId;
+function TrackWindowSize() {
+    
+}
+
+$(window).resize(function () {
+    AdjustSize();
+    
+    if(ht_TrackWindowSizeId != undefined) {
+        clearTimeout(ht_TrackWindowSizeId);
+    }
+    
+    ht_TrackWindowSizeId = setTimeout(TrackWindowSize, 1000);
+});
+
+
+$(function () {
+    AdjustSize();
+    
+});
+
+
+/*====  Helpers ====*/
+
+    function ToTimeComponents(pMilliseconds) {
+        var Milliseconds = pMilliseconds % 1000;
+        var TotalSeconds = (pMilliseconds - Milliseconds) / 1000;
+        var Seconds = TotalSeconds % 60;
+        var TotalMinutes = (TotalSeconds - Seconds) / 60;
+        var Minutes = TotalMinutes % 60;
+        var Hours = (TotalMinutes - Minutes) / 60;
+        return {
+            Hours: Hours,
+            Minutes: Minutes,
+            Seconds: Seconds,
+            Milliseconds: Milliseconds,
+            GetTotalMilliseconds: function () {
+                var TotalMinutes = (this.Hours * 60) + this.Minutes;
+                var TotalSeconds = (TotalMinutes * 60) + this.Seconds;
+                var TotalMilliseconds = (TotalSeconds * 1000) + this.Milliseconds;
+                return TotalMilliseconds;
+            }
+        };
+    }
+
+
+
+    function IsTouchDevice() {
+        var el = document.createElement('div');
+        el.setAttribute('ongesturestart', 'return;');
+        if (typeof el.ongesturestart == "function") {
+            return true;
+        } else {
+            return false
+        }
+    }
+
+    $.fn.clickOrTouch = function (pFunction) {
+        if (IsTouchDevice()) {
+            $(this).bind('touchstart', pFunction);
+        } else {
+            $(this).click(pFunction);
+        }
+    };
+
+
+/*==== Adjust Time ====*/
+
+    $(function () {
+        var AddHour = function (Time) {
+            Time.Hours++;
+        };
+
+        var AddMinute = function (Time) {
+            Time.Minutes++;
+
+            if (Time.Minutes == 60) {
+                AddHour(Time);
+                Time.Minutes = 0;
+            }
+        };
+
+        var AddSecond = function (Time) {
+            Time.Seconds++;
+
+            if (Time.Seconds == 60) {
+                AddMinute(Time);
+                Time.Seconds = 0;
+            }
+        };
+
+        var SubtractHour = function (Time) {
+            Time.Hours--;
+
+            if (Time.Hours < 0) {
+                Time.Hours = 0;
+                return false;
+            }
+
+            return true;
+        };
+
+        var SubtractMinute = function (Time) {
+            Time.Minutes--;
+
+            if (Time.Minutes == -1) {
+                if (SubtractHour(Time)) {
+                    Time.Minutes = 59;
+                    return true;
+                } else {
+                    Time.Minutes = 0;
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        };
+
+        var SubtractSecond = function (Time) {
+            Time.Seconds--;
+
+            if (Time.Seconds == -1) {
+                if (SubtractMinute(Time)) {
+                    Time.Seconds = 59;
+                } else {
+                    Time.Seconds = 0;
+                }
+            }
+        };
+
+        $(".oAddHour").clickOrTouch(function () {
+            var Time = ToTimeComponents(GetRemainingTime());
+            AddHour(Time);
+            Time.Milliseconds = 0;
+            SetRemainingTime(Time.GetTotalMilliseconds());
+        });
+
+        $(".oAddMinute").clickOrTouch(function () {
+            var Time = ToTimeComponents(GetRemainingTime());
+            AddMinute(Time);
+            Time.Milliseconds = 0;
+            SetRemainingTime(Time.GetTotalMilliseconds());
+        });
+
+        $(".oAddSecond").clickOrTouch(function () {
+            var Time = ToTimeComponents(GetRemainingTime());
+            AddSecond(Time);
+            Time.Milliseconds = 0;
+            SetRemainingTime(Time.GetTotalMilliseconds());
+        });
+
+        $(".oSubtractHour").clickOrTouch(function () {
+            var Time = ToTimeComponents(GetRemainingTime());
+            SubtractHour(Time);
+            Time.Milliseconds = 0;
+            SetRemainingTime(Time.GetTotalMilliseconds());
+        });
+
+        $(".oSubtractMinute").clickOrTouch(function () {
+            var Time = ToTimeComponents(GetRemainingTime());
+            SubtractMinute(Time);
+            Time.Milliseconds = 0;
+            SetRemainingTime(Time.GetTotalMilliseconds());
+        });
+
+        $(".oSubtractSecond").clickOrTouch(function () {
+            var Time = ToTimeComponents(GetRemainingTime());
+            SubtractSecond(Time);
+            Time.Milliseconds = 0;
+            SetRemainingTime(Time.GetTotalMilliseconds());
+        });
+    });
+
+
+/*==== DisplayTime()====*/
+
+    var ht_Hours;
+    var ht_Minutes;
+    var ht_Seconds;
+
+    function MillisToTime(pMilliseconds) { 
+        var Milliseconds = pMilliseconds % 1000;
+        var TotalSeconds = (pMilliseconds - Milliseconds) / 1000;
+        var Seconds = TotalSeconds % 60;
+        var TotalMinutes = (TotalSeconds - Seconds) / 60;
+        var Minutes = TotalMinutes % 60;
+        var Hours = (TotalMinutes - Minutes) / 60;
+        
+        return { Hours: Hours, Minutes: Minutes, Seconds: Seconds, Milliseconds: Milliseconds };
+    }
+    
+    function DisplayTime(pMilliseconds, pbUpdateAllClasses) {
+        var bUpdateAllClasses = false;
+        if (pbUpdateAllClasses !== undefined) {
+            bUpdateAllClasses = pbUpdateAllClasses;
+        }
+
+        var Time = MillisToTime(pMilliseconds);
+        
+        var Milliseconds = Time.Milliseconds;
+        var Seconds = Time.Seconds;
+        var Minutes = Time.Minutes;
+        var Hours = Time.Hours;
+        
+
+
+        //var Milliseconds = pMilliseconds % 1000;
+        //var TotalSeconds = (pMilliseconds - Milliseconds) / 1000;
+        //var Seconds = TotalSeconds % 60;
+        //var TotalMinutes = (TotalSeconds - Seconds) / 60;
+        //var Minutes = TotalMinutes % 60;
+        //var Hours = (TotalMinutes - Minutes) / 60;
+
+        var bHoursChanged = false;
+        if (ht_Hours != Hours) {
+            bHoursChanged = true;
+            ht_Hours = Hours;
+            $('#Hours').html(AddZeroPadding(Hours));
+        }
+
+        var bMinutesChanged = false;
+        if (ht_Minutes != Minutes) {
+            bMinutesChanged = true;
+            ht_Minutes = Minutes;
+            $('#Minutes').html(AddZeroPadding(Minutes));
+        }
+
+        var bSecondsChanged = false;
+        if (ht_Seconds != Seconds) {
+            bSecondsChanged = true;
+            ht_Seconds = Seconds;
+            $('#Seconds').html(AddZeroPadding(Seconds));
+        }
+
+        $('#Milliseconds').html(AddZeroPadding3(Milliseconds));
+
+        if (Hours == 0) {
+            if (bHoursChanged || bUpdateAllClasses) {
+                $('#Hours').addClass("TimeZero");
+            }
+
+            if (Minutes == 0) {
+                if (bMinutesChanged || bUpdateAllClasses) {
+                    $('#Minutes').addClass("TimeZero");
+                }
+
+                if (bSecondsChanged || bUpdateAllClasses) {
+                    if (Seconds == 0) {
+                        $('#Seconds').addClass("TimeZero");
+                    } else {
+                        $('#Seconds').removeClass("TimeZero");
+                    }
+                }
+            } else {
+                if (bMinutesChanged || bUpdateAllClasses) {
+                    $('#Minutes').removeClass("TimeZero");
+                }
+                if (bSecondsChanged || bUpdateAllClasses) {
+                    $('#Seconds').removeClass("TimeZero");
+                }
+            }
+        } else {
+            if (bHoursChanged || bUpdateAllClasses) {
+                $('#Hours').removeClass("TimeZero");
+            }
+
+            if (bMinutesChanged || bUpdateAllClasses) {
+                $('#Minutes').removeClass("TimeZero");
+            }
+
+            if (bSecondsChanged || bUpdateAllClasses) {
+                $('#Seconds').removeClass("TimeZero");
+            }
+        }
+    }
+
+    function AddZeroPadding(pNumber) {
+        if (pNumber < 10) return "0" + pNumber;
+        return pNumber;
+    }
+
+    function AddZeroPadding3(pNumber) {
+        if (pNumber < 10) return "00" + pNumber;
+        if (pNumber < 100) return "0" + pNumber;
+        return pNumber;
+    }
+
+
+/*==== Load/Save to cookie====*/
+
+    function LoadStateFromCookie() {
+        if ($.cookie("Timer-StartTime") != null) ht_StartTime = parseInt($.cookie("Timer-StartTime"));
+        ht_StartTime = isNaN(ht_StartTime)?0:ht_StartTime;
+        if ($.cookie("Timer-Offset") != null) ht_LeftOf = parseInt($.cookie("Timer-Offset"));
+        ht_LeftOf = isNaN(ht_LeftOf)?0:ht_LeftOf;
+        if ($.cookie("Timer-State") != null) ht_State = $.cookie("Timer-State");
+        if ($.cookie("Timer-CountdownFrom") != null) ht_CountdownFrom = parseInt($.cookie("Timer-CountdownFrom"));
+        ht_CountdownFrom = isNaN(ht_CountdownFrom)?0:ht_CountdownFrom;
+    }
+
+    function SaveStateToCookie() {
+        var CONST_CookieNeverExpiresValue = 30 * 12 * 5; // 5 years from now
+        var CONST_CookieNeverExpires = { expires: CONST_CookieNeverExpiresValue };
+
+        $.cookie("Timer-StartTime", ht_StartTime, CONST_CookieNeverExpires);
+        $.cookie("Timer-Offset", ht_LeftOf, CONST_CookieNeverExpires);
+        $.cookie("Timer-State", ht_State, CONST_CookieNeverExpires);
+        $.cookie("Timer-CountdownFrom", ht_CountdownFrom, CONST_CookieNeverExpires);
+    }
+
+
+/*====  Step, UpdateTimeDisplay(), CalculateElapsedMilliseconds() ====*/
+
+    var ht_LeftOf = 0; // these values are store and loaded from the cookie
+    var ht_StartTime;
+    var ht_State = "Adjusting";
+    var ht_CountdownFrom = 5 * 60 * 1000; // default 5 minutes
+
+    function CalculateElapsedMilliseconds() { // this is the time that gets displayed
+
+        if (ht_State != "Running") return ht_LeftOf;
+
+        var CurrentTime = new Date().getTime();
+        var ElapsedTime = CurrentTime - ht_StartTime;
+        return ElapsedTime + ht_LeftOf;
+    }
+
+    function SetRemainingTime(pMilliseconds) {
+        ht_LeftOf = 0;
+        ht_StartTime = new Date().getTime();
+        ht_CountdownFrom = pMilliseconds;
+        UpdateTimeDisplay(true);
+        SaveStateToCookie();
+    }
+
+    function GetRemainingTime() {
+        var RemainingTime = ht_CountdownFrom - CalculateElapsedMilliseconds();
+        if (RemainingTime < 0) {
+            RemainingTime = 0;
+        }
+
+        return RemainingTime;
+    }
+
+    function UpdateTimeDisplay(pbUpdateAllClasses) {
+        var RemainingTime = GetRemainingTime();
+        DisplayTime(RemainingTime, pbUpdateAllClasses);
+    }
+
+    function OnTimerCompleted() {
+        StopTimer();
+        UpdateControls();
+        UpdateTimeDisplay();
+        soundManager.play("Beep")
+    }
+
+    function Step() {
+        if (ht_State != "Running") return;
+
+        var RemainingTime = GetRemainingTime();
+        if (RemainingTime == 0) {
+            UpdateTimeDisplay();
+            OnTimerCompleted();
+        } else {
+            UpdateTimeDisplay();
+            // millis = 1000 / fps
+            // 84 millis = 12 fps
+            setTimeout(arguments.callee, 42);
+        }
+    }
+
+/*====  Start/Stop/Reset/Adjust timer ====*/
+
+    function GetTrackTimeString() {
+        var Time = MillisToTime(CalculateElapsedMilliseconds());
+        
+        var Hours = Time.Hours;
+        var Minutes = Time.Minutes;
+        var Seconds = Time.Seconds;
+        
+        function Round(pNumber) {
+            return Math.round(pNumber / 10) * 10;
+        }
+
+        return Hours + ":" + Minutes + ":" + Round(Seconds);
+    }
+    
+
+    function StartTimer() {
+        
+        ht_StartTime = new Date().getTime();
+        ht_State = "Running";
+        SaveStateToCookie();
+        Step();
+    }
+
+    function StopTimer() {
+        
+        ht_LeftOf = CalculateElapsedMilliseconds();
+        ht_State = "Paused";
+        SaveStateToCookie();
+    }
+
+    function ResetTimer() {
+        
+        ht_LeftOf = 0;
+        //StopTimer(); // takes care of saving to cookie
+        SaveStateToCookie();
+        UpdateTimeDisplay();
+    }
+
+
+/*==== ht_IsOnline ====*/
+
+var ht_IsOnline = false;
+
+//<script language="javascript" src="onlineonly.js"></script>
+
+/*==== Offline Tracking ====*/
+
+    if (!ht_IsOnline) {
+        var OfflineUseCount = 0;
+
+        if ($.cookie("OfflineUseCount") != null) {
+            OfflineUseCount = parseInt($.cookie("OfflineUseCount"));
+            OfflineUseCount = isNaN(OfflineUseCount)?0:OfflineUseCount;
+        }
+
+        OfflineUseCount++;
+        $.cookie("OfflineUseCount", OfflineUseCount);
+    } else {
+        $(function () {
+            if ($.cookie("OfflineUseCount") != null) {
+                var OfflineUseCount = parseInt($.cookie("OfflineUseCount"));
+                OfflineUseCount = isNaN(OfflineUseCount)?0:OfflineUseCount;
+                $.cookie("OfflineUseCount", null);
+            }
+        });
+    }
+
+
+/*==== UpdateControls() ====*/
+
+    // start/pause, (reset, continue)
+
+    function InitialHideAjustControls() {
+        $(".oAdjustControls button").hide();
+    }
+
+    function HideAjustControls() {
+        $(".oAdjustControls button").slideUp();
+    }
+
+    function ShowAjustControls() {
+        //$(".oAdjustControls").show();
+        $(".oAdjustControls button").slideDown();
+    }
+
+    function UpdateControls() {
+        if (ht_State == "Running") {
+            $('#Start').hide();
+            //$('#Reset').hide();
+            $('#Adjust').hide();
+            $('#Done').hide();
+            $('#Stop').show();
+            HideAjustControls();
+        } else if (ht_State == "Adjusting") {
+            $('#Start').hide();
+            $('#Adjust').hide();
+            $('#Stop').hide();
+
+            //$('#Reset').show();
+            $('#Done').show();
+            setTimeout(function () {
+                ShowAjustControls();
+            }, 100);
+        } else { // paused
+            HideAjustControls();
+
+            var oStartButton = $('#Start');
+
+            $('#Adjust').show();
+            $('#Done').hide();
+            $('#Stop').hide();
+            //$('#Reset').hide();
+
+            if (GetRemainingTime() == 0) {
+                oStartButton.hide();
+            } else {
+                if (ht_LeftOf == 0) {
+                    oStartButton.html(jsbtnstart);
+                } else {
+                    oStartButton.html(jsbtngoon);
+                }
+
+                oStartButton.show();
+            }
+        }
+    }
+
+
+/*==== Entry Point ====*/
+
+    $(function () {
+        InitialHideAjustControls();
+        LoadStateFromCookie();
+
+        if (location.hash != undefined && location.hash.length > 0) {
+            var hash = location.hash.substr(1); // remove # sign
+            location.hash = "";
+            ht_CountdownFrom = parseInt(hash);
+            ht_CountdownFrom = isNaN(ht_CountdownFrom)?0:ht_CountdownFrom;
+            ht_State = "Paused";
+        }
+
+        if (ht_State == "Running") {
+            Step();
+        }
+
+        UpdateTimeDisplay();
+
+        $('#Adjust').clickOrTouch(function () {
+            ht_State = "Adjusting";
+            UpdateControls();
+        });
+
+        $('#Done').clickOrTouch(function () {
+            ht_State = "Paused";
+            UpdateControls();
+        });
+
+        $('#Start').clickOrTouch(function () {
+            StartTimer();
+            UpdateControls();
+            return false;
+        });
+
+        $('#Stop').clickOrTouch(function () {
+            StopTimer();
+            UpdateControls();
+            UpdateTimeDisplay();
+            return false;
+        });
+
+        //                $('#Reset').clickOrTouch(function () {
+        //                    ResetTimer();
+        //                    UpdateControls();
+        //                    return false;
+        //                });
+
+        UpdateControls();
+    });
