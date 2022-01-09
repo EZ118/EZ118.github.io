@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<title>IE版BiliBili</title>
+	</head>
+	<body>
+		<center>
+			<div>
+				<input id=iptbx placeholder="url" onclick="this.value = window.clipboardData.getData('Text');;document.btnbx.click();">
+				<button id=btnbx onclick="go();">GO!</button>
+			</div>
+			<iframe src="https://search.bilibili.com/" name="index" id="index" frameborder="0" security="restricted" sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts"></iframe>
+		</center>
+		<script>
+			var iframe = document.getElementById('index');
+			var iptbx = document.getElementById('iptbx');
+			
+			var w = document.documentElement.clientWidth || document.body.clientWidth;
+			var h = document.documentElement.clientHeight || document.body.clientHeight;
+			
+			var w = document.body.scrollWidth || document.documentElement.scrollWidth;
+			var h = document.body.scrollHeight || document.documentElement.scrollHeight;
+			
+			iframe.width = w - 0.02 * w;
+			iframe.height = h - 40;
+
+			function getV(name) {
+				vid = name.substring(name.lastIndexOf("/")).replace(name.substring(name.lastIndexOf("?")), "").replace("/", "");
+				return vid;
+			}
+			
+			function getClip(){
+				navigator.clipboard
+				.readText()
+				.then((v) => {
+					return v;
+				})
+				.catch((v) => {
+					return v;
+					console.log("获取剪贴板失败: ", v);
+				});
+			}
+			
+			function go(){
+				str = iptbx.value;
+				iptbx.value = "";
+				if(str == "") iframe.src = "https://search.bilibili.com/";
+				else {
+					str = getV(str);
+					if(str.split("V")[0] == "B") {
+						iframe.src = "https://player.bilibili.com/player.html?aid=375588815&bvid=" + str +"&cid=339262048&page=1&&danmaku=0";
+					}
+					alert(str);
+				}
+			}
+		</script>
+	</body>
+</html>
