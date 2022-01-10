@@ -23,7 +23,7 @@
 		</center>
 		<script type="text/javascript">
 			var time1 = new Date().getTime() + 1000;
-			var flag = 0, tmp;
+			var flag = 0;
 			
 			function pluszero(num) {if (num < 10) return '0' + num;else return num;} 
 			function minus(num) {if (num == 0) return 1;else return 0;}
@@ -31,11 +31,10 @@
 			function pause(obj) {
 				if(obj.innerHTML == "Pause") {
 					obj.innerHTML = "Continue";
-					tmp = flag;
-					flag = 2;
+					flag = 1;
 				} else {
 					obj.innerHTML = "Pause";
-					flag = tmp;
+					flag = 0;
 				}
 			}
 			
@@ -44,7 +43,6 @@
 			
 			function daojishi(){				
 				if(flag == 1) return;
-				if(flag == 2) return;
 				
 				var time2 = new Date().getTime();
 				console.log(time1);
@@ -63,7 +61,7 @@
 				
 				if(output == "0-1 : 00") {
 					document.getElementById("time_show").innerHTML = "00 : 00";
-					警报（"泡面泡好啦!");
+					alert("泡面泡好啦！");
 					flag = 1;
 				}
 			}
