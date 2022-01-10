@@ -1,58 +1,73 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
-		<title>IE版BiliBili</title>
-		<meta data-vue-meta="true" charset="UTF-8">
+		<meta charset="UTF-8">
+		<title>智能泡面定时器</title>
+		<style>
+		#time_show{font-size:100px;}
+		button{
+			padding:15px;
+			border:3px solid #000;
+			background-color:#fff;
+			color:#000;
+			border-radius:10px;
+			margin:3px;
+		}
+		</style>
 	</head>
 	<body>
-		<center>
-			<div>
-				<input id=iptbx placeholder="url" onclick="this.value = window.clipboardData.getData('Text');;document.btnbx.click();">
-				<button id=btnbx onclick="go();">GO!</button>
-			</div>
-			<iframe src="https://search.bilibili.com/" name="index" id="index" frameborder="0" security="restricted" sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts"></iframe>
+		<center style="margin-top:25%;">
+			<label id="time_show">05 : 00</label><br><br>
+			<button onclick="location.reload()">Again</button>
+			<button onclick="pause(this)">Pause</button>
 		</center>
-		<script>
-			var iframe = document.getElementById('index');
-			var iptbx = document.getElementById('iptbx');
+		<script type="text/javascript">
+			var time1 = new Date().getTime() + 1000;
+			var flag = 0, tmp;
 			
-			var w = document.documentElement.clientWidth || document.body.clientWidth;
-			var h = document.documentElement.clientHeight || document.body.clientHeight;
-			
-			var w = document.body.scrollWidth || document.documentElement.scrollWidth;
-			var h = document.body.scrollHeight || document.documentElement.scrollHeight;
-			
-			iframe.width = w - 0.02 * w;
-			iframe.height = h - 40;
-
-			function getV(name) {
-				vid = name.substring(name.lastIndexOf("/")).replace(name.substring(name.lastIndexOf("?")), "").replace("/", "");
-				return vid;
-			}
-			
-			function getClip(){
-				navigator.clipboard
-				.readText()
-				.then((v) => {
-					return v;
-				})
-				.catch((v) => {
-					return v;
-					console.log("获取剪贴板失败: ", v);
-				});
-			}
-			
-			function go(){
-				str = iptbx.value;
-				iptbx.value = "";
-				if(str == "") iframe.src = "https://search.bilibili.com/";
-				else {
-					str = getV(str);
-					if(str.split("V")[0] == "B") {
-						iframe.src = "https://player.bilibili.com/player.html?aid=375588815&bvid=" + str +"&cid=339262048&page=1&&danmaku=0";
-					}
-					alert(str);
+			function pluszero(num) {if (num < 10) return '0' + num;else return num;} 
+			function minus(num) {if (num == 0) return 1;else return 0;}
+			function reset() {time1 = new Date().getTime() + 1000;}
+			function pause(obj) {
+				if(obj.innerHTML == "Pause") {
+					obj.innerHTML = "Continue";
+					tmp = flag;
+					flag = 2;
+				} else {
+					obj.innerHTML = "Pause";
+					flag = tmp;
 				}
 			}
+			
+			var set_time_minute = 5;
+			var set_time_second = 0;
+			
+			function daojishi(){				
+				if(flag == 1) return;
+				if(flag == 2) return;
+				
+				var time2 = new Date().getTime();
+				console.log(time1);
+				var cha = time2 - time1;
+				//var lasthours = Math.floor(cha/(1000*60*60));
+				var lastminutes = Math.floor(cha / (1000 * 60) % 60);
+				var lastseconds = Math.floor(cha / 1000 % 60 % 60);
+				
+				lastseconds = pluszero(60 - lastseconds - 1);
+				lastminutes = pluszero(set_time_minute - 1 - lastminutes - minus(lastseconds));
+				//lasthours = pluszero(set_time_hour - lasthours);
+				
+				//var output = lasthours+' : '+lastminutes+' : '+lastseconds;
+				var output = lastminutes + ' : ' + lastseconds;
+				document.getElementById("time_show").innerHTML = output;
+				
+				if(output == "0-1 : 00") {
+					document.getElementById("time_show").innerHTML = "00 : 00";
+					警报（"泡面泡好啦!");
+					flag = 1;
+				}
+			}
+			var time = setInterval(daojishi,1000);
 		</script>
 	</body>
 </html>
