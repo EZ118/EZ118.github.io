@@ -1,0 +1,4 @@
+H5定时器（Kindle牌泡面盖特制版）|./static/timer/
+狗屁不通文章生成器|./static/article_creater/
+js跳转工具（根据GET传入数据跳转）|./static/redirect/?url=https://www.github.com/EZ118/
+test|./info.txt
