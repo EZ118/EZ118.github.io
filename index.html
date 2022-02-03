@@ -1,0 +1,92 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="shortcut icon" href="./img/icon.png">
+		<script src="./js/reader.js"></script>
+		<script src="./js/load.js"></script>
+		<style>
+		.lbody{width:60%; margin-left:35%;}
+		.abody{
+			width:100%; padding:10px;
+			border-radius:10px;
+			box-shadow:0 0 10px #CCC;
+			margin-bottom:15px;
+		}
+		#reader_outbox{
+			width:70%; height:80%; padding:5px;
+			position:fixed; top:10%; left:15%; z-index:21;
+			background-color:#fff; color:#000;
+			box-shadow:0 0 10px #000;
+			border-radius:10px;
+			overflow:hidden;
+		}
+		#reader_backcover{
+			width:100%; height:100%;
+			position:fixed; top:0px; left:0px; z-index:20;
+			background-color:rgba(0, 0, 0, 0.6);
+		}
+		#reader_frame{border:0;}
+		</style>
+		<title>ZZY_WISU的个人主页</title>
+	</head>
+	<body>
+		<!--阅读器-->
+		<div id="reader_backcover" style="display:none;" onclick="reader_close()"></div>
+		<table id="reader_outbox" style="display:none;">
+			<tr height=20px>
+				<td align=left>
+					<label id="reader_title">文章[ID]</label>
+				</td>
+				<td align=right>
+					<button style="background:red;border-radius:100%;width:15px;height:15px;border:0;" onclick="reader_close()">&nbsp;</button>
+				</td>
+			</tr>
+			<tr>
+				<td align=right colspan="2">
+					<iframe id="reader_frame" src="./view.asp?id="></iframe>
+				</td>
+			</tr>
+		</table>
+		
+		<!--用户信息侧边栏-->
+		<div id="user_inf">
+			<img src="./img/cover-left.png" style="height:100%;position:fixed;left:0px;top:0px;z-index:10;">
+			
+			<div style="height:100%;position:fixed;left:0px;top:0px;z-index:10;padding:10px;">
+				<img src="./img/icon.png" style="border-radius:100%;height:40px;"><br>
+			</div>
+		</div>
+		
+		<!--文章列表-->
+		<div class="lbody" id=bd width=60%>
+				<!--<table class="abody" onclick="reader_open(<%=rs("id")%>);" align=left>
+					<tbody>
+						<tr>
+							<td width=50px>
+								<img src="./img/icon.png" style="border-radius:100%;height:40px;">
+							</td>
+							<td>
+								<%=rs("userName")%>
+							</td>
+							<td align=right colspan=2>
+								<i><%=rs("cDate")%></i>
+							</td>
+						</tr>
+						<tr>
+							<td colspan=2>
+								<b><%=rs("sTitle")%></b>
+							</td>
+							<td></td>
+							<td width=20px>
+								<img src="./img/go.png" style="width:20px;">
+							</td>
+						</tr>
+					</tbody>
+				</table>-->
+				
+		</div>
+				
+		<img src="./img/new-article.png" onclick="writer_open()" style="padding:10px;border-radius:100%;height:30px;position:fixed;bottom:15px;right:15px;z-index:10;box-shadow:0 0 15px #CCC;">
+		<script>loadlist();</script>
+	</body>
+</html>
