@@ -26,6 +26,7 @@
 			background-color:rgba(0, 0, 0, 0.6);
 		}
 		#reader_frame{border:0;}
+		.web_icons{border-radius:100%;height:40px;margin:5px;}
 		</style>
 		<title>ZZY_WISU的个人主页</title>
 	</head>
@@ -52,9 +53,42 @@
 		<div id="user_inf">
 			<img src="./img/cover-left.png" style="height:100%;position:fixed;left:0px;top:0px;z-index:10;">
 			
-			<div style="height:100%;position:fixed;left:0px;top:0px;z-index:10;padding:10px;">
-				<img src="./img/icon.png" style="border-radius:100%;height:40px;"><br>
-			</div>
+			<table style="height:100%;position:fixed;left:0px;top:0px;z-index:10;padding:10px;">
+				<tbody>
+					<tr height=70px>
+						<td>
+							<img src="./img/icon.png"  class="web_icons">
+						</td>
+						<td colspan=2>
+							<h3 style="color:#FFF;margin:5px">ZZY_WISU</h3>
+						</td>
+					</tr>
+					<tr height=50px>
+						<td>
+							<img onclick="location.href='https://space.bilibili.com/1018969624'" src="./img/bilibili.jpg" title="BiliBili" class="web_icons">
+						</td>
+						<td>
+							<img onclick="location.href='https://blog.csdn.net/weixin_46804006'" src="./img/csdn.jpg" title="CSDN" class="web_icons">
+						</td>
+						<td>
+							<img onclick="location.href='https://author.baidu.com/home?context={%22from%22:%22personal-center%22,%22uk%22:%22DqbuMVOohhLKg7kTVFChmA%22,%22tab%22:%22dynamic%22}'" src="./img/baidu.jpg" title="百度账号" class="web_icons">
+						</td>
+					</tr>
+					<tr height=50px>
+						<td colspan=3>
+							<center>
+								<img onclick="location.href='https://github.com/EZ118'" src="./img/github.jpg" title="Github" class="web_icons">
+								<img onclick="location.href='https://www.cnblogs.com/wiin-zzy/'" src="./img/cnblogs.jpg" title="博客园" class="web_icons">
+							</center>
+						<td>
+					</tr>
+					<tr>
+						<td colspan=3>
+							
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 		
 		<!--文章列表-->
