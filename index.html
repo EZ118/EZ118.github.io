@@ -92,35 +92,12 @@
 		</div>
 		
 		<!--文章列表-->
-		<div class="lbody" id=bd width=60%>
-				<!--<table class="abody" onclick="reader_open(<%=rs("id")%>);" align=left>
-					<tbody>
-						<tr>
-							<td width=50px>
-								<img src="./img/icon.png" style="border-radius:100%;height:40px;">
-							</td>
-							<td>
-								<%=rs("userName")%>
-							</td>
-							<td align=right colspan=2>
-								<i><%=rs("cDate")%></i>
-							</td>
-						</tr>
-						<tr>
-							<td colspan=2>
-								<b><%=rs("sTitle")%></b>
-							</td>
-							<td></td>
-							<td width=20px>
-								<img src="./img/go.png" style="width:20px;">
-							</td>
-						</tr>
-					</tbody>
-				</table>-->
-				
-		</div>
+		<div class="lbody" id=bd width=60%></div>
 				
 		<img src="./img/new-article.png" onclick="writer_open()" style="padding:10px;border-radius:100%;height:30px;position:fixed;bottom:15px;right:15px;z-index:10;box-shadow:0 0 15px #CCC;">
 		<script>loadlist();</script>
+		
+		<!--浏览次数计数器（本人想了解访问情况，并不作其他用途）-->
+		<iframe style="display:none;" src="http://107.151.144.205/include/webcounter/"></iframe>
 	</body>
 </html>
