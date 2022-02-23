@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="shortcut icon" href="./img/icon.png">
+		<link rel="stylesheet" type="text/css" href="./markup/mark.css">
+		<script src="./markup/lib.js"></script>
+		<title>Viewer</title>
+		<style>
+			h2{margin:4px;}
+			h3{margin:4px;}
+		</style>
+	</head>
+	<body>
+		
+		<div id=bd>载入中，请稍后...</div>
+	
+		<script>
+			function $GET(name){
+				var reg = new RegExp('(^|&)'+name+'=([^&]*)(&|$)', 'i');
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null)
+				{
+					return unescape(r[2]);
+				}
+				return "";
+			}
+			
+			function loadtext() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						document.getElementById("bd").innerHTML = '已载入，正在排版...';
+					
+						var cnt = 0;
+						var str = this.responseText;
+						for(var i = 1; i <= str.length; i ++){if(str[i] == "\n") cnt ++}
+						str = str.split("\n");
+							
+						for(var i = 1; i <= cnt; i ++) {
+							if(i == $GET("row")) {
+								var tmp = str[i];
+								tmp = tmp.split("\t");
+								
+								tmp[3] = TransToWeb(tmp[3]);
+								document.getElementById("bd").innerHTML = '<h2 align="left">标题：' + tmp[2] + '</h2>\
+									<h3 align="left">作者：' + tmp[1] + '</h3>\
+									<div align="left" style="font-size:16;margin:4px;">' + tmp[3] + '</div>';
+								break;
+							}
+						}
+					}
+				};
+				xhttp.open("GET", "info.txt", true);
+				xhttp.send(); 
+			}
+			
+			loadtext();
+		</script>
+		
+	</body>
+</html>
