@@ -12,7 +12,7 @@
 	</head>
 	<body>
 		
-		<div id=bd>载入中，请稍后...</div>
+		<div id=bd><center><img src="./img/loader.gif" width=70%><br><b id=lb>载入中，请稍后...</b></center></div>
 	
 		<script>
 			function $GET(name){
@@ -26,18 +26,20 @@
 			}
 			
 			function loadtext() {
+				row = $GET("row");
+				if(row == "") return;
+				else document.getElementById("lb").innerHTML = "已载入，排版中...";
+				
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						document.getElementById("bd").innerHTML = '已载入，正在排版...';
-					
 						var cnt = 0;
 						var str = this.responseText;
 						for(var i = 1; i <= str.length; i ++){if(str[i] == "\n") cnt ++}
 						str = str.split("\n");
 							
 						for(var i = 1; i <= cnt; i ++) {
-							if(i == $GET("row")) {
+							if(i == row) {
 								var tmp = str[i];
 								tmp = tmp.split("\t");
 								
