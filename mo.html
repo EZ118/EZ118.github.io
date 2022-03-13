@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="shortcut icon" href="./img/icon.png">
+		<script src="./js/reader.js"></script>
+		<script src="./js/load.js"></script>
+		<style>
+		.lbody{margin:2%;margin-top:200px;}
+		.abody{
+			width:100%; padding:20px;
+			border-radius:20px;
+			box-shadow:0 0 10px #CCC;
+			margin-bottom:30px;
+			font-size:55px;
+		}
+		#reader_outbox{
+			width:100%; height:100%; padding:5px;
+			position:fixed; top:0px; left:0px; z-index:21;
+			background-color:#fff; color:#000;
+			overflow:hidden;
+		}
+		#reader_backcover{
+			height:50px;padding:50px;
+			position:fixed; bottom:30px; left:30px; z-index:22;
+			background-color:#000;
+			box-shadow:0 0 15px #000;
+			border-radius:50px;
+		}
+		#reader_frame{border:0;}
+		.web_icons{border-radius:100%;margin:5px;box-shadow:0 0 15px #CCC;}
+		</style>
+		<title>ZZY_WISU的个人主页</title>
+	</head>
+	<body>
+		<!--阅读器-->
+		<div id="reader_backcover" style="display:none;" onclick="reader_close()">
+			<font size="100px" color="#FFF">BACK</font>
+		</div>
+		<table id="reader_outbox" style="display:none;">
+			<tr height=20px>
+				<td align=left>
+					<label id="reader_title" style="display:none;">文章[ID]</label>
+				</td>
+				<td align=right></td>
+			</tr>
+			<tr>
+				<td align=right colspan="2">
+					<iframe id="reader_frame" src="./view.html?id="></iframe>
+				</td>
+			</tr>
+		</table>
+		
+		<!--用户信息顶端栏-->
+		<table id="user_inf" style="height:10%;position:fixed;left:0px;top:0px;z-index:10;width:100%;background:#FFF;box-shadow:0 0 15px #CCC;">
+			<tbody>
+				<tr align=left>
+					<td width=150px><img src="./img/icon.png" style="margin-left:25px;width:80%;" class="web_icons"></td>
+					<td><font size="60px" style="margin-left:30px;">ZZY_WISU</font></td>
+					<td width=150px align=right><img alt="撰写文章" src="./img/new-article.png" onclick="writer_open('mo')" style="width:80%;margin-right:25px;" class="web_icons"></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<!--文章列表-->
+		<div class="lbody" id=bd width=90%></div>
+		
+		
+		<script>
+			if($GET("aid") != "") reader_open($GET("aid"));
+			else loadlist("mo");
+		</script>
+		
+		<!--浏览次数计数器（本人想了解访问情况，并不作其他用途）-->
+		<iframe style="display:none;" src="http://107.151.144.205/include/webcounter/"></iframe>
+	</body>
+</html>
