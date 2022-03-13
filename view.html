@@ -44,9 +44,16 @@
 								tmp = tmp.split("\t");
 								
 								tmp[3] = TransToWeb(tmp[3]);
-								document.getElementById("bd").innerHTML = '<h2 align="left">标题：' + tmp[2] + '</h2>\
-									<h3 align="left">作者：' + tmp[1] + '</h3>\
-									<div align="left" style="font-size:16;margin:4px;">' + tmp[3] + '</div>';
+								
+								if($GET("device") == "pc" || $GET("device") == "") {
+									document.getElementById("bd").innerHTML = '<h2 align="left">标题：' + tmp[2] + '</h2>\
+										<h3 align="left">作者：' + tmp[1] + '</h3>\
+										<div align="left" style="margin:4px;">' + tmp[3] + '</div>';
+								} else {
+									document.getElementById("bd").innerHTML = '<b><font size="60px" align="left">标题：' + tmp[2] + '</font></b>\
+										<br><b><font size="60px" align="left">作者：' + tmp[1] + '</font></b><br>\
+										<font size="50px"align="left" style="margin:4px;">' + tmp[3] + '</font>';
+								} 
 								break;
 							}
 						}
