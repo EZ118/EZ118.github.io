@@ -14,7 +14,7 @@ function reader_open(aid, device="pc"){
 		document.getElementById("reader_frame").height = h;
 	}
 	
-	
+	document.getElementById("reader_title").innerHTML = "文章ID: " + aid;
 	document.getElementById("reader_backcover").style.display = "block";
 	document.getElementById("reader_outbox").style.display = "block";
 }
