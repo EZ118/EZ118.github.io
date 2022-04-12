@@ -20,12 +20,22 @@
 			background-color:#fff; color:#000;
 			overflow:hidden;
 		}
+		@keyframes BC_On{
+			from {backdrop-filter: blur(8px);background-color:rgba(0, 0, 0, 0);}
+			to {backdrop-filter: blur(0px);background-color:rgba(0, 0, 0, 0.5);}
+		}
+		@keyframes BC_OFF{
+			1% {backdrop-filter: blur(0px);background-color:rgba(0, 0, 0, 0.5);}
+			70% {backdrop-filter: blur(8px);background-color:rgba(0, 0, 0, 0);}
+			100% {backdrop-filter: blur(8px);background-color:rgba(0, 0, 0, 0);}
+		}
 		#reader_backcover{
 			height:50px;padding:50px;
 			position:fixed; bottom:30px; left:30px; z-index:22;
 			background-color:#000;
 			box-shadow:0 0 15px #000;
 			border-radius:50px;
+			animation-iteration-count: 1;
 		}
 		#reader_frame{border:0;}
 		.web_icons{border-radius:100%;margin:5px;box-shadow:0 0 15px #CCC;}
