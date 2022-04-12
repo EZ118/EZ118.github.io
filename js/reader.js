@@ -15,21 +15,26 @@ function reader_open(aid, device="pc"){
 	}
 	
 	document.getElementById("reader_title").innerHTML = "文章ID: " + aid;
-	document.getElementById("reader_backcover").style.display = "block";
+	document.getElementById("reader_backcover").setAttribute("style", "animation:BC_On .3s;display:block;");
 	document.getElementById("reader_outbox").style.display = "block";
 }
 
 function reader_close(){
-	document.getElementById("reader_backcover").style.display = "none";
+	document.getElementById("reader_backcover").setAttribute("style", "animation:BC_OFF .5s;display:block;");
+	
 	document.getElementById("reader_outbox").style.display = "none";
 	document.getElementById("reader_frame").src = "./view.html?row=";
+	
+	setTimeout(function() {
+		document.getElementById("reader_backcover").setAttribute("style", "display:none;");
+	}, 400);
 }
 
 function writer_open(device="pc"){
 	var w = document.documentElement.clientWidth || document.body.clientWidth;
 	var h = document.documentElement.clientHeight || document.body.clientHeight;
 	
-	document.getElementById("reader_backcover").style.display = "block";
+	document.getElementById("reader_backcover").setAttribute("style", "animation:BC_On .5s;display:block;");
 	document.getElementById("reader_outbox").style.display = "block";
 	document.getElementById("reader_frame").src = "./articledit.html?SB=SB";
 	
