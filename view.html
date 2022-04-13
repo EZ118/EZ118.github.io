@@ -33,12 +33,10 @@
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						var cnt = 0;
 						var str = this.responseText;
-						for(var i = 1; i <= str.length; i ++){if(str[i] == "\n") cnt ++}
 						str = str.split("\n");
 							
-						for(var i = 1; i <= cnt; i ++) {
+						for(var i = 1; i <= str.length; i ++) {
 							if(i == row) {
 								var tmp = str[i];
 								tmp = tmp.split("\t");
