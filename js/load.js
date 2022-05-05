@@ -10,7 +10,9 @@ function loadlist(device="pc") {
 			
 			for(var i = cnt; i >= 1; i --){
 				var tmp = str[i];
+				if(tmp == "") continue;
 				tmp = tmp.split("\t");
+				if(tmp.length < 4) continue;
 				if(device=="pc"){
 					document.getElementById("bd").innerHTML += '<table class="abody" onclick="reader_open(' + i + ');" align=left>\
 						<tbody><tr>\

@@ -54,5 +54,7 @@ function TransToSave(e) {
 function go(){
 	r = document.getElementById("code_input").value;
 	document.getElementById("code_show").innerHTML = TransToWeb(r);
-	document.getElementById("write_in").value = TransToSave(r);
+	var d = new Date();
+	var Todate = d.getFullYear() + "/" + (d.getMonth() + 1) + d.getDate();
+	document.getElementById("write_in").value = "\n0	ZZY_WISU	" + document.getElementById("titleIpt").value + "	" + TransToSave(r) + "	" + Todate;
 }

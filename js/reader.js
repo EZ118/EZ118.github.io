@@ -7,7 +7,7 @@ function reader_open(aid, device="pc"){
 	if(device=="pc"){
 		document.getElementById("reader_frame").src = "./view.html?row=" + aid;
 		document.getElementById("reader_frame").width = w * 0.7 - 10 - 7;
-		document.getElementById("reader_frame").height = h * 0.8 - 10 - 20;
+		document.getElementById("reader_frame").height = h * 0.55 - 10 - 20;
 	} else {
 		document.getElementById("reader_frame").src = "./view.html?row=" + aid + "&device=mo";
 		document.getElementById("reader_frame").width = w;
@@ -40,7 +40,7 @@ function writer_open(device="pc"){
 	
 	if(device=="pc"){
 		document.getElementById("reader_frame").width = w * 0.7 - 10 - 7;
-		document.getElementById("reader_frame").height = h * 0.8 - 10 - 20;
+		document.getElementById("reader_frame").height = h * 0.55 - 10 - 20;
 	} else {
 		document.getElementById("reader_frame").width = w;
 		document.getElementById("reader_frame").height = h;
