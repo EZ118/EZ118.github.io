@@ -1,8 +1,8 @@
 function loadlist(device) {
-	var xhttp = new XMLHttpRequest();
+	//var xhttp = new XMLHttpRequest();
 	
-	if (window.XMLHttpRequest) {xmlhttp = new XMLHttpRequest();}
-	else {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");}
+	if (window.XMLHttpRequest) {xhttp = new XMLHttpRequest();}
+	else {xhttp = new ActiveXObject("Microsoft.XMLHTTP");}
 	
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -18,7 +18,7 @@ function loadlist(device) {
 				tmp = tmp.split("\t");
 				if(tmp.length < 4) continue;
 				if(device=="pc"){
-					document.getElementById("bd").innerHTML += '<table class="abody" onclick="reader_open(' + i + ');" align=left>\
+					document.getElementById("bd").innerHTML += '<table class="abody" onclick="reader_open(' + i + ', \'pc\');" align=left>\
 						<tbody><tr>\
 							<td width=50px><img src="./img/icon.png" style="border-radius:100%;height:40px;"></td>\
 							<td>' + tmp[1] + '</td>\

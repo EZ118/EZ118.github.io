@@ -1,11 +1,11 @@
-function reader_open(aid, device){
+﻿function reader_open(aid, device){
 	var w = document.documentElement.clientWidth || document.body.clientWidth;
 	var h = document.documentElement.clientHeight || document.body.clientHeight;
 	
 	
 	
 	if(device=="pc"){
-		document.getElementById("reader_frame").src = "./view.html?row=" + aid;
+		document.getElementById("reader_frame").src = "./view.html?row=" + aid + "&device=pc";
 		document.getElementById("reader_frame").width = w * 0.7 - 10 - 7;
 		document.getElementById("reader_frame").height = h * 0.55 - 10 - 20;
 	} else {
