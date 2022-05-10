@@ -1,4 +1,4 @@
-function loadlist(device="pc") {
+function loadlist(device) {
 	var xhttp = new XMLHttpRequest();
 	
 	if (window.XMLHttpRequest) {xmlhttp = new XMLHttpRequest();}

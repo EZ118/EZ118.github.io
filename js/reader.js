@@ -1,4 +1,4 @@
-function reader_open(aid, device="pc"){
+function reader_open(aid, device){
 	var w = document.documentElement.clientWidth || document.body.clientWidth;
 	var h = document.documentElement.clientHeight || document.body.clientHeight;
 	
@@ -30,7 +30,7 @@ function reader_close(){
 	}, 400);
 }
 
-function writer_open(device="pc"){
+function writer_open(device){
 	var w = document.documentElement.clientWidth || document.body.clientWidth;
 	var h = document.documentElement.clientHeight || document.body.clientHeight;
 	

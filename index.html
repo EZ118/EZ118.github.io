@@ -108,8 +108,14 @@
 				
 		<img src="./img/new-article.png" onclick="writer_open()" style="padding:10px;border-radius:100%;height:30px;position:fixed;bottom:15px;right:15px;z-index:10;box-shadow:0 0 15px #CCC;">
 		<script>
-			if($GET("aid") != "") reader_open($GET("aid"));
-			else loadlist();
+			function GetD(name){
+				var reg = new RegExp('(^|&)'+name+'=([^&]*)(&|$)', 'i');
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null){return unescape(r[2]);}
+				return "";
+			}
+			if(GetD("aid") != "") reader_open(GetD("aid"), "pc");
+			else loadlist("pc");
 		</script>
 		
 		<!--浏览次数计数器（本人想了解访问情况，并不作其他用途）-->
