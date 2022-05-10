@@ -1,5 +1,9 @@
 function loadlist(device="pc") {
 	var xhttp = new XMLHttpRequest();
+	
+	if (window.XMLHttpRequest) {xmlhttp = new XMLHttpRequest();}
+	else {xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");}
+	
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			var cnt = 0;
