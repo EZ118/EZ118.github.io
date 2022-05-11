@@ -147,8 +147,10 @@
 					})
 				}
 			}
-			newa = document.getElementsByTagName("b")[0].innerText
-			showNotice("欢迎来到我的个人主页，新的文章出炉了：" + newa);
+			try{
+				newa = document.getElementsByTagName("b")[0].innerText
+				showNotice("欢迎来到我的个人主页，新的文章出炉了：" + newa);
+			}catch{}
 		</script>
 		
 		<!--浏览次数计数器（本人想了解访问情况，并不作其他用途）-->
