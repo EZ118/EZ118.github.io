@@ -35,11 +35,12 @@
 			let filelist = $GET();
 			let obj = [];
 			var ImgBasicUrl = "https://cstore-private-bs.seewo.com/easinote/encloud-";
+			var ImgOption = "?x-oss-process=image%2Fresize%2Cw_960%2Ch_640%2Fformat%2Cjpg";
 			
 			if(filelist[0] != "undefined"){
 				for(let i = 0; i < filelist.length; i ++){
 					if(filelist[i]) {
-						let fileUrl = ImgBasicUrl + filelist[i].replace("undefined", "");
+						let fileUrl = ImgBasicUrl + filelist[i].replace("undefined", "") + ImgOption;
 						dochtml += "<img src='" + fileUrl  + "' title='Page " + (i + 1) + "'><br>";
 						PageCnt += 1;
 					}
