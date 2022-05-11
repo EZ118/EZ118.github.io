@@ -11,7 +11,7 @@
 			border-radius:10px;
 			box-shadow:0 0 10px #CCC;
 			margin-bottom:15px;
-			transition: all 0.3s;
+			transition: all 0.15s;
 		}
 		.abody:hover{
 			box-shadow:0 0 2px #CCC;
@@ -45,33 +45,6 @@
 		.web_icons{border-radius:100%;height:40px;margin:5px;}
 		</style>
 		<title>ZZY_WISU的个人主页</title>
-		<script>
-			function showNotice(msg) {
-				newNotify = function () {
-					var notification = new Notification("系统通知:", {
-						dir: "auto",
-						lang: "hi",
-						requireInteraction: true,
-						icon: "./img/icon.png",
-						body: msg
-					});
-					notification.onclick = function (event) {
-						window.focus();
-						console.log("I'm back");
-					}
-				}
-				if (Notification.permission == "granted") {
-					newNotify();
-				} else {
-					Notification.requestPermission(function (perm) {
-						if (perm == "granted") {
-							newNotify();
-						}
-					})
-				}
-			}
-			showNotice("欢迎来到ZZY_WISU的个人主页！");
-		</script>
 	</head>
 	<body>
 		<!--阅读器-->
@@ -147,6 +120,35 @@
 			}
 			if(GetD("aid") != "") reader_open(GetD("aid"), "pc");
 			else loadlist("pc");
+		</script>
+		
+		<script>
+			function showNotice(msg) {
+				newNotify = function () {
+					var notification = new Notification("系统通知:", {
+						dir: "auto",
+						lang: "hi",
+						requireInteraction: true,
+						icon: "./img/icon.png",
+						body: msg
+					});
+					notification.onclick = function (event) {
+						window.focus();
+						console.log("I'm back");
+					}
+				}
+				if (Notification.permission == "granted") {
+					newNotify();
+				} else {
+					Notification.requestPermission(function (perm) {
+						if (perm == "granted") {
+							newNotify();
+						}
+					})
+				}
+			}
+			newa = document.getElementsByTag("b")[0].innerText
+			showNotice("欢迎来到我的个人主页，新的文章出炉了：" + newa);
 		</script>
 		
 		<!--浏览次数计数器（本人想了解访问情况，并不作其他用途）-->
