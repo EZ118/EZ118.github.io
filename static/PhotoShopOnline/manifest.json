@@ -3,10 +3,10 @@
   "short_name": "Ps",
   "descriptions": "Photoshop PWA",
   "start_url": "./",
-  "background_color": "#fff",
+  "background_color": "#252530",
   "display": "minimal-ui",
   "scope": "./",
-  "theme_color": "#fff",
+  "theme_color": "#252530",
   "icons": [
     {
       "src": "./images/icon.png",
