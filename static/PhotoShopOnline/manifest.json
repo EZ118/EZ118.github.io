@@ -1,7 +1,7 @@
 {
   "name": "Photoshop",
   "short_name": "Ps",
-  "descriptions": "在线Ps",
+  "descriptions": "Photoshop PWA",
   "start_url": "./",
   "background_color": "#fff",
   "display": "minimal-ui",
@@ -14,5 +14,6 @@
       "sizes": "200x200",
       "purpose": "any"
     }
-  ]
+  ],
+  "display_override": ["window-controls-overlay"]
 }
