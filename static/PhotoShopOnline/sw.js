@@ -1,6 +1,7 @@
-var cacheName = 'v14.2.2';
+﻿var cacheName = 'v14.2.2';
 var cacheFiles = [
-    '/',
+    './manifest.json',
+    './sw.js',
     './index.html',
     './js/ext.js',
     './js/TNTS.js',
