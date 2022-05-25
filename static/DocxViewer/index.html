@@ -5,16 +5,6 @@
 	<title>Docx Viewer</title>
 <head>
 	<script src="./docx2html.min.js"></script>
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
-	<script>
-		function docx2h5(input){
-			document.querySelector("#container").innerHTML = "";
-			require("docx2html")(input.files[0],{container:document.querySelector("#container")})
-				.then(html=>{
-					input.value=""
-				});
-		}
-	</script>
 	<style>
 		.TitleBar{
 			position:fixed; top:0px; left:0px; z-index:10;
@@ -43,27 +33,34 @@
 	
 	<center>
 		<div id="container" style="display:none;border:none; text-align:left; width:fit-content; min-height:500px;"></div>
+		<div id="OneDrag" style="width: 90%;height: 40px; background:rgba(200, 200, 200, 0.0);"></div>
 	</center>
-
-	<body>
-	<div id="OneDrag" style="width: 90%;height: 40px; background:rgba(200, 200, 200, 0.0);"></div>
 	
 	<script type="text/javascript">
-	OneDrag.setAttribute("style", "height: 40px;");
-	OneDrag.ondragover = function(e) {
-		e.preventDefault();
-		OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.5);");
-	}
-	OneDrag.ondrop = function(e) {
-		e.preventDefault();
-		OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.0);");
+		function docx2h5(input){
+			document.getElementById("container").innerHTML = "";
+			require("docx2html")(input.files[0],{container:document.getElementById("container")})
+				.then(html=>{
+					input.value=""
+				});
+		}
 		
-		docx2h5(e.dataTransfer);
-		document.querySelector("#container").setAttribute("style", "display:block;border:1px solid #000; text-align:left; width:fit-content; min-height:500px;");
-	}
-	OneDrag.ondragleave = function () {
-		OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.0);");
-	}
+		OneDrag = document.getElementById("OneDrag");
+		OneDrag.setAttribute("style", "height: 40px;");
+		OneDrag.ondragover = function(e) {
+			e.preventDefault();
+			OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.5);");
+		}
+		OneDrag.ondrop = function(e) {
+			e.preventDefault();
+			OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.0);");
+			
+			docx2h5(e.dataTransfer);
+			document.getElementById("container").setAttribute("style", "display:block;border:1px solid #000; text-align:left; width:fit-content; min-height:500px;");
+		}
+		OneDrag.ondragleave = function () {
+			OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.0);");
+		}
 	</script>
 
 </body>
