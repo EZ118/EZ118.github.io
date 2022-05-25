@@ -9,4 +9,4 @@ ID	userName	sTitle	sContent	cdate
 8	ZZY_WISU	一个不错的在线隐写工具	点击打开：[url]./static/YinXieTool/[/url]	2022/4/22
 9	ZZY_WISU	希沃立知课堂破解工具详解	1.油猴脚本版<br>首先确保你的浏览器中安装有“Tampermonkey”插件。<br>接着，浏览此链接：[url]https://greasyfork.org/zh-CN/scripts/441933-破解立知[/url]<br>在页面加载完成后，点击按钮“安装此脚本”<br>在点击后，等待数秒后会自动弹出脚本安装确认，点击“安装”即可。<br>提示，使用说明见下载页<br><br>2.桌面版<br>有两种版本：GUI和CONSOLE<br>教程和源码见：[url]https://github.com/EZ118/LiZhi-OnlineClassroom-Courseware-Tool/[/url]	2022/5/5
 10	ZZY_WISU	无刷新子页面跳转示例	项目地址：[url]https://github.com/EZ118/Jump-Without-Refresh/[/url]<br>Demo演示：[url]./static/JumpWithoutRefresh/[/url]	2022/5/10
-11  ZZY_WISU 在线简易Word文档打开工具 该项目基于docx2html.min.js开发<br>链接：[url]./static/DocxViewer/[/url]	2022/5/25
+11	ZZY_WISU	在线简易Word文档打开工具 该项目基于docx2html.min.js开发<br>链接：[url]./static/DocxViewer/[/url]	2022/5/25
