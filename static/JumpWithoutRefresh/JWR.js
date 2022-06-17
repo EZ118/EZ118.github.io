@@ -59,7 +59,7 @@ function ShowPage(url) {
 	if (window.XMLHttpRequest) {xhttp = new XMLHttpRequest();}
 	else {xhttp = new ActiveXObject("Microsoft.XMLHTTP");}
 	
-	LoaderEle.setAttribute("style", LoaderStyle["static"] + ";animation:jwr_anim .3s linear;animation-fill-mode:forwards;");
+	LoaderEle.setAttribute("style", LoaderStyle["static"] + ";" + LoaderStyle["active"] + ":15%;");
 	
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -82,26 +82,13 @@ function GetData(url){
 	return url;
 }
 
-/*document.onmousedown = function(){
-	setTimeout(function(){
+try {
+	window.onhashchange = function () {
 		if(LastURL != window.location.href) {
 			rurl = GetData(window.location.href);
 			ShowPage(rurl);
 			LastURL = window.location.href;
 		}
-	}, 300);
-}
-*/
-
-try {
-	window.onhashchange = function () {
-		setTimeout(function(){
-			if(LastURL != window.location.href) {
-				rurl = GetData(window.location.href);
-				ShowPage(rurl);
-				LastURL = window.location.href;
-			}
-		}, 300);
 	};
 } catch(err) {
 	alert("Your Browser Doesn't Support 'onhashchange' Case");
