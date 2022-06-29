@@ -4,13 +4,14 @@
 		<meta charset="UTF-8">
 		<title>Example For JWR.JS</title>
 		<style>
+			body { overflow-x: hidden; }
 			.menuBar {
 				position:fixed; top: 0px; left: 0px;
-				width: 7%; height: 100%;
+				width: 7%; height: 100%; z-index:9px;
 				background-color: #000; overflow: hidden;
 			}
-			.menuItem { margin-top: 30px; width: 100%; }
-			.menuItem:hover { filter: alpha(Opacity=70); -moz-opacity: 0.7; opacity: 0.7; }
+			.menuItem { margin-top: 30px; width: 100%; transition: all 0.1s;}
+			.menuItem:hover { opacity: 0.6; }
 			#mainPage { margin-left: 7%; width: 92%; height: 100%; }
 		</style>
 	</head>
@@ -31,15 +32,15 @@
 			JWR.js是作者编写的库，方便调用（该脚本的内容不推荐修改）
 		-->
 		<script src="./setup.js"></script>
-		<script src="./JWR.js"></script>
+		<script src="../build/JWR.js"></script>
 		<script>
-			SetPage(document.getElementById("mainPage"));
-			SetUrlList(ULJson);
+			SetPage(document.getElementById("mainPage"));//设置放置子页面的父页面元素
+			SetUrlList(ULJson);//设置伪链接与真链接之间的关系
 			
-			//This is a common style~
+			//This is a common style~#FC5531
 			SetLoaderStyle({
-				"static":"position:fixed;top:0;left:0;background:#FC5531;height:3px;z-index:10;",//此处表示静态样式
-				"active":"width"//此处表示加载时动态的样式，可以填width、height等
+				"static":"position:fixed;bottom:0%;left:7%;background:#FFF;height:100%;width:100%;z-index:10;",//此处表示静态样式
+				"active":"opacity"//此处表示加载时动态的样式，可以填width、height等
 			});
 			ShowPage(GetData(window.location.href));
 		</script>

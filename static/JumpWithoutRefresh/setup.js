@@ -4,6 +4,10 @@ ULJson = [
 		"realUrl":"./mainPage.htm"
 	},
 	{
+		"subUrl":"error",
+		"realUrl":"./error.htm"
+	},
+	{
 		"subUrl":"/home/",
 		"realUrl":"./mainPage.htm"
 	},
