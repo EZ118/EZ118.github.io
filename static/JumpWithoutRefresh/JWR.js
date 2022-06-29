@@ -6,6 +6,7 @@ var LoaderStyle = {
 	"static":"position:fixed;top:0;left:0;background:#0066FF;height:3px;z-index:10;",
 	"active":"width"//此处可以填width或者height
 };
+var LoaderDelayTime = "0.25";
 
 window.onload = function(){
 	document.body.appendChild(LoaderEle);
@@ -39,8 +40,10 @@ function SetLoaderStyle(ls){
 	}
 }
 
-function GetPageUrl(subUrl){
+function GetPageUrl(subUrl, errorCode){
 	//从Json中通过假Url获取真实Url
+	if(errorCode == null) {errorCode = 0;}
+	
 	subUrl = subUrl.split("/");
 	for(let i = 0; i < UrlList.length; i ++) {
 		let cnt = 0;
@@ -53,6 +56,9 @@ function GetPageUrl(subUrl){
 		}
 		if (cnt == subUrl.length) {return UrlList[i]["realUrl"];}
 	}
+	if(errorCode == 0) {
+		return GetPageUrl("error", 1);
+	} else { return "error"; }
 }
 
 function ShowPage(url) {
@@ -65,7 +71,7 @@ function ShowPage(url) {
 		if (this.readyState == 4 && this.status == 200) {
 			Ele.innerHTML = this.responseText;
 			
-			LoaderEle.setAttribute("style", LoaderStyle["static"] + ";animation:jwr_anim .3s linear; animation-fill-mode:forwards;");
+			LoaderEle.setAttribute("style", LoaderStyle["static"] + ";animation:jwr_anim " + LoaderDelayTime + "s linear; animation-fill-mode:forwards;");
 			setTimeout(function() {
 				LoaderEle.setAttribute("style", "display:none;");
 			}, 400);
@@ -78,7 +84,7 @@ function ShowPage(url) {
 function GetData(url){
 	url += "#default";
 	url = url.split("#")[1];
-	url = GetPageUrl(url);
+	url = GetPageUrl(url, 0);
 	return url;
 }
 
