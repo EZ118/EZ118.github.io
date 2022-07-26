@@ -6,7 +6,7 @@ function gggo(bk){
 	for(var i = 1; i <= str.length; i ++){if(str[i] == "\n") cnt ++}
 	str = str.split("\n");
 	
-	for(var i = 1; i <= cnt; i ++){
+	for(var i = 0; i <= cnt; i ++){
 		var tmp = str[i];
 		if(tmp == "") continue;
 		tmp = tmp.split("\t");
@@ -14,23 +14,24 @@ function gggo(bk){
 		print(tmp[0] + "\t" + tmp[1] + '\t' + tmp[4] + '\t' + tmp[2]);
 	}
 	print("总计" + cnt + "项<br>");
+	print("输入 print -a [文章ID] 指令，可获取文章内容<br>");
 	scrollToBottom();
 }
 
 
 if($GET(1) == "-h" || $GET(1) == "-help") {
 	print("dir [-h / -a / -d]");
-	print("-h      输出该命令的帮助");
-	print("-a      输出文章列表");
-	print("-d      输出文件目录<br>");
+	print("-h		输出该命令的帮助");
+	print("-a		输出文章列表");
+	print("-d		输出文件目录<br>");
 } else if($GET(1) == "-a") {
 	ajax("./article.txt", gggo);
 } else if($GET(1) == "-d") {
 	ajax("./article.txt", gggo);
 } else {
 	print("dir [-h / -a / -d]");
-	print("-h      输出该命令的帮助");
-	print("-a      输出文章列表");
-	print("-d      输出文件目录<br>");
+	print("-h		输出该命令的帮助");
+	print("-a		输出文章列表");
+	print("-d		输出文件目录<br>");
 }
 </script>

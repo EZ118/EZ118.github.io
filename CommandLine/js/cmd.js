@@ -3,7 +3,7 @@ function $GET(i){
 	return v.split(" ")[i];
 }
 function print(str) {
-	document.getElementById("bd").innerHTML += str.replace(/ /gm, "&nbsp;").replace(/	/gm, "&nbsp;&nbsp;&nbsp;") + "<br>";
+	document.getElementById("bd").innerHTML += str.replace(/	/gm, "&nbsp;&nbsp;&nbsp;") + "<br>";
 }
 function ajax(url, func) {
 	if (window.XMLHttpRequest) {xhttp = new XMLHttpRequest();}

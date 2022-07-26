@@ -1,0 +1,38 @@
+<script>
+function gggdy_a(str) {
+	let row = $GET(2);
+	str = str.split("\n");
+							
+	for(var i = 1; i <= str.length; i ++) {
+		if(i == row) {
+			var tmp = str[i];
+			tmp = tmp.split("\t");
+			
+			tmp[3] = TransToWeb(tmp[3]);
+			print('标题：' + tmp[2] + '<br>作者：' + tmp[1] + '<br>\<div>' + tmp[3] + '</div>');
+			break;
+		}
+	}
+	scrollToBottom();
+}
+
+if($GET(1) == "-h" || $GET(1) == "-help") {
+	print("print [-h / -a / -f] [* / articleID / filename]");
+	print("-h			输出该命令的帮助");
+	print("-a			按照文章ID输出文件内容");
+	print("-f			输出文章列表");
+	print("articleID		文章ID，可在dir -a命令中获取");
+	print("filename		文件路径和名称<br>");
+} else if($GET(1) == "-a") {
+	ajax("./article.txt", gggdy_a);
+} else if($GET(1) == "-d") {
+	ajax("./article.txt", gggdy_a);
+} else {
+	print("print [-h / -a / -f] [* / articleID / filename]");
+	print("-h		输出该命令的帮助");
+	print("-a		按照文章ID输出文件内容");
+	print("-f		输出文章列表");
+	print("articleID		文章ID，可在dir -a命令中获取");
+	print("filename		文件路径和名称<br>");
+}
+</script>
