@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="shortcut icon" href="./img/icon.png">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0">
+		<meta content="telephone=no" name="format-detection" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<link rel='apple-touch-icon' href='./img/icon.png'/>
+		
+		<script src="./js/script.js"></script>
+		<script src="./js/cmd.js"></script>
+		
+		<style>
+		@font-face {
+			font-family: "TFont"; src: url("./font/Consola.woff");
+		}
+		body{
+			background-color: #000;margin:10px;
+			font-family: "TFont"; font-size: 20px; color:#208d1d;
+		}
+		.web_icons{ margin: 5px; width: 130px; }
+		#bd{
+			background-color: #000; font-family: "TFont";
+			font-size: 20px; color:#208d1d;
+		}
+		.HiddenIpt {
+			border:none; background: #000;
+			font-family: "TFont"; font-size: 20px;
+			color:#208d1d; outline: none;
+		}
+		</style>
+		<title>ZZY_WISU的个人主页</title>
+	</head>
+	<body>
+		<noscript><div style="background-color:#FFF;width:100%;height:100px">This Page Requires Javascript Support!<br>该页面需要浏览器对Javascript的支持。</div></noscript>
+		<div width="100%" id="bd">
+			<pre style="font-weight:bold;">
+__________   __ _      ____________  __
+/_  /_  /\ \/ /| | /| / /  _/ __/ / / /
+ / /_/ /_ \  / | |/ |/ // /_\ \/ /_/ /
+/___/___/ /_/__|__/|__/___/___/\____/
+           /___/</pre>
+			<span>Welcome To My Personal HomePage!</span><br>
+			<span>Enter 'help' to get help</span><br>
+		</div>
+		
+		<label>&gt;&nbsp;</label><input type="text" autocomplete="off" autofocus="autofocus" onkeydown="keyup_submit(event, this);" style="width:85%;" class="HiddenIpt" id="CmdInput">
+		<input type="hidden" autocomplete="off" id="SaveCommand" value="">
+	</body>
+</html>
