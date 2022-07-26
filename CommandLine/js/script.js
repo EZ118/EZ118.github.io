@@ -3,6 +3,8 @@ function keyup_submit(e, ele){
 	if (evt.keyCode == 13 && ele.value != ""){
 		loadlist(ele.value);
 		document.getElementById("SaveCommand").value = ele.value;
+	} else if(evt.keyCode == 38){
+		ele.value = document.getElementById("SaveCommand").value;
 	}
 }
 function scrollToBottom() {
