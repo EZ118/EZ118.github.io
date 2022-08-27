@@ -3,7 +3,7 @@ var cacheFiles = [
     './manifest.json',
     './sw.js',
     './index.html',
-    './icon.svg',
+    './icon.png',
     './docx2html.min.js'
 ];
 // 监听 install 事件，安装完成后，进行文件缓存
