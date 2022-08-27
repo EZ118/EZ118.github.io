@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="manifest" href="manifest.json">
+		<link href="./icon.svg" rel="shortcut icon">
+		<link href="./icon.svg" rel="icon">
+		<title>Docx Viewer</title>
+
+		<script src="./docx2html.min.js"></script>
+		<style>
+			.TitleBar{
+				position:fixed; top:0px; left:0px; z-index:10;
+				width:100%; height:40px; padding:5px;
+				background:#185ABD; color:#FFF; box-shadow:0px 1px 5px #000;
+			}
+			#OneDrag{
+				position:fixed; top:0px; left:0px; z-index:11;
+				width:100%; height:40px;
+			}
+			#container{
+				margin-bottom:20px; margin-top:50px;
+				background:#FFF; box-shadow:0px 0px 5px #000;
+				
+				border:none; text-align:left; width:fit-content; min-height:500px;
+			}
+			body{background-color: rgb(50, 54, 57);}
+		</style>
+	</head>
+	<body>
+		<div style="position:fixed; left:5px; top:5px; width:30px; z-index:12;">
+			<!--Word Logo-->
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g data-name="STYLE = COLOR"><path d="M30.667 2H9.333A1.333 1.333 0 008 3.333V9l12 3.5L32 9V3.333A1.333 1.333 0 0030.667 2z" fill="#41a5ee"></path><path fill="#2b7cd3" d="M32 9H8v7l12 3.5L32 16V9z"></path><path fill="#185abd" d="M32 16H8v7l12 3.5L32 23v-7z"></path><path d="M32 23H8v5.667A1.333 1.333 0 009.333 30h21.334A1.333 1.333 0 0032 28.667z" fill="#103f91"></path><path d="M16.667 7H8v19h8.667A1.337 1.337 0 0018 24.667V8.333A1.337 1.337 0 0016.667 7z" opacity=".1"></path><path d="M15.667 8H8v19h7.667A1.337 1.337 0 0017 25.667V9.333A1.337 1.337 0 0015.667 8z" opacity=".2"></path><path d="M15.667 8H8v17h7.667A1.337 1.337 0 0017 23.667V9.333A1.337 1.337 0 0015.667 8z" opacity=".2"></path><path d="M14.667 8H8v17h6.667A1.337 1.337 0 0016 23.667V9.333A1.337 1.337 0 0014.667 8z" opacity=".2"></path><path data-name="Back Plate" d="M1.333 8h13.334A1.333 1.333 0 0116 9.333v13.334A1.333 1.333 0 0114.667 24H1.333A1.333 1.333 0 010 22.667V9.333A1.333 1.333 0 011.333 8z" fill="#185abd"></path><path d="M11.95 21h-1.8l-2.1-6.9-2.2 6.9h-1.8l-2-10h1.8l1.4 7 2.1-6.8h1.5l2 6.8 1.4-7h1.7z" fill="#fff"></path><path fill="none" d="M0 0h32v32H0z"></path></g></svg>
+		</div>
+		<table class="TitleBar"><tbody><tr>
+			<td width="35px"></td>
+			<td align="left"><label>Word</label></td>
+			<td align="right">
+				<label style="color:rgba(200, 200, 200, 0.3);">
+					Drop Or Click To Open
+				</label>
+				<input type="file" style="display:none;" id="SelectFileBtn" onchange="docx2h5(this)"/>
+			</td>
+		</tr></tbody></table>
+		
+		<center>
+			<div id="container" style="display:none;"></div><!--文档显示容器-->
+			<div id="OneDrag" onclick="document.getElementById('SelectFileBtn').click()"></div><!--拖拽框-->
+		</center>
+		
+		<script type="text/javascript">
+			OneDrag = document.getElementById("OneDrag");
+			OneDrag.setAttribute("style", "height: 40px;");
+			Container = document.getElementById("container");
+			WebTitle = document.getElementsByTagName("title")[0];
+			
+			function docx2h5(input){
+				Container.innerHTML = "";
+				require("docx2html")(input.files[0],{container:document.getElementById("container")})
+					.then(html=>{
+						Container.setAttribute("style", "display:block;border:1px solid #000; text-align:left; width:fit-content; min-height:500px;");
+						input.value="";
+					});
+			}
+			
+			
+			OneDrag.ondragover = function(e) {
+				//拖拽文件未释放
+				e.preventDefault();
+				OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.5);");
+			}
+			
+			OneDrag.ondrop = function(e) {
+				//拖拽文件并释放
+				e.preventDefault();
+				OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.0);");
+				
+				WebTitle.innerText = e.dataTransfer.files[0].name;
+				docx2h5(e.dataTransfer);
+			}
+			
+			OneDrag.ondragleave = function () {
+				//拖拽文件后未释放，同时离开检测区
+				OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.0);");
+			}
+			
+		</script>
+		
+		
+		<!--Service Worker-->
+		<script>
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', function () {
+					navigator.serviceWorker.register('./sw.js')
+					.then(function (registration) {
+						console.log('ServiceWorker registration successful with scope: ', registration.scope);
+					})
+					.catch(function (err) {
+						console.log('ServiceWorker registration failed: ', err);
+					});
+				});
+			}
+		</script>
+</body></html>
