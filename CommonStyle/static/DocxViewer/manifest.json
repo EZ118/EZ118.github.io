@@ -19,13 +19,13 @@
       "name": "Open Documents",
       "url": "./#OD",
       "description": "Start This App And Open A Document",
-      "icons": [{ "src": "/icon.png", "sizes": "256x256" }]
+      "icons": [{ "src": "./icon.png", "sizes": "256x256" }]
     },
     {
       "name": "Open In Browser",
       "url": "./#OIB",
       "description": "Start This Tool In Your Browser Tab",
-      "icons": [{ "src": "/icon.png", "sizes": "256x256" }]
+      "icons": [{ "src": "./icon.png", "sizes": "256x256" }]
     }
   ],
   
