@@ -6,7 +6,9 @@ var cacheFiles = [
     './icon.png',
     './scripts.js',
     './style.css',
-    './office.cfg'
+    './office.cfg',
+    './word/icon.png',
+    './excel/icon.png',
 ];
 // 监听 install 事件，安装完成后，进行文件缓存
 self.addEventListener('install', function (e) {
