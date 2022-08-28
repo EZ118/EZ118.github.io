@@ -51,7 +51,7 @@ if ('launchQueue' in window) {
 		if (launchParams.files.length) {
 			const fileHandles = launchParams.files;
 			fileHandles.map(handle => console.log(handle.name));
-			docx2h5(launchParams);
+			docx2h5(launchParams.dataTransfer);
 		}
 	});
 }
