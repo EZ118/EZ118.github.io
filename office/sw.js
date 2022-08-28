@@ -1,4 +1,4 @@
-﻿var cacheName = 'v1.2.3';
+﻿var cacheName = 'v11.4.5';
 var cacheFiles = [
     './manifest.json',
     './sw.js',
