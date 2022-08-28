@@ -27,16 +27,5 @@
       "description": "Start This Tool In Your Browser Tab",
       "icons": [{ "src": "./icon.png", "sizes": "256x256" }]
     }
-  ],
-  
-  "file_handlers": [
-    {
-      "action": "./",
-      "accept": {
-        "text/*": [
-          ".docx"
-        ]
-      }
-    }
   ]
 }
