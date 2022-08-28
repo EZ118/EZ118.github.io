@@ -51,7 +51,7 @@ if ('launchQueue' in window) {
 		if (launchParams.files.length) {
 			const fileHandles = launchParams.files;
 			fileHandles.map(handle => console.log(handle.name));
-			docx2h5(launchParams.dataTransfer);
+			docx2h5(launchParams);
 		}
 	});
 }
@@ -111,3 +111,20 @@ IstBtn.addEventListener('click', function (e) {
     button.style.display = 'none';
     dfdPrompt = null;
 });
+
+
+/*
+ *  Service Worker
+ */
+
+if ('serviceWorker' in navigator) {
+	window.addEventListener('load', function () {
+		navigator.serviceWorker.register('./sw.js')
+		.then(function (registration) {
+			console.log('ServiceWorker registration successful with scope: ', registration.scope);
+		})
+		.catch(function (err) {
+			console.log('ServiceWorker registration failed: ', err);
+		});
+	});
+}
