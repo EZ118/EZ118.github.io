@@ -64,7 +64,6 @@ OneDrag.ondrop = function(e) {
 	OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.0);");
 	
 	WebTitle.innerText = "表格 - " + e.dataTransfer.files[0].name;
-	alert(e.dataTransfer.files[0].name);
 	do_file(e.dataTransfer.files);
 }
 
@@ -82,7 +81,7 @@ if ('launchQueue' in window) {
 		if (launchParams.files.length) {
 			const fileHandles = launchParams.files;
 			fileHandles.map(handle => console.log(handle.name));
-			do_file(launchParams.dataTrnsfer.files);
+			do_file(launchParams.dataTransfer.files);
 		}
 	});
 }
