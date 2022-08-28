@@ -4,7 +4,8 @@ var cacheFiles = [
     './sw.js',
     './index.html',
     './icon.png',
-    './docx2html.min.js'
+    './docx2html.min.js',
+    './style.css',
 ];
 // 监听 install 事件，安装完成后，进行文件缓存
 self.addEventListener('install', function (e) {

@@ -1,36 +1,20 @@
 <!DOCTYPE html>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html><head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<link rel="manifest" href="manifest.json">
+		<link href="./manifest.json" rel="manifest">
 		<link href="./icon.png" rel="shortcut icon">
 		<link href="./icon.png" rel="icon">
+		<link href="./style.css" rel="stylesheet">
 		<title>Docx Viewer</title>
 
 		<script src="./docx2html.min.js"></script>
-		<style>
-			.TitleBar{
-				position:fixed; top:0px; left:0px; z-index:10;
-				width:100%; height:40px; padding:5px;
-				background:#185ABD; color:#FFF; box-shadow:0px 1px 5px #000;
-			}
-			#OneDrag{
-				position:fixed; top:0px; left:0px; z-index:11;
-				width:100%; height:40px;
-			}
-			#container{
-				margin-bottom:20px; margin-top:50px;
-				background:#FFF; box-shadow:0px 0px 5px #000;
-				
-				border:none; text-align:left; width:fit-content; min-height:500px;
-			}
-			body{background-color: rgb(50, 54, 57);}
-		</style>
 	</head>
 	<body>
-		<div>
-			<!--Word Logo-->
-			<img src="./icon.png" style="position:fixed; left:5px; top:5px; width:30px; z-index:12;">
-		</div>
+		<!--Word Logo-->
+		<img src="./icon.png" style="position:fixed; left:5px; top:5px; width:30px; z-index:12;">
+		
+		<!--Title Bar-->
 		<table class="TitleBar"><tbody><tr>
 			<td width="35px"></td>
 			<td align="left"><label>Word</label></td>
@@ -38,18 +22,19 @@
 				<label style="color:rgba(200, 200, 200, 0.3);">
 					Drop Or Click To Open
 				</label>
-				<input type="file" style="display:none;" id="SelectFileBtn" onchange="docx2h5(this)"/>
 			</td>
 		</tr></tbody></table>
 		
+		<!--文件拖拽框-->
+		<input type="file" style="display:none;" id="SelectFileBtn" onchange="docx2h5(this)"/>
+		<div id="OneDrag" onclick="document.getElementById('SelectFileBtn').click()"></div>
+		
 		<center>
 			<div id="container" style="display:none;"></div><!--文档显示容器-->
-			<div id="OneDrag" onclick="document.getElementById('SelectFileBtn').click()"></div><!--拖拽框-->
 		</center>
 		
 		<script type="text/javascript">
 			OneDrag = document.getElementById("OneDrag");
-			OneDrag.setAttribute("style", "height: 40px;");
 			Container = document.getElementById("container");
 			WebTitle = document.getElementsByTagName("title")[0];
 			
@@ -58,7 +43,7 @@
 				require("docx2html")(input.files[0],{container:document.getElementById("container")})
 					.then(html=>{
 						Container.setAttribute("style", "display:block;");
-						//input.value="";
+						OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.0);");
 					});
 			}
 			
@@ -74,7 +59,7 @@
 				e.preventDefault();
 				OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.0);");
 				
-				WebTitle.innerText = e.dataTransfer.files[0].name;
+				WebTitle.innerText = "文稿 - " + e.dataTransfer.files[0].name;
 				docx2h5(e.dataTransfer);
 			}
 			
@@ -82,7 +67,6 @@
 				//拖拽文件后未释放，同时离开检测区
 				OneDrag.setAttribute("style", "background:rgba(200, 200, 200, 0.0);");
 			}
-			
 		</script>
 		
 		
@@ -103,7 +87,7 @@
 		
 		
 		<!--PWA File Handle API-->
-		<script>
+		<script>		
 		if ('launchQueue' in window) {
 			window.launchQueue.setConsumer(async launchParams => {
 				if (launchParams.files.length) {
@@ -116,6 +100,22 @@
 					*/
 				}
 			});
+		}
+		</script>
+		
+		<script>
+		function GetUrlData() {
+			let a = window.location.href + "#";
+			a = a.split("#"); 
+			return a[1];
+		}
+		window.onload = function() {
+			if(GetUrlData() == "OD") {
+				OneDrag.setAttribute("style", "height: 100%;");
+			} else if(GetUrlData() == "OIB") {
+				window.open(window.location.href.replace("#OIB", ""));
+				window.close();
+			}
 		}
 		</script>
 </body></html>
