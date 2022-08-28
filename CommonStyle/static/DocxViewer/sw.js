@@ -5,6 +5,7 @@ var cacheFiles = [
     './index.html',
     './icon.png',
     './docx2html.min.js',
+    './scripts.js',
     './style.css',
 ];
 // 监听 install 事件，安装完成后，进行文件缓存

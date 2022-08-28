@@ -4,7 +4,7 @@
   "descriptions": "View Docx File",
   "start_url": "./",
   "background_color": "#323639",
-  "display": "minimal-ui",
+  "display": "standalone",
   "theme_color": "#185ABD",
   "icons": [
     {
