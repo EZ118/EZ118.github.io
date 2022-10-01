@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Example For JWR.JS</title>
+		<style>
+			body { overflow-x: hidden; }
+			.menuBar {
+				position:fixed; top: 0px; left: 0px;
+				width: 7%; height: 100%; z-index:9px;
+				background-color: #000; overflow: hidden;
+			}
+			.menuItem { margin-top: 30px; width: 100%; transition: all 0.1s;}
+			.menuItem:hover { opacity: 0.6; }
+			#mainPage { margin-left: 7%; width: 92%; height: 100%; }
+		</style>
+	</head>
+	<body>
+		<div class="menuBar">
+			<a href="#/home/"><img src="./img/menuItem1.png" class="menuItem"></a><br>
+			<a href="#/test1/"><img src="./img/menuItem2.png" class="menuItem"></a><br>
+			<a href="#/test2/"><img src="./img/menuItem3.png" class="menuItem"></a><br>
+		</div>
+		
+		<div id="mainPage"></div>
+		
+		
+		<!--
+			两个脚本必须放置在body标签的结尾
+			JWR.js必须置于setup.js之后
+			setup.js用于设置URL和跳转页面的关系（该脚本的内容可修改）
+			JWR.js是作者编写的库，方便调用（该脚本的内容不推荐修改）
+		-->
+		<script src="./setup.js"></script>
+		<script src="./JWR.min.js"></script>
+		<!-- If You Want To Debug, This May Help!
+			<script src="./JWR.debug.js"></script>
+		-->
+		<script>
+			var jwr = new JWR();
+			jwr.SetPage(document.getElementById("mainPage"));
+			jwr.SetUrlList(ULJson);
+			//This is a common style~#FC5531
+			jwr.SetLoaderStyle({
+				"static":"position:fixed;bottom:0%;left:7%;background:#FFF;height:100%;width:100%;z-index:10;",//此处表示静态样式
+				"active":"opacity"//此处表示加载时动态的样式，可以填width、height等
+			});
+			jwr.ShowPage(jwr.GetFakeUrl(window.location.href));
+			jwr.init();
+		</script>
+	</body>
+</html>
