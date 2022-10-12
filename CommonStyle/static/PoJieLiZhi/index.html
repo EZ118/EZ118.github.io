@@ -15,11 +15,11 @@
 	<body>
 		<div class="ctrl msg" id="pcnt"></div>
 		<script>
-			function printmode(){document.getElementsByClassName("msg")[0].remove();document.getElementsByTagName("style")[0].innerText = "img{width:100%;margin-top:15px;}";}
+			function printmode(ele){ele.remove();document.getElementsByClassName("msg")[0].remove();document.getElementsByTagName("style")[0].innerText = "img{width:100%;margin-top:15px;}";setTimeout(window.print(), 100);}
 			
 		</script>
 		<center id="mb">
-			<button onclick="this.remove();printmode();" class="ctrl printBtn">PRINT&nbsp;&amp;&nbsp;PDF STORAGE MODE</button>
+			<button onclick="printmode(this);" class="ctrl printBtn">PRINT&nbsp;&amp;&nbsp;PDF STORAGE MODE</button>
 		</center>
 		<script>
 		
