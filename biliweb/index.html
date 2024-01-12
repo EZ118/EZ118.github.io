@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiliChrome - Bilibili Third-Party Client for Chrome</title>
+    <style>
+        html,body{width:100%;padding:0;margin:0;background-color:#F8F8F8}
+        header{padding:10px 0px;width:100%;display:flex;background-color:#EDD;color:#444746}
+        section{margin:20px}
+        p{margin:0px 24px}
+        footer{width:100%;text-align:center;padding:20px 0px;background:#FEE;color:#444746}
+        #thankYouMessage{display:none;padding:10px;background-color:#c4eed0;color:#444746;text-align:center}
+    </style>
+</head>
+<body>
+	<div id="thankYouMessage">
+        <p><b>感谢您安装 BiliChrome</b></p>
+        <p>您的 BiliChrome 已就绪，点击“🧩”页的“<img src="./icon.svg" alt="BiliChrome Icon" width="18" height="18">”标志即刻启动主页</p>
+    </div>
+
+    <header>
+    	&nbsp;&nbsp;
+        <img src="./icon.svg" alt="BiliChrome Icon" width="64" height="64">
+        <h2>&nbsp;&nbsp;BiliChrome - Bilibili Third-Party Client for Chrome</h2>
+    </header>
+    
+    <section id="installation">
+        <h2>安装</h2>
+        <p>chrome插件管理，打开开发者模式，加载已解压的扩展，选择所在文件夹，点击确定即可。</p>
+        <p>若要安装为网页应用：主菜单，创建快捷方式，勾选在独立窗口打开，确认即可。</p>
+        <p>建议在网页首页登陆后再使用。</p>
+    </section>
+
+    <section id="features">
+        <h2>功能</h2>
+        <ul>
+            <li>首页视频推荐</li>
+            <li>热度视频列表</li>
+            <li>关注up主动态</li>
+            <li>用户页面显示基本信息，展示动态列表</li>
+            <li>基本播放器功能，查看视频、评论、视频详情</li>
+            <li>其他UP主动态列表</li>
+        </ul>
+    </section>
+
+    <section id="references">
+        <h2>参考与使用</h2>
+        <ul>
+            <li><a href="https://fonts.google.com/icons" target="_blank">Material Icon</a></li>
+            <li><a href="https://github.com/SocialSisterYi/bilibili-API-collect" target="_blank">SocialSisterYi/bilibili-API-collect</a></li>
+        </ul>
+    </section>
+
+    <section id="screenshots">
+        <h2>截图</h2>
+        <img src="./shot1.png" alt="首页">
+        <img src="./shot2.png" alt="动态">
+        <img src="./shot3.png" alt="视频播放">
+    </section>
+
+    <section id="download">
+        <h2>下载</h2>
+        <p>获取最新版本的 BiliChrome：<a href="https://github.com/EZ118/BiliChrome/releases/" target="_blank">Download BiliChrome</a></p>
+        <p>该项目遵循 GPL-3.0 协议开放源代码。</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 BiliChrome. This project is licensed under the GPL-3.0 License.</p>
+        <p>Follow me on [<a href="https://space.bilibili.com/1018969624" target="_blank">BiliBili</a>] | Find me on [<a href="https://space.bilibili.com/1018969624" target="_blank">GitHub</a>]</p>
+    </footer>
+
+    <script>
+        // Check if the URL contains "#installed" and display a thank you message
+        if (window.location.hash === '#installed') {
+            // Show the thank you message
+            document.getElementById('thankYouMessage').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
