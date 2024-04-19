@@ -11,4 +11,4 @@
 10	ZZY_WISU	无刷新子页面跳转示例	项目地址：[url]https://github.com/EZ118/Jump-Without-Refresh/[/url]<br>Demo演示：[url]./static/JumpWithoutRefresh/[/url]	2022/5/10
 11	ZZY_WISU	在线简易Word文档打开工具	该项目基于docx2html.min.js开发<br>链接：[url]./static/DocxViewer/[/url]	2022/5/25
 12	ZZY_WISU	抱歉，最近有点忙	本人还是学生，目前升入了高年级学业更加繁重，难以抽空写博客发视频，在此对各位表示歉意。或许几个月后将会恢复，届时会对之前的项目进行维护、更新视频、撰写博客。感谢各位的支持！    2023/5/5
-13	ZZY_WISU	BiliChrome震撼登场	BiliChrome旨在为ChromeOS设备和其他低性能设备，以Chrome插件的形式作为B站第三方客户端。<br>目前，客户端的大部分功能已经实现，界面完善，唯独点赞投币评论功能不能正常使用，希望高人指点。<br>项目首页：[url]/biliweb/[/url]<br>下载：[url]https://github.com/EZ118/BiliChrome/[/url]	2022/4/22
+13	ZZY_WISU	BiliChrome震撼登场	BiliChrome旨在为ChromeOS设备和其他低性能设备，以Chrome插件的形式作为B站第三方客户端。<br>目前，客户端的大部分功能已经实现，界面完善，唯独点赞投币评论功能不能正常使用，希望高人指点。<br>项目首页：[url]/biliweb/[/url]<br>下载：[url]https://github.com/EZ118/BiliChrome/[/url]	2024/4/19
