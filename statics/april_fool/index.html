@@ -1,308 +1,418 @@
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
-        <title>腾讯会议</title>
-        <meta name="description" content="基于腾讯20多年音视频通讯经验，腾讯会议提供一站式音视频会议解决方案，让您能随时随地体验高清流畅的会议以及会议协作。"/>
-        <link rel="icon" href="https://meeting.tencent.com/favicon.ico">
-    </head>
-    <body>
-        <div class="topNav">
-            <div align="left" class="langSel">
-                简体中文▾
-            </div>
-            <div align="center" class="centeralLogo">
-                <img src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDU1MCAxNTAiIHdpZHRoPSI1NTAiIGhlaWdodD0iMTUwIj48c3R5bGU+dHNwYW57d2hpdGUtc3BhY2U6cHJlfS5he2ZpbGw6bm9uZTtzdHJva2U6IzQ3NDc0NztzdHJva2Utd2lkdGg6Nn0uYntmb250LXNpemU6IDgwcHg7ZmlsbDogIzRmNGY0Zjtmb250LXdlaWdodDogNzAwO2ZvbnQtZmFtaWx5OiAiU291cmNlSGFuU2Fuc1NDLUJvbGQiLCAiU291cmNlIEhhbiBTYW5zIFNDIn08L3N0eWxlPjxwYXRoIGNsYXNzPSJhIiBkPSJtMjMuNSAxMDMuNmMtNy4zLTcuNi03LjMtMTkuOCAwLTI3LjNsNDcuMy00OC4zIDMxLjUgMzIuMi02MC42IDYxLjl6Ii8+PHBhdGggY2xhc3M9ImEiIGQ9Im0xMzQgMjguNmwzMS44IDMxLjctNjEuOSA2MS45LTMxLjctMzEuOHoiLz48cGF0aCBjbGFzcz0iYSIgZD0ibTEzNSA5MS4zbDMwLjktMzAuOSAxNi43IDE2LjdjNy44IDcuOSA3LjcgMjAuNS0wLjEgMjguM2wtMTYuOCAxNi44eiIvPjx0ZXh0IHN0eWxlPSJ0cmFuc2Zvcm06bWF0cml4KDEsMCwwLDEsMjE0LjUsMTAzKSIgPjx0c3BhbiB4PSIwIiB5PSIwIiBjbGFzcz0iYiI+6IW+6K6v5Lya6K6uCjwvdHNwYW4+PC90ZXh0Pjwvc3ZnPg==">
-            </div>
-            <div align="right" class="loginBtn" onclick="location.href='https://meeting.tencent.com/qrcode-login.html'">
-                登录&nbsp;
-            </div>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>腾讯会议</title>
+    <meta name="description" content="基于腾讯20多年音视频通讯经验，腾讯会议提供一站式音视频会议解决方案，让您能随时随地体验高清流畅的会议以及会议协作。" />
+    <link rel="icon" href="https://meeting.tencent.com/favicon.ico">
+</head>
+
+<body>
+    <div class="topNav">
+        <div align="left" class="langSel">
+            简体中文▾
         </div>
-
-        <div class="detailCard">
-            <div class="cardLogo">
-                <img src="./sub_header_title.png">
-                <span class="meetingTitle">Zhou的快速会议</span>
-                <span class="meetingCode">533 331 834</span>
-            </div>
-            <div class="cardDetail">
-                <table class="meetingTime">
-                    <tr>
-                        <td align="left" style="font-size: 30px; color: #000;">19:35</td>
-                        <td align="center" style="font-size: 12px; color: #cecece;">
-                            —
-                            <span style="margin: 10px 20px; background-color: #edeff3; color: #555; padding: 2px; border-radius: 3px;">1小时</span>
-                            —
-                        </td>
-                        <td align="right" style="font-size: 30px; color: #000;">20:35</td>
-                    </tr>
-                    <tr>
-                        <td align="left" style="font-size: 11px; color: #000;">2024年05月31日</td>
-                        <td align="center" style="font-size: 11px; color: #AAA;">(GMT+08:00)</td>
-                        <td align="right" style="font-size: 11px; color: #000;">2024年05月31日</td>
-                    </tr>
-                </table>
-                
-                <i class="tipText">* 已有5名成员参加会议</i>
-                <div style="height:5px;"></div>
-            </div>
+        <div align="center" class="centeralLogo">
+            <img
+                src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDU1MCAxNTAiIHdpZHRoPSI1NTAiIGhlaWdodD0iMTUwIj48c3R5bGU+dHNwYW57d2hpdGUtc3BhY2U6cHJlfS5he2ZpbGw6bm9uZTtzdHJva2U6IzQ3NDc0NztzdHJva2Utd2lkdGg6Nn0uYntmb250LXNpemU6IDgwcHg7ZmlsbDogIzRmNGY0Zjtmb250LXdlaWdodDogNzAwO2ZvbnQtZmFtaWx5OiAiU291cmNlSGFuU2Fuc1NDLUJvbGQiLCAiU291cmNlIEhhbiBTYW5zIFNDIn08L3N0eWxlPjxwYXRoIGNsYXNzPSJhIiBkPSJtMjMuNSAxMDMuNmMtNy4zLTcuNi03LjMtMTkuOCAwLTI3LjNsNDcuMy00OC4zIDMxLjUgMzIuMi02MC42IDYxLjl6Ii8+PHBhdGggY2xhc3M9ImEiIGQ9Im0xMzQgMjguNmwzMS44IDMxLjctNjEuOSA2MS45LTMxLjctMzEuOHoiLz48cGF0aCBjbGFzcz0iYSIgZD0ibTEzNSA5MS4zbDMwLjktMzAuOSAxNi43IDE2LjdjNy44IDcuOSA3LjcgMjAuNS0wLjEgMjguM2wtMTYuOCAxNi44eiIvPjx0ZXh0IHN0eWxlPSJ0cmFuc2Zvcm06bWF0cml4KDEsMCwwLDEsMjE0LjUsMTAzKSIgPjx0c3BhbiB4PSIwIiB5PSIwIiBjbGFzcz0iYiI+6IW+6K6v5Lya6K6uCjwvdHNwYW4+PC90ZXh0Pjwvc3ZnPg==">
         </div>
-
-        <div class="bottomButton">
-            <button class="wideBtn-solid" id="enterMeetingBtn">加入会议</button>
-            <button class="wideBtn" id="enterMeetingBtn_miniPrograme">小程序入会</button>
+        <div align="right" class="loginBtn" onclick="location.href='https://meeting.tencent.com/qrcode-login.html'">
+            登录&nbsp;
         </div>
+    </div>
 
-        <div class="permissionDlg" style="display:none;">
-            <div class="dlgBody">
-                <table class="dlgContent">
-                    <tr height="50px" class="appDetail">
-                        <td align="left" width="38px">
-                            <img src="https://meeting.tencent.com/favicon.ico" height="35px" style="border-radius:30px;">
-                        </td>
-                        <td align="left">腾讯会议</td>
-                        <td align="right">申请</td>
-                        <td align="right" width="30px" style="color:#535353;">ℹ&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" style="vertical-align:top;">
-                            <p class="dlgTitle">获取你的账号信息</p>
-                            <p class="dlgDetail">提供账号注册及登录功能、入会的昵称与头像的显示、通过短信等方式向您进行消息推送（包括服务消息、活动宣传或其他商业性信息）</p>
-                            <br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="right">
-                            <button id="cancelBtn">拒绝</button>
-                        </td>
-                        <td colspan="2" align="left">
-                            <button id="confirmBtn">允许</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            <p class="userToU">
-                                * 点击“允许”则默认您已阅读并接受<br>
-                                <a href="https://privacy.qq.com/document/preview/4467add90f9d4baaabd790cb1cb08b26">《隐私政策》</a>
-                                与
-                                <a href="https://rule.tencent.com/rule/ab9ea528-0bf1-47b3-a8c3-f001b98912e2">《用户协议》</a>
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+    <div class="detailCard">
+        <div class="cardLogo">
+            <img src="./sub_header_title.png">
+            <span class="meetingTitle">Zhou的快速会议</span>
+            <span class="meetingCode">533 331 834</span>
         </div>
+        <div class="cardDetail">
+            <table class="meetingTime">
+                <tr>
+                    <td align="left" style="font-size: 30px; color: #000;">19:35</td>
+                    <td align="center" style="font-size: 12px; color: #cecece;">
+                        —
+                        <span
+                            style="margin: 10px 20px; background-color: #edeff3; color: #555; padding: 2px; border-radius: 3px;">1小时</span>
+                        —
+                    </td>
+                    <td align="right" style="font-size: 30px; color: #000;">20:35</td>
+                </tr>
+                <tr>
+                    <td align="left" style="font-size: 11px; color: #000;" class="meetingDate">2024年05月31日</td>
+                    <td align="center" style="font-size: 11px; color: #AAA;">(GMT+08:00)</td>
+                    <td align="right" style="font-size: 11px; color: #000;" class="meetingDate">2024年05月31日</td>
+                </tr>
+            </table>
 
-        <script>
-            
-            function targetFunc(){
-                location.href = "https://www.bilibili.com/blackboard/html5mobileplayer.html?bvid=1va411w7aM";
-            }
+            <i class="tipText">* 已有5名成员参加会议</i>
+            <div style="height:5px;"></div>
+        </div>
+    </div>
 
-            /* ---- */
-            function $GET(name){
-				var reg = new RegExp('(^|&)'+name+'=([^&]*)(&|$)', 'i');
-				var r = window.location.search.substr(1).match(reg);
-				if (r != null) { return unescape(r[2]); }
-				return "";
-			}
+    <div class="bottomButton">
+        <button class="wideBtn-solid" id="enterMeetingBtn">加入会议</button>
+        <button class="wideBtn" id="enterMeetingBtn_miniPrograme">小程序入会</button>
+    </div>
 
-            window.onload = function() {
-                var enterMeetingBtn = document.getElementById("enterMeetingBtn");
-                var enterMeetingBtn_mp = document.getElementById("enterMeetingBtn_miniPrograme");
-                var cancelBtn = document.getElementById("cancelBtn");
-                var confirmBtn = document.getElementById("confirmBtn");
-                var permissionDlg = document.getElementsByClassName("permissionDlg")[0];
+    <div class="permissionDlg" style="display:none;">
+        <div class="dlgBody">
+            <table class="dlgContent">
+                <tr height="50px" class="appDetail">
+                    <td align="left" width="38px">
+                        <img src="https://meeting.tencent.com/favicon.ico" height="35px" style="border-radius:30px;">
+                    </td>
+                    <td align="left">腾讯会议</td>
+                    <td align="right">申请</td>
+                    <td align="right" width="30px" style="color:#535353;">ℹ&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="vertical-align:top;">
+                        <p class="dlgTitle">获取你的账号信息</p>
+                        <p class="dlgDetail">提供账号注册及登录功能、入会的昵称与头像的显示、通过短信等方式向您进行消息推送（包括服务消息、活动宣传或其他商业性信息）</p>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right">
+                        <button id="cancelBtn">拒绝</button>
+                    </td>
+                    <td colspan="2" align="left">
+                        <button id="confirmBtn">允许</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <p class="userToU">
+                            * 点击“允许”则默认您已阅读并接受<br>
+                            <a
+                                href="https://privacy.qq.com/document/preview/4467add90f9d4baaabd790cb1cb08b26">《隐私政策》</a>
+                            与
+                            <a href="https://rule.tencent.com/rule/ab9ea528-0bf1-47b3-a8c3-f001b98912e2">《用户协议》</a>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
-                enterMeetingBtn.onclick = enterMeetingBtn_mp.onclick = function(){
-                    setTimeout(function(){
-                        permissionDlg.setAttribute("style", "display:block;");
-                    }, 200);
-                }
+    <script>
 
-                confirmBtn.onclick = function() {
-                    permissionDlg.setAttribute("style", "display:none;");
-                    location.href = "?status=login";
-                }
-                cancelBtn.onclick = function() {
-                    permissionDlg.setAttribute("style", "display:none;");
-                    location.href = "?status=login_fail";
-                }
+        function targetFunc() {
+            location.href = "https://www.bilibili.com/blackboard/html5mobileplayer.html?bvid=1va411w7aM";
+        }
 
-                if($GET("status") == "login") {
-                    document.getElementsByTagName("title")[0].innerHTML = "登录中...";
-                    document.getElementsByClassName("detailCard")[0].remove();
+        /* ---- */
+        function $GET(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) { return unescape(r[2]); }
+            return "";
+        }
+        //获取当前日期函数
+        function getNowFormatDate() {
+            let date = new Date(),
+                year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                strDate = date.getDate();
+            if (month < 10) month = `0${month}`;
+            if (strDate < 10) strDate = `0${strDate}`;
 
-                    setTimeout(function() {
-                        alert("登录成功");
-                        document.getElementsByTagName("title")[0].innerHTML = "登录成功 | 腾讯会议";
-                    }, 400);
-                    setTimeout(function() {
-                        targetFunc()
-                    }, 1000);
-                } else if ($GET("status") == "login_fail") {
-                    document.getElementsByTagName("title")[0].innerHTML = "登录中...";
-                    document.getElementsByClassName("detailCard")[0].remove();
+            return `${year}年${month}月${strDate}日`;
+        }
 
-                    setTimeout(function() {
-                        alert("未登录，请授权登录");
-                        document.getElementsByTagName("title")[0].innerHTML = "未登录 | 腾讯会议";
-                    }, 400);
-                    setTimeout(function() {
-                        top.location.href = "?status=refresh";
-                    }, 700);
-                }
-                
-            }
-        </script>
+        window.onload = function () {
+            var enterMeetingBtn = document.getElementById("enterMeetingBtn");
+            var enterMeetingBtn_mp = document.getElementById("enterMeetingBtn_miniPrograme");
+            var cancelBtn = document.getElementById("cancelBtn");
+            var confirmBtn = document.getElementById("confirmBtn");
+            var permissionDlg = document.getElementsByClassName("permissionDlg")[0];
+            var meetingDate = document.getElementsByClassName("meetingDate");
 
-        <style>
-            html,body{
-                padding: 0;
-                margin: 0;
-                background-color: #f7f8fc;
-                user-select: none;
-                -webkit-appearance: none !important;
-                font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+            meetingDate[1].innerHTML = meetingDate[0].innerHTML = getNowFormatDate();
 
-                -webkit-user-drag: none;
-                -moz-user-drag: none;
-            }
-
-            .topNav{width:caLC(100vw - 20px);padding:10px;display:flex;flex-direction:row;justify-content:center;align-items:center;user-select:none}
-            .topNav .langSel{cursor:pointer;width:20%;text-align:left;color:#3c3c3c;font-size:13px}
-            .topNav .loginBtn{color:#006fff;cursor:pointer;width:20%;text-align:right;font-size:13px}
-            .topNav .centeralLogo{width:60%;text-align:center;color:#767676}
-            .topNav .centeralLogo img{vertical-align:middle;height:25px}
-
-            /* ---- */
-            .detailCard {
-                width: calc(100vw - 30px);
-                padding: 0px;
-                margin: 15px;
-                margin-top: 10px;
-                border: none;
-                border-radius: 10px;
-                box-shadow: 0 0 10px 0 rgba(0,0,0,.1);
-                background-color: #FFF;
-                overflow: hidden;
-            }
-            .cardLogo{align-items:center;justify-content:center;text-align:center;background:url(./sub_header.png);background-repeat:no-repeat;background-size:cover;height:140px;margin-bottom:10px;border-radius:6px 6px 0 0;display:flex;flex-direction:column}
-            .cardLogo img{height:22px;margin:20px;-webkit-user-drag:none}
-            .cardLogo .meetingTitle{margin:10px;font-size:16px}
-            .cardLogo .meetingCode{margin:5px;font-size:14px}
-
-            .cardDetail{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-            .cardDetail .meetingTime{width:92%;margin-bottom:10px;max-width:500px;min-width:280px;overflow:hidden}
-            .cardDetail .tipText{font-size:10px;color:#CCC;margin-bottom:10px}
-
-
-            .bottomButton {
-                width: calc(100vw - 30px);
-                padding: 0px;
-                margin: 15px;
-                margin-top: calc(100vh - 380px - 100px);
-            }
-            .wideBtn-solid {
-                background-color: #006fff;
-                color: #FFF;
-                width: calc(100% - 10px);
-                cursor:pointer;
-                padding: 10px 5px 10px 5px;
-                border: 1px solid #006fff;
-                border-radius: 6px;
-                margin: 5px;
-                font-size: medium;
-            }
-            .wideBtn {
-                background-color: #FFF;
-                border: 1px solid #006fff;
-                color: #006fff;
-                width: calc(100% - 10px);
-                cursor:pointer;
-                padding: 9px 5px 9px 5px;
-                border-radius: 6px;
-                margin: 5px;
-                font-size: medium;
+            enterMeetingBtn.onclick = enterMeetingBtn_mp.onclick = function () {
+                setTimeout(function () {
+                    permissionDlg.setAttribute("style", "display:block;");
+                }, 200);
             }
 
-            /* 模拟弹窗 */
-            .permissionDlg {
-                background:#00000050;
-                position:fixed;
-                top:0; left: 0;
-                width:100vw;
-                height: 100vh;
-                z-index: 101;
+            confirmBtn.onclick = function () {
+                permissionDlg.setAttribute("style", "display:none;");
+                location.href = "?status=login";
             }
-            .permissionDlg .dlgBody {
-                position: absolute;
-                bottom:0; left:50%;
-                width:calc(100vw - 15px * 2);
-                max-width: 500px;
-                transform:translate(-50%,0);
-                padding:15px;
-                color:#FFF;
-                background-color: #191919;
-                height:fit-content;
-                border-radius: 12px 12px 0 0;
-            }
-            .permissionDlg .dlgBody .dlgContent{
-                width:100%;
-                color:#FFF;
-            }
-            .dlgContent h3 {
-                margin:8px 0px;
-            }
-            .dlgContent #cancelBtn {
-                padding: 12px 45px;
-                border-radius: 8px;
-                border:none;
-                background-color:#2b2b2b;
-                cursor:pointer;
-                font-weight: bold;
-                font-size: medium;
-                color:#FFF;
-                margin:5px 8px;
-            }
-            .dlgContent #confirmBtn {
-                padding: 12px 45px;
-                border-radius: 8px;
-                border:none;
-                background-color:#07c060;
-                cursor:pointer;
-                font-weight: bold;
-                font-size: medium;
-                color:#FFF;
-                margin:5px 8px;
-            }
-            .dlgContent .userToU {
-                font-size:small;
-                color: #5f5f5f;
-                margin:10px 0px;
-                text-align: center;
-            }
-            .dlgContent .userToU a{
-                color:#828c95;
-                text-decoration: none;
-            }
-            .dlgContent .appDetail {
-                font-weight: bold;
-            }
-            .dlgContent .dlgDetail {
-                color: #767676;
-                margin: 10px 0;
-                font-size: medium;
-                font-weight: light;
+            cancelBtn.onclick = function () {
+                permissionDlg.setAttribute("style", "display:none;");
+                location.href = "?status=login_fail";
             }
 
-            .dlgContent .dlgTitle {
-                margin: 10px 0px;
-                font-weight: bold;
-                font-size: large;
+            if ($GET("status") == "login") {
+                document.getElementsByTagName("title")[0].innerHTML = "登录中...";
+                document.getElementsByClassName("detailCard")[0].remove();
+
+                setTimeout(function () {
+                    alert("登录成功");
+                    document.getElementsByTagName("title")[0].innerHTML = "登录成功 | 腾讯会议";
+                }, 400);
+                setTimeout(function () {
+                    targetFunc()
+                }, 1000);
+            } else if ($GET("status") == "login_fail") {
+                document.getElementsByTagName("title")[0].innerHTML = "登录中...";
+                document.getElementsByClassName("detailCard")[0].remove();
+
+                setTimeout(function () {
+                    alert("未登录，请授权登录");
+                    document.getElementsByTagName("title")[0].innerHTML = "未登录 | 腾讯会议";
+                }, 400);
+                setTimeout(function () {
+                    top.location.href = "?status=refresh";
+                }, 700);
             }
-        </style>
-    </body>
+
+        }
+    </script>
+
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #f7f8fc;
+            user-select: none;
+            -webkit-appearance: none !important;
+            font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+
+            -webkit-user-drag: none;
+            -moz-user-drag: none;
+        }
+
+        .topNav {
+            width: caLC(100vw - 20px);
+            padding: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            user-select: none
+        }
+
+        .topNav .langSel {
+            cursor: pointer;
+            width: 20%;
+            text-align: left;
+            color: #3c3c3c;
+            font-size: 13px
+        }
+
+        .topNav .loginBtn {
+            color: #006fff;
+            cursor: pointer;
+            width: 20%;
+            text-align: right;
+            font-size: 13px
+        }
+
+        .topNav .centeralLogo {
+            width: 60%;
+            text-align: center;
+            color: #767676
+        }
+
+        .topNav .centeralLogo img {
+            vertical-align: middle;
+            height: 25px
+        }
+
+        /* ---- */
+        .detailCard {
+            width: calc(100vw - 30px);
+            padding: 0px;
+            margin: 15px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+            background-color: #FFF;
+            overflow: hidden;
+        }
+
+        .cardLogo {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: url(./sub_header.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 140px;
+            margin-bottom: 10px;
+            border-radius: 6px 6px 0 0;
+            display: flex;
+            flex-direction: column
+        }
+
+        .cardLogo img {
+            height: 22px;
+            margin: 20px;
+            -webkit-user-drag: none
+        }
+
+        .cardLogo .meetingTitle {
+            margin: 10px;
+            font-size: 16px
+        }
+
+        .cardLogo .meetingCode {
+            margin: 5px;
+            font-size: 14px
+        }
+
+        .cardDetail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center
+        }
+
+        .cardDetail .meetingTime {
+            width: 92%;
+            margin-bottom: 10px;
+            max-width: 500px;
+            min-width: 280px;
+            overflow: hidden
+        }
+
+        .cardDetail .tipText {
+            font-size: 10px;
+            color: #CCC;
+            margin-bottom: 10px
+        }
+
+
+        .bottomButton {
+            width: calc(100vw - 30px);
+            padding: 0px;
+            margin: 15px;
+            margin-top: calc(100vh - 380px - 100px);
+        }
+
+        .wideBtn-solid {
+            background-color: #006fff;
+            color: #FFF;
+            width: calc(100% - 10px);
+            cursor: pointer;
+            padding: 10px 5px 10px 5px;
+            border: 1px solid #006fff;
+            border-radius: 6px;
+            margin: 5px;
+            font-size: medium;
+        }
+
+        .wideBtn {
+            background-color: #FFF;
+            border: 1px solid #006fff;
+            color: #006fff;
+            width: calc(100% - 10px);
+            cursor: pointer;
+            padding: 9px 5px 9px 5px;
+            border-radius: 6px;
+            margin: 5px;
+            font-size: medium;
+        }
+
+        /* 模拟弹窗 */
+        .permissionDlg {
+            background: #00000050;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 101;
+        }
+
+        .permissionDlg .dlgBody {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: calc(100vw - 15px * 2);
+            max-width: 500px;
+            transform: translate(-50%, 0);
+            padding: 15px;
+            color: #FFF;
+            background-color: #191919;
+            height: fit-content;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .permissionDlg .dlgBody .dlgContent {
+            width: 100%;
+            color: #FFF;
+        }
+
+        .dlgContent h3 {
+            margin: 8px 0px;
+        }
+
+        .dlgContent #cancelBtn {
+            padding: 12px 45px;
+            border-radius: 8px;
+            border: none;
+            background-color: #2b2b2b;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: medium;
+            color: #FFF;
+            margin: 5px 8px;
+        }
+
+        .dlgContent #confirmBtn {
+            padding: 12px 45px;
+            border-radius: 8px;
+            border: none;
+            background-color: #07c060;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: medium;
+            color: #FFF;
+            margin: 5px 8px;
+        }
+
+        .dlgContent .userToU {
+            font-size: small;
+            color: #5f5f5f;
+            margin: 10px 0px;
+            text-align: center;
+        }
+
+        .dlgContent .userToU a {
+            color: #828c95;
+            text-decoration: none;
+        }
+
+        .dlgContent .appDetail {
+            font-weight: bold;
+        }
+
+        .dlgContent .dlgDetail {
+            color: #767676;
+            margin: 10px 0;
+            font-size: medium;
+            font-weight: light;
+        }
+
+        .dlgContent .dlgTitle {
+            margin: 10px 0px;
+            font-weight: bold;
+            font-size: large;
+        }
+    </style>
+</body>
+
 </html>
 
 
