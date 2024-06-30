@@ -4,41 +4,42 @@
     <meta charset="utf-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>假tx会议生成器</title>
-    <meta name="description" content="生成一个假冒的腾讯会议入会链接，对身边的人恶作剧。" />
-    <link rel="icon" href="./favicon.ico">
+    <title>腾讯会议</title>
+    <meta name="description" content="基于腾讯20多年音视频通讯经验，腾讯会议提供一站式音视频会议解决方案，让您能随时随地体验高清流畅的会议以及会议协作。" />
+    <link rel="icon" href="https://meeting.tencent.com/favicon.ico">
 </head>
 
 <body>
     <div class="topNav">
         <div align="left" class="langSel">
-            点击自定义
+            简体中文▾
         </div>
         <div align="center" class="centeralLogo">
-            tx会议生成器
+            <img
+                src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDU1MCAxNTAiIHdpZHRoPSI1NTAiIGhlaWdodD0iMTUwIj48c3R5bGU+dHNwYW57d2hpdGUtc3BhY2U6cHJlfS5he2ZpbGw6bm9uZTtzdHJva2U6IzQ3NDc0NztzdHJva2Utd2lkdGg6Nn0uYntmb250LXNpemU6IDgwcHg7ZmlsbDogIzRmNGY0Zjtmb250LXdlaWdodDogNzAwO2ZvbnQtZmFtaWx5OiAiU291cmNlSGFuU2Fuc1NDLUJvbGQiLCAiU291cmNlIEhhbiBTYW5zIFNDIn08L3N0eWxlPjxwYXRoIGNsYXNzPSJhIiBkPSJtMjMuNSAxMDMuNmMtNy4zLTcuNi03LjMtMTkuOCAwLTI3LjNsNDcuMy00OC4zIDMxLjUgMzIuMi02MC42IDYxLjl6Ii8+PHBhdGggY2xhc3M9ImEiIGQ9Im0xMzQgMjguNmwzMS44IDMxLjctNjEuOSA2MS45LTMxLjctMzEuOHoiLz48cGF0aCBjbGFzcz0iYSIgZD0ibTEzNSA5MS4zbDMwLjktMzAuOSAxNi43IDE2LjdjNy44IDcuOSA3LjcgMjAuNS0wLjEgMjguM2wtMTYuOCAxNi44eiIvPjx0ZXh0IHN0eWxlPSJ0cmFuc2Zvcm06bWF0cml4KDEsMCwwLDEsMjE0LjUsMTAzKSIgPjx0c3BhbiB4PSIwIiB5PSIwIiBjbGFzcz0iYiI+6IW+6K6v5Lya6K6uCjwvdHNwYW4+PC90ZXh0Pjwvc3ZnPg==">
         </div>
-        <div align="right" class="loginBtn">
-            完成&nbsp;
+        <div align="right" class="loginBtn" onclick="location.href='https://meeting.tencent.com/qrcode-login.html'">
+            登录&nbsp;
         </div>
     </div>
 
     <div class="detailCard">
         <div class="cardLogo">
             <img src="./sub_header_title.png">
-            <span class="meetingTitle"><input type="text" id="meetingCreater" class="meetingCreater" value="庞炗">的快速会议</span>
-            <input type="text" id="meetingCode" class="meetingCode" value="533 331 834">
+            <span class="meetingTitle">Zhou的快速会议</span>
+            <span class="meetingCode">533 331 834</span>
         </div>
         <div class="cardDetail">
             <table class="meetingTime">
                 <tr>
-                    <td align="left" style="font-size: 30px; color: #000;" class="meetingTimeSpan">19:35</td>
+                    <td align="left" style="font-size: 30px; color: #000;">19:35</td>
                     <td align="center" style="font-size: 12px; color: #cecece;">
                         —
                         <span
                             style="margin: 10px 20px; background-color: #edeff3; color: #555; padding: 2px; border-radius: 3px;">1小时</span>
                         —
                     </td>
-                    <td align="right" style="font-size: 30px; color: #000;" class="meetingTimeSpan">20:35</td>
+                    <td align="right" style="font-size: 30px; color: #000;">20:35</td>
                 </tr>
                 <tr>
                     <td align="left" style="font-size: 11px; color: #000;" class="meetingDate">2024年04月01日</td>
@@ -47,14 +48,14 @@
                 </tr>
             </table>
 
-            <i class="tipText">* 已有3名成员参加会议</i>
+            <i class="tipText">* 已有5名成员参加会议</i>
             <div style="height:5px;"></div>
         </div>
     </div>
 
     <div class="bottomButton">
-        <button class="wideBtn-solid" id="enterMeetingBtn">生成二维码</button>
-        <button class="wideBtn" id="enterMeetingBtn_miniPrograme">帮助</button>
+        <button class="wideBtn-solid" id="enterMeetingBtn">加入会议</button>
+        <button class="wideBtn" id="enterMeetingBtn_miniPrograme">小程序入会</button>
     </div>
 
     <div class="permissionDlg" style="display:none;">
@@ -64,32 +65,33 @@
                     <td align="left" width="38px">
                         <img src="https://meeting.tencent.com/favicon.ico" height="35px" style="border-radius:30px;">
                     </td>
-                    <td align="left">会议页面生成器</td>
-                    <td align="right">提示</td>
+                    <td align="left">腾讯会议</td>
+                    <td align="right">申请</td>
                     <td align="right" width="30px" style="color:#535353;">ℹ&nbsp;</td>
                 </tr>
                 <tr>
                     <td colspan="4" style="vertical-align:top;">
-                        <p class="dlgTitle">使用说明</p>
-                        <p class="dlgDetail">
-                            点击页面上虚线框处区域，可自定义内容。会议时间和日期会随着对方进入的时间自动变化。
-                            该网站源于在愚人节的一次整活，看到
-                        </p>
+                        <p class="dlgTitle">获取你的账号信息</p>
+                        <p class="dlgDetail">提供账号注册及登录功能、入会的昵称与头像的显示、通过短信等方式向您进行消息推送（包括服务消息、活动宣传或其他商业性信息）</p>
                         <br>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right">
-                        <button id="cancelBtn">取消</button>
+                        <button id="cancelBtn">拒绝</button>
                     </td>
                     <td colspan="2" align="left">
-                        <button id="confirmBtn">确认</button>
+                        <button id="confirmBtn">允许</button>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="4">
                         <p class="userToU">
-                            * 该应用程序仅供学习参考和日常娱乐，请勿用于不正当用途。
+                            * 点击“允许”则默认您已阅读并接受<br>
+                            <a
+                                href="https://privacy.qq.com/document/preview/4467add90f9d4baaabd790cb1cb08b26">《隐私政策》</a>
+                            与
+                            <a href="https://rule.tencent.com/rule/ab9ea528-0bf1-47b3-a8c3-f001b98912e2">《用户协议》</a>
                         </p>
                     </td>
                 </tr>
@@ -97,15 +99,31 @@
         </div>
     </div>
 
-    <div style="position:fixed; top:50px; "></div>
-
     <script>
-        function generateUrl(code, creater){
-            var url = window.location.href.split('/');
-            url.pop();
-            var sharePage = url.join("/") + "/share.html?code=" + code + "&creater=" + creater;
-            return sharePage;
+
+        function targetFunc() {
+            location.href = "https://www.bilibili.com/blackboard/html5mobileplayer.html?bvid=1va411w7aM";
         }
+
+        /* ---- */
+        function $GET(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) { return unescape(r[2]); }
+            return "";
+        }
+        //获取当前日期函数
+        function getNowFormatDate() {
+            let date = new Date(),
+                year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                strDate = date.getDate();
+            if (month < 10) month = `0${month}`;
+            if (strDate < 10) strDate = `0${strDate}`;
+
+            return `${year}年${month}月${strDate}日`;
+        }
+
         window.onload = function () {
             var enterMeetingBtn = document.getElementById("enterMeetingBtn");
             var enterMeetingBtn_mp = document.getElementById("enterMeetingBtn_miniPrograme");
@@ -113,50 +131,48 @@
             var confirmBtn = document.getElementById("confirmBtn");
             var permissionDlg = document.getElementsByClassName("permissionDlg")[0];
             var meetingDate = document.getElementsByClassName("meetingDate");
-            var meetingTime = document.getElementsByClassName("meetingTimeSpan");
 
-            var meetingCode = document.getElementById("meetingCode");
-            var meetingCreater = document.getElementById("meetingCreater");
+            meetingDate[1].innerHTML = meetingDate[0].innerHTML = getNowFormatDate();
 
-
-            (function(){
-                const date = new Date();
-                const year = date.getFullYear();
-                const month = ('0' + (date.getMonth() + 1)).slice(-2);
-                const strDate = ('0' + date.getDate()).slice(-2);
-
-                meetingDate[1].innerHTML = meetingDate[0].innerHTML = year + "年" + month + "月" + strDate + "日";
-            })();
-            (function(){
-                const now = new Date();
-                var hours = now.getHours();
-                var minutes = now.getMinutes();
-                if(minutes < 15) {minutes = 0}
-                else if(minutes < 30) {minutes = 15}
-                else if(minutes < 45) {minutes = 30}
-                else if(minutes < 59) {minutes = 45}
-
-                minutes = ('0' + minutes).slice(-2);
-                
-                meetingTime[0].innerHTML = ('0' + hours).slice(-2) + ":" + minutes;
-                meetingTime[1].innerHTML = ('0' + (hours + 1)).slice(-2) + ":" + minutes;
-            })();
-
-
-            enterMeetingBtn_mp.onclick = function () {
+            enterMeetingBtn.onclick = enterMeetingBtn_mp.onclick = function () {
                 setTimeout(function () {
                     permissionDlg.setAttribute("style", "display:block;");
                 }, 200);
             }
-            
-            enterMeetingBtn.onclick = function () {
-                var url = generateUrl(meetingCode.value, meetingCreater.value);
-                var qrcode = `https://api.qrtool.cn/?text=` + encodeURI(url);
+
+            confirmBtn.onclick = function () {
+                permissionDlg.setAttribute("style", "display:none;");
+                location.href = "?status=login";
+            }
+            cancelBtn.onclick = function () {
+                permissionDlg.setAttribute("style", "display:none;");
+                location.href = "?status=login_fail";
             }
 
-            cancelBtn.onclick = confirmBtn.onclick = function () {
-                permissionDlg.setAttribute("style", "display:none;");
+            if ($GET("status") == "login") {
+                document.getElementsByTagName("title")[0].innerHTML = "登录中...";
+                document.getElementsByClassName("detailCard")[0].remove();
+
+                setTimeout(function () {
+                    alert("登录成功");
+                    document.getElementsByTagName("title")[0].innerHTML = "登录成功 | 腾讯会议";
+                }, 400);
+                setTimeout(function () {
+                    targetFunc()
+                }, 1000);
+            } else if ($GET("status") == "login_fail") {
+                document.getElementsByTagName("title")[0].innerHTML = "登录中...";
+                document.getElementsByClassName("detailCard")[0].remove();
+
+                setTimeout(function () {
+                    alert("未登录，请授权登录");
+                    document.getElementsByTagName("title")[0].innerHTML = "未登录 | 腾讯会议";
+                }, 400);
+                setTimeout(function () {
+                    top.location.href = "?status=refresh";
+                }, 700);
             }
+
         }
     </script>
 
@@ -246,28 +262,12 @@
 
         .cardLogo .meetingTitle {
             margin: 10px;
-            font-size: 16px;
-        }
-        .cardLogo .meetingCreater {
-            margin: 5px;
-            font-size: 16px;
-
-            border: 2px dashed #333;
-            width: 150px;
-            padding: 5px;
-            text-align: center;
-            background: transparent;
+            font-size: 16px
         }
 
         .cardLogo .meetingCode {
             margin: 5px;
-            font-size: 14px;
-
-            border: 2px dashed #333;
-            width:45vw;
-            padding: 2px 6px;
-            text-align: center;
-            background: transparent;
+            font-size: 14px
         }
 
         .cardDetail {
