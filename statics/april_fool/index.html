@@ -7,6 +7,7 @@
     <title>假tx会议生成器</title>
     <meta name="description" content="生成一个假冒的腾讯会议入会链接，对身边的人恶作剧。" />
     <link rel="icon" href="./favicon.ico">
+    <script src="./include/qrcode.min.js"></script>
 </head>
 
 <body>
@@ -24,8 +25,9 @@
 
     <div class="detailCard">
         <div class="cardLogo">
-            <img src="./sub_header_title.png">
-            <span class="meetingTitle"><input type="text" id="meetingCreater" class="meetingCreater" value="庞炗">的快速会议</span>
+            <img src="./include/sub_header_title.png">
+            <span class="meetingTitle"><input type="text" id="meetingCreater" class="meetingCreater"
+                    value="庞炗">的快速会议</span>
             <input type="text" id="meetingCode" class="meetingCode" value="533 331 834">
         </div>
         <div class="cardDetail">
@@ -48,7 +50,7 @@
             </table>
 
             <i class="tipText">* 已有3名成员参加会议</i>
-            <div style="height:5px;"></div>
+            <div style="margin-bottom:5px;" id="qrcode"></div>
         </div>
     </div>
 
@@ -62,7 +64,7 @@
             <table class="dlgContent">
                 <tr height="50px" class="appDetail">
                     <td align="left" width="38px">
-                        <img src="https://meeting.tencent.com/favicon.ico" height="35px" style="border-radius:30px;">
+                        <img src="./include/favicon.ico" height="35px" style="border-radius:30px;">
                     </td>
                     <td align="left">会议页面生成器</td>
                     <td align="right">提示</td>
@@ -100,7 +102,7 @@
     <div style="position:fixed; top:50px; "></div>
 
     <script>
-        function generateUrl(code, creater){
+        function generateUrl(code, creater) {
             var url = window.location.href.split('/');
             url.pop();
             var sharePage = url.join("/") + "/share.html?code=" + code + "&creater=" + creater;
@@ -119,7 +121,7 @@
             var meetingCreater = document.getElementById("meetingCreater");
 
 
-            (function(){
+            (function () {
                 const date = new Date();
                 const year = date.getFullYear();
                 const month = ('0' + (date.getMonth() + 1)).slice(-2);
@@ -127,17 +129,17 @@
 
                 meetingDate[1].innerHTML = meetingDate[0].innerHTML = year + "年" + month + "月" + strDate + "日";
             })();
-            (function(){
+            (function () {
                 const now = new Date();
                 var hours = now.getHours();
                 var minutes = now.getMinutes();
-                if(minutes < 15) {minutes = 0}
-                else if(minutes < 30) {minutes = 15}
-                else if(minutes < 45) {minutes = 30}
-                else if(minutes < 59) {minutes = 45}
+                if (minutes < 15) { minutes = 0 }
+                else if (minutes < 30) { minutes = 15 }
+                else if (minutes < 45) { minutes = 30 }
+                else if (minutes < 59) { minutes = 45 }
 
                 minutes = ('0' + minutes).slice(-2);
-                
+
                 meetingTime[0].innerHTML = ('0' + hours).slice(-2) + ":" + minutes;
                 meetingTime[1].innerHTML = ('0' + (hours + 1)).slice(-2) + ":" + minutes;
             })();
@@ -148,10 +150,12 @@
                     permissionDlg.setAttribute("style", "display:block;");
                 }, 200);
             }
-            
+
             enterMeetingBtn.onclick = function () {
                 var url = generateUrl(meetingCode.value, meetingCreater.value);
-                var qrcode = `https://api.qrtool.cn/?text=` + encodeURI(url);
+                var qrCodeEle = document.getElementById("qrcode");
+                qrCodeEle.innerHTML = "";
+                new QRCode(qrCodeEle, url);
             }
 
             cancelBtn.onclick = confirmBtn.onclick = function () {
@@ -172,6 +176,14 @@
 
             -webkit-user-drag: none;
             -moz-user-drag: none;
+        }
+
+        #qrcode img {
+            width:40vw;
+            margin-bottom: 10px;
+        }
+        #qrcode img::after {
+            content:'aaa'
         }
 
         .topNav {
@@ -228,7 +240,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: url(./sub_header.png);
+            background: url(./include/sub_header.png);
             background-repeat: no-repeat;
             background-size: cover;
             height: 140px;
@@ -248,6 +260,7 @@
             margin: 10px;
             font-size: 16px;
         }
+
         .cardLogo .meetingCreater {
             margin: 5px;
             font-size: 16px;
@@ -264,7 +277,7 @@
             font-size: 14px;
 
             border: 2px dashed #333;
-            width:45vw;
+            width: 45vw;
             padding: 2px 6px;
             text-align: center;
             background: transparent;
@@ -295,9 +308,9 @@
 
         .bottomButton {
             width: calc(100vw - 30px);
-            padding: 0px;
-            margin: 15px;
-            margin-top: calc(100vh - 380px - 100px);
+            position: absolute;
+            bottom: 25px;
+            left: 15px;
         }
 
         .wideBtn-solid {

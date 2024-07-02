@@ -1,72 +1,81 @@
 <!DOCTYPE html>
-<html lang="zh"><head translate="no">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		
-		<link href="./icon.png" rel="shortcut icon">
-		<link href="./style.css" rel="stylesheet">
-		<link href="./icon.png" rel="icon">
-		
-		<script src="./hls.js"></script>
-		
-		<title>HLS Player</title>
-	</head>
-	<body>
-		<!--Office Logo-->
-		<img src="./icon.png" title="HLS Player" class="TitleBarIcon">
-		
-		<!--Title Bar-->
-		<table class="TitleBar" id="TitleBar"><tbody><tr>
-			<td width="35px"></td>
-			<td align="left"><label translate="no">HLS Player</label></td>
-		</tr></tbody></table>
-		
-		<!--More Menu-->
-		
-		<div class="TitleBarMenuBody" style="display:none;" id="TBMB" onclick="location.reload();">
-			刷新
-		</div>
-		
-		<script>
-			var TBMB = document.getElementById("TBMB");
-			var TitleBar = document.getElementById("TitleBar");
-			function TBMBon(ele) {
-				TBMB.style.display="block";
-				ele.setAttribute("onclick", "TBMBoff(this)");
-			}
-			function TBMBoff(ele) {
-				TBMB.style.display="none";
-				ele.setAttribute("onclick", "TBMBon(this)");
-			}
-			TitleBar.onclick = function() {
-                var videoSrc = window.location.hash.substr(1);
-				if(videoSrc == ""){
-					a = prompt("【请输入HLS(m3u8)链接】", "");
-					if (a != null && a != ""){
-						location.href = "#" + encodeURI(a);
-                        location.reload();
-					}
+<html lang="zh">
+
+<head translate="no">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<link href="./icon.png" rel="shortcut icon">
+	<link href="./style.css" rel="stylesheet">
+	<link href="./icon.png" rel="icon">
+
+	<script src="./hls.js"></script>
+
+	<title>HLS Player</title>
+</head>
+
+<body>
+	<!--Office Logo-->
+	<img src="./icon.png" title="HLS Player" class="TitleBarIcon">
+
+	<!--Title Bar-->
+	<table class="TitleBar" id="TitleBar">
+		<tbody>
+			<tr>
+				<td width="35px"></td>
+				<td align="left"><label translate="no">HLS Player</label></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!--More Menu-->
+
+	<div class="TitleBarMenuBody" style="display:none;" id="TBMB" onclick="location.reload();">
+		刷新
+	</div>
+
+	<script>
+		var TBMB = document.getElementById("TBMB");
+		var TitleBar = document.getElementById("TitleBar");
+		function TBMBon(ele) {
+			TBMB.style.display = "block";
+			ele.setAttribute("onclick", "TBMBoff(this)");
+		}
+		function TBMBoff(ele) {
+			TBMB.style.display = "none";
+			ele.setAttribute("onclick", "TBMBon(this)");
+		}
+		TitleBar.onclick = function () {
+			var videoSrc = window.location.hash.substr(1);
+			if (videoSrc == "") {
+				a = prompt("【请输入HLS(m3u8)链接】", "");
+				if (a != null && a != "") {
+					location.href = "#" + encodeURI(a);
+					location.reload();
 				}
 			}
-		</script>
-		<input type="button" value="· · ·" onclick="TBMBon(this)" class="TitleBarMenuBtn">
-		
-		<!--列表显示容器-->
-		<center>
-			<video id="container" controls></video>
-		</center>
-		
-		<script>
-			window.onload = function() {
-                var videoSrc = window.location.hash.substr(1);
-				if(videoSrc != ""){
-					var video = document.getElementById('container');
-					if (Hls.isSupported()) {
-						var hls = new Hls();
-						hls.loadSource(videoSrc);
-						hls.attachMedia(video);
-					}
+		}
+	</script>
+	<input type="button" value="· · ·" onclick="TBMBon(this)" class="TitleBarMenuBtn">
+
+	<!--列表显示容器-->
+	<center>
+		<video id="container" controls></video>
+	</center>
+
+	<script>
+		window.onload = function () {
+			var videoSrc = window.location.hash.substr(1);
+			if (videoSrc != "") {
+				var video = document.getElementById('container');
+				if (Hls.isSupported()) {
+					var hls = new Hls();
+					hls.loadSource(videoSrc);
+					hls.attachMedia(video);
 				}
 			}
-		</script>
-</body></html>
+		}
+	</script>
+</body>
+
+</html>
