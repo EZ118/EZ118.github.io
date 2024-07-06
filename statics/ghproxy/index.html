@@ -2,13 +2,19 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>GitHub 镜像代理下载</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>GitHub 加速下载</title>
     <link rel="stylesheet" href="https://cdn.sevencdn.com/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <style>
         body {
             padding: 10px;
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
+
         html .btn-success {
             background-color: #5672cd;
             border-color: #3a5ccc;
@@ -23,29 +29,40 @@
         .form-control {
             border-radius: 0;
         }
+        .container {
+            max-width: 500px;
+            align-items: flex-start;
+            text-align: left;
+        }
     </style>
 </head>
 
 <body>
-    <form>
+    <form class="container">
+        <h2>Github 加速</h2>
+        <hr>
+        <div class="form-group">
+            <i>* 提供线路皆来源于网络，本页仅便于跳转使用，对于下载内容本站概不负责，请合理使用。</i>
+        </div>
+        <hr>
         <div class="form-group">
             <label for="select-line">选择线路</label>
             <select id="select-line" class="form-control">
-                <optgroup label="GitMirror 提供">
-                    <option value="https://hub.gitmirror.com">hub.gitmirror.com</option>
+                <optgroup label="推荐">
                     <option value="https://gh.con.sh">gh.con.sh</option>
+                    <option value="https://github.moeyy.xyz">github.moeyy.xyz</option>
+                    <option value="https://ghps.cc">ghps.cc</option>
+                    <option value="https://gh.ddlc.top">gh.ddlc.top</option>
                 </optgroup>
                 <optgroup label="其他">
                     <option value="https://ghproxy.com">ghproxy.com</option>
-                    <option value="https://ghps.cc">ghps.cc</option>
-                    <option value="https://gh.ddlc.top">gh.ddlc.top</option>
+                    <option value="https://hub.gitmirror.com">hub.gitmirror.com</option>
                 </optgroup>
             </select>
         </div>
         <div class="form-group">
             <label for="input-link">输入链接</label>
-            <input type="text" id="input-link" class="form-control"
-                placeholder="https://github.com/Fndroid/clash_for_windows_pkg/releases/download/0.20.15/Clash.for.Windows.Setup.0.20.15.exe"
+            <input type="text" id="input-link" class="form-control" autocomplete="off" placeholder="https://"
                 pattern="^(?:(?:https|http)://)?github.com/.+?/.+?/(?:releases|archive|blob)/.+$" required>
         </div>
         <button id="submit-button" class="btn btn-success">加速下载</button>
