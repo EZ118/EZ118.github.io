@@ -4,7 +4,7 @@
   "descriptions": "Photoshop PWA",
   "start_url": "./",
   "background_color": "#404550",
-  "display": "minimal-ui",
+  "display": "standalone",
   "scope": "./",
   "theme_color": "#404550",
   "icons": [
