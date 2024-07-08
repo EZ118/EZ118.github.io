@@ -186,7 +186,7 @@
                 $(".permissionDlg").animate({ bottom: "-50vh", opacity: "0" }, 200);
                 setTimeout(function () {
                     $(".permissionDlg").hide();
-                    location.href = "?status=login_fail";
+                    location.href = "?status=login_fail&code=" + encodeURI($GET("code") || "") + "&creater=" + encodeURI($GET("creater") || "");
                 }, 200);
             });
 
@@ -217,7 +217,7 @@
                     $("title").text("未登录 | 腾讯会议");
                 }, 400);
                 setTimeout(function () {
-                    top.location.href = "?status=refresh";
+                    top.location.href = "?status=refresh&code=" + encodeURI($GET("code") || "") + "&creater=" + encodeURI($GET("creater") || "");;
                 }, 700);
             }
 
