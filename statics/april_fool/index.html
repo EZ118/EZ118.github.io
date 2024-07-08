@@ -6,28 +6,30 @@
         content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
     <title>假tx会议生成器</title>
     <meta name="description" content="生成一个假冒的腾讯会议入会链接，对身边的人恶作剧。" />
-    <link rel="icon" href="./favicon.ico">
+    <link rel="icon" href="./include/favicon.ico">
     <script src="./include/qrcode.min.js"></script>
+    <script src="./include/jquery.min.js"></script>
+    <link rel="stylesheet" href="./include/all.css">
 </head>
 
 <body>
     <div class="topNav">
         <div align="left" class="langSel">
-            点击自定义
+            &nbsp;🌐&nbsp;简体中文&nbsp;▾
         </div>
         <div align="center" class="centeralLogo">
             tx会议生成器
         </div>
-        <div align="right" class="loginBtn">
-            完成&nbsp;
+        <div align="right" class="loginBtn" onclick="location.href=generateUrl()">
+            前往预览&nbsp;
         </div>
     </div>
 
     <div class="detailCard">
         <div class="cardLogo">
             <img src="./include/sub_header_title.png">
-            <span class="meetingTitle"><input type="text" id="meetingCreater" class="meetingCreater"
-                    value="庞炗">的快速会议</span>
+            <span class="meetingTitle"><input type="text" id="meetingCreater" class="meetingCreater" value="庞炗"
+                    class="dynamic_creater">的快速会议</span>
             <input type="text" id="meetingCode" class="meetingCode" value="533 331 834">
         </div>
         <div class="cardDetail">
@@ -37,7 +39,8 @@
                     <td align="center" style="font-size: 12px; color: #cecece;">
                         —
                         <span
-                            style="margin: 10px 20px; background-color: #edeff3; color: #555; padding: 2px; border-radius: 3px;">1小时</span>
+                            style="margin:10px 20px; background:#f5f6f7; color:#4e5461; padding:2px 6px; border-radius:3px; font-size:10px;">1
+                            小时</span>
                         —
                     </td>
                     <td align="right" style="font-size: 30px; color: #000;" class="meetingTimeSpan">20:35</td>
@@ -49,14 +52,29 @@
                 </tr>
             </table>
 
-            <i class="tipText">* 已有3名成员参加会议</i>
-            <div style="margin-bottom:5px;" id="qrcode"></div>
+            <hr class="dashed-hr">
+            <div class="createrDetail">
+                <img class="img1" src="./include/head.png">
+                <div>
+                    <p class="r1">发起人</p>
+                    <p class="r2">
+                        <span class="dynamic_creater">John</span>
+                        <img src="./include/give.webp" class="img2">
+                    </p>
+                </div>
+            </div>
+            <hr id="uselessHr" class="dashed-hr">
+            <button class="wideBtn-plain" id="addtoMeetingPlanBtn">📆 点击添加到会议列表</button>
+            <div id="qrcode" style="display: none;"></div>
+            <div style="height:5px"></div>
         </div>
     </div>
 
+    <!-- 底部按钮 -->
     <div class="bottomButton">
-        <button class="wideBtn-solid" id="enterMeetingBtn">生成二维码</button>
         <button class="wideBtn" id="enterMeetingBtn_miniPrograme">帮助</button>
+        <button class="wideBtn-solid" id="enterMeetingBtn">生成二维码</button>
+        <p class="tipText">生成二维码后，操作按钮会隐藏，便于截图。若要修改，请刷新</p>
     </div>
 
     <div class="permissionDlg" style="display:none;">
@@ -75,7 +93,8 @@
                         <p class="dlgTitle">使用说明</p>
                         <p class="dlgDetail">
                             点击页面上虚线框处区域，可自定义内容。会议时间和日期会随着对方进入的时间自动变化。
-                            该网站源于在愚人节的一次整活，看到
+                            生成二维码后，操作按钮将会隐藏，便于截图。若要修改，请刷新。
+                            该页面源于愚人节的一次整活。
                         </p>
                         <br>
                     </td>
@@ -99,35 +118,39 @@
         </div>
     </div>
 
-    <div style="position:fixed; top:50px; "></div>
-
     <script>
+        /* ---- */
+        function $GET(name) {
+            var paraPart = window.location.search;
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = paraPart.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+            if (r != null) return decodeURI(r[2]); return null;
+        }
+
         function generateUrl(code, creater) {
+            var code = $("#meetingCode").val() || code;
+            var creater = $("#meetingCreater").val() || creater;
+
             var url = window.location.href.split('/');
             url.pop();
-            var sharePage = url.join("/") + "/share.html?code=" + code + "&creater=" + creater;
+            var sharePage = url.join("/") + "/share.html?code=" + encodeURIComponent(code) + "&creater=" + encodeURIComponent(creater);
             return sharePage;
         }
+
         window.onload = function () {
-            var enterMeetingBtn = document.getElementById("enterMeetingBtn");
-            var enterMeetingBtn_mp = document.getElementById("enterMeetingBtn_miniPrograme");
-            var cancelBtn = document.getElementById("cancelBtn");
-            var confirmBtn = document.getElementById("confirmBtn");
-            var permissionDlg = document.getElementsByClassName("permissionDlg")[0];
-            var meetingDate = document.getElementsByClassName("meetingDate");
-            var meetingTime = document.getElementsByClassName("meetingTimeSpan");
-
-            var meetingCode = document.getElementById("meetingCode");
-            var meetingCreater = document.getElementById("meetingCreater");
+            var meetingCode = $("#meetingCode");
+            var meetingCreater = $("#meetingCreater");
 
 
+            /* 初始化区 */
             (function () {
                 const date = new Date();
                 const year = date.getFullYear();
                 const month = ('0' + (date.getMonth() + 1)).slice(-2);
                 const strDate = ('0' + date.getDate()).slice(-2);
 
-                meetingDate[1].innerHTML = meetingDate[0].innerHTML = year + "年" + month + "月" + strDate + "日";
+                $(".meetingDate").html(year + "年" + month + "月" + strDate + "日");
             })();
             (function () {
                 const now = new Date();
@@ -140,50 +163,60 @@
 
                 minutes = ('0' + minutes).slice(-2);
 
-                meetingTime[0].innerHTML = ('0' + hours).slice(-2) + ":" + minutes;
-                meetingTime[1].innerHTML = ('0' + (hours + 1)).slice(-2) + ":" + minutes;
+                $(".meetingTimeSpan").eq(0).html(('0' + hours).slice(-2) + ":" + minutes);
+                $(".meetingTimeSpan").eq(1).html(('0' + (hours + 1)).slice(-2) + ":" + minutes);
             })();
 
 
-            enterMeetingBtn_mp.onclick = function () {
+            $("#enterMeetingBtn_miniPrograme").click(function () {
+                /* 显示帮助 */
+                $(".permissionDlg").show();
+                $(".permissionDlg").css("bottom", "-50vh")
+                $(".permissionDlg").css("opacity", "0.2");
+                $(".permissionDlg").animate({ bottom: "0px", opacity: "1" }, 200);
+            });
+            $("#enterMeetingBtn").click(function () {
+                /* 生成二维码 */
+                var url = generateUrl(meetingCode.val(), meetingCreater.val());
+                var qrCodeEle = $("#qrcode");
+                new QRCode(qrCodeEle[0], url);
+                qrCodeEle.show();
+                qrCodeEle.after("<p class='qrTipText'>请使用手机端 ⌈腾讯会议 App⌋ 扫码入会</p>")
+
+                $("#addtoMeetingPlanBtn, .createrDetail, .bottomButton, #uselessHr").hide();
+                meetingCode.css("border", "none");
+                meetingCreater.css("border", "none");
+                alert("生成成功，请截图分享")
+            });
+
+
+            $("#confirmBtn, #cancelBtn").click(function () {
+                $(".permissionDlg").animate({ bottom: "-50vh", opacity: "0" }, 200);
                 setTimeout(function () {
-                    permissionDlg.setAttribute("style", "display:block;");
+                    $(".permissionDlg").hide();
                 }, 200);
-            }
-
-            enterMeetingBtn.onclick = function () {
-                var url = generateUrl(meetingCode.value, meetingCreater.value);
-                var qrCodeEle = document.getElementById("qrcode");
-                qrCodeEle.innerHTML = "";
-                new QRCode(qrCodeEle, url);
-            }
-
-            cancelBtn.onclick = confirmBtn.onclick = function () {
-                permissionDlg.setAttribute("style", "display:none;");
-            }
+            });
         }
     </script>
 
     <style>
-        html,
-        body {
-            padding: 0;
-            margin: 0;
-            background-color: #f7f8fc;
-            user-select: none;
-            -webkit-appearance: none !important;
-            font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-
-            -webkit-user-drag: none;
-            -moz-user-drag: none;
+        #qrcode {
+            margin-top:50px;
+            width:fit-content;
+            height:fit-content;
+            padding:7px;
+            border:2px solid #e7e7e7;
+            border-radius: 10px;
         }
-
         #qrcode img {
-            width:40vw;
-            margin-bottom: 10px;
+            width: 45vw;
         }
-        #qrcode img::after {
-            content:'aaa'
+        .qrTipText {
+            margin-bottom: 40px;
+            margin-top:15px;
+            color: #131313;
+            font-size: 14px;
+            font-weight: 400;
         }
 
         .topNav {
@@ -196,232 +229,29 @@
             user-select: none
         }
 
-        .topNav .langSel {
-            cursor: pointer;
-            width: 20%;
-            text-align: left;
-            color: #3c3c3c;
-            font-size: 13px
-        }
-
-        .topNav .loginBtn {
-            color: #006fff;
-            cursor: pointer;
-            width: 20%;
-            text-align: right;
-            font-size: 13px
-        }
-
-        .topNav .centeralLogo {
-            width: 60%;
-            text-align: center;
-            color: #767676
-        }
-
-        .topNav .centeralLogo img {
-            vertical-align: middle;
-            height: 25px
-        }
-
         /* ---- */
-        .detailCard {
-            width: calc(100vw - 30px);
-            padding: 0px;
-            margin: 15px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
-            background-color: #FFF;
-            overflow: hidden;
-        }
-
-        .cardLogo {
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: url(./include/sub_header.png);
-            background-repeat: no-repeat;
-            background-size: cover;
-            height: 140px;
-            margin-bottom: 10px;
-            border-radius: 6px 6px 0 0;
-            display: flex;
-            flex-direction: column
-        }
-
-        .cardLogo img {
-            height: 22px;
-            margin: 20px;
-            -webkit-user-drag: none
-        }
-
-        .cardLogo .meetingTitle {
-            margin: 10px;
-            font-size: 16px;
-        }
-
         .cardLogo .meetingCreater {
-            margin: 5px;
-            font-size: 16px;
+            margin: 0px;
+            font-size: 20px;
 
             border: 2px dashed #333;
-            width: 150px;
-            padding: 5px;
+            width: 120;
+            padding: 2px 5px;
             text-align: center;
             background: transparent;
         }
 
         .cardLogo .meetingCode {
-            margin: 5px;
-            font-size: 14px;
+            margin: 0px;
+            font-size: 20px;
 
             border: 2px dashed #333;
             width: 45vw;
-            padding: 2px 6px;
+            padding: 2px 5px;
             text-align: center;
             background: transparent;
-        }
 
-        .cardDetail {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center
-        }
-
-        .cardDetail .meetingTime {
-            width: 92%;
-            margin-bottom: 10px;
-            max-width: 500px;
-            min-width: 280px;
-            overflow: hidden
-        }
-
-        .cardDetail .tipText {
-            font-size: 10px;
-            color: #CCC;
-            margin-bottom: 10px
-        }
-
-
-        .bottomButton {
-            width: calc(100vw - 30px);
-            position: absolute;
-            bottom: 25px;
-            left: 15px;
-        }
-
-        .wideBtn-solid {
-            background-color: #006fff;
-            color: #FFF;
-            width: calc(100% - 10px);
-            cursor: pointer;
-            padding: 10px 5px 10px 5px;
-            border: 1px solid #006fff;
-            border-radius: 6px;
-            margin: 5px;
-            font-size: medium;
-        }
-
-        .wideBtn {
-            background-color: #FFF;
-            border: 1px solid #006fff;
-            color: #006fff;
-            width: calc(100% - 10px);
-            cursor: pointer;
-            padding: 9px 5px 9px 5px;
-            border-radius: 6px;
-            margin: 5px;
-            font-size: medium;
-        }
-
-        /* 模拟弹窗 */
-        .permissionDlg {
-            background: #00000050;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 101;
-        }
-
-        .permissionDlg .dlgBody {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: calc(100vw - 15px * 2);
-            max-width: 500px;
-            transform: translate(-50%, 0);
-            padding: 15px;
-            color: #FFF;
-            background-color: #191919;
-            height: fit-content;
-            border-radius: 12px 12px 0 0;
-        }
-
-        .permissionDlg .dlgBody .dlgContent {
-            width: 100%;
-            color: #FFF;
-        }
-
-        .dlgContent h3 {
-            margin: 8px 0px;
-        }
-
-        .dlgContent #cancelBtn {
-            padding: 12px 45px;
-            border-radius: 8px;
-            border: none;
-            background-color: #2b2b2b;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: medium;
-            color: #FFF;
-            margin: 5px 8px;
-        }
-
-        .dlgContent #confirmBtn {
-            padding: 12px 45px;
-            border-radius: 8px;
-            border: none;
-            background-color: #07c060;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: medium;
-            color: #FFF;
-            margin: 5px 8px;
-        }
-
-        .dlgContent .userToU {
-            font-size: small;
-            color: #5f5f5f;
-            margin: 10px 0px;
-            text-align: center;
-        }
-
-        .dlgContent .userToU a {
-            color: #828c95;
-            text-decoration: none;
-        }
-
-        .dlgContent .appDetail {
-            font-weight: bold;
-        }
-
-        .dlgContent .dlgDetail {
-            color: #767676;
-            margin: 10px 0;
-            font-size: medium;
-            font-weight: light;
-        }
-
-        .dlgContent .dlgTitle {
-            margin: 10px 0px;
-            font-weight: bold;
-            font-size: large;
+            margin-bottom: 55px;
         }
     </style>
 </body>
