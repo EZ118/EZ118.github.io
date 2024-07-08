@@ -46,12 +46,15 @@
 			ele.setAttribute("onclick", "TBMBon(this)");
 		}
 		TitleBar.onclick = function () {
-			var videoSrc = window.location.hash.substr(1);
-			if (videoSrc == "") {
-				a = prompt("【请输入HLS(m3u8)链接】", "");
-				if (a != null && a != "") {
-					location.href = "#" + encodeURI(a);
-					location.reload();
+			videoSrc = prompt("【请输入HLS(m3u8)链接】", "");
+			if (videoSrc != null && videoSrc != "") {
+				location.href = "#" + encodeURI(videoSrc);
+
+				var videoEle = document.getElementById('container');
+				if (Hls.isSupported()) {
+					var hls = new Hls();
+					hls.loadSource(videoSrc);
+					hls.attachMedia(videoEle);
 				}
 			}
 		}
