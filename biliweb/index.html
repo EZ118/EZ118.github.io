@@ -1,146 +1,160 @@
-<!DOCTYPE html>
 <html>
+
 <head>
+    <base href="." />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BiliScape - Bilibili Third-Party Client for Browsers</title>
-    <style>
-        html, body { width: 100%; padding: 0; margin: 0; background-color: #F8F8F8; }
-        header { padding: 10px 0; width: 100%; display: flex; background-color: #EDD; color: #444746; align-items: center; }
-        section { margin: 20px; }
-        p { margin: 0px 24px; }
-        footer { width: 100%; text-align: center; padding: 20px 0; background: #FEE; color: #444746; }
-        #thankYouMessage { display: none; padding: 10px; background-color: #c4eed0; color: #444746; text-align: center; }
-        img.screenshot { width: 32%; max-width:200px; margin: 5px; }
-        img.fullwidth { width: 96%; max-width:630px; margin: 5px; }
-        h1, h2, h3, h4, h5, h6 { margin: 0; }
-    </style>
+    <title>Biliscape - 第三方哔哩哔哩客户端浏览器插件</title>
+    <script src="./jquery.min.js"></script>
+    <link rel="stylesheet" href="./style.css" type="text/css" />
+    <link rel="icon" href="./icon.svg">
 </head>
+
 <body>
-    <div id="thankYouMessage">
-        <p><b>感谢您安装 BiliScape</b></p>
-        <p>您的 BiliScape 已就绪，点击“🧩”页的“<img src="./icon.svg" alt="BiliScape Icon" width="18" height="18">”标志即刻启动主页</p>
+    <!-- Github Corner -->
+    <a href="https://github.com/EZ118/BiliChrome/">
+        <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250" width="80" height="80" style="position: absolute; top: 0; border: 0; right: 0;"><style>.a{fill:#151513}.b{fill:#fff}</style><path class="a" d="m0 0l115 115h15l12 27 108 108v-250z"/><path class="b" d="m128.3 109c-14.5-9.3-9.3-19.4-9.3-19.4 3-6.9 1.5-11 1.5-11-1.3-6.6 2.9-2.3 2.9-2.3 3.9 4.6 2.1 11 2.1 11-2.6 10.3 5.1 14.6 8.9 15.9m-19.4 11.8c-0.1 0.1 3.7 1.5 4.8 0.4l13.9-13.8c3.2-2.4 6.2-3.2 8.5-3-8.4-10.6-14.7-24.2 1.6-40.6 4.7-4.6 10.2-6.8 15.9-7 0.6-1.6 3.5-7.4 11.7-10.9 0 0 4.7 2.4 7.4 16.1 4.3 2.4 8.4 5.6 12.1 9.2 3.6 3.6 6.8 7.8 9.2 12.2 13.7 2.6 16.2 7.3 16.2 7.3-3.6 8.2-9.4 11.1-10.9 11.7-0.3 5.8-2.4 11.2-7.1 15.9-16.4 16.4-30 10-40.6 1.6 0.2 2.8-1 6.8-5 10.8l-11.7 11.6c-1.2 1.2 0.6 5.4 0.8 5.3z"/></svg>
+    </a>
+
+    <div class="hero">
+        <div class="logo-animation">
+            <img src="./icon.svg" alt="BiliScape Logo" width="120" height="120"
+                style="box-shadow: 0px 5px 30px var(--bilibili-pink); border-radius: 30px;" />
+        </div>
+        <h1>BiliScape</h1>
+        <p>简洁快速的第三方哔哩哔哩客户端，基于浏览器插件开发</p>
+        <a href="#" class="cta-button" id="installButton">立即安装</a>
     </div>
 
-    <header>
-        &nbsp;&nbsp;
-        <img src="./icon.svg" alt="BiliScape Icon" width="64" height="64">
-        <h1>&nbsp;BiliScape - Bilibili Third-Party Client for Browsers</h1>
-    </header>
+    <!-- Browser Selection Modal -->
+    <div class="modal" id="browserModal">
+        <div class="modal-content">
+            <h2>选择您的浏览器</h2>
+            <div class="browser-buttons">
+                <button class="browser-button" data-browser="chrome">
+                    Chrome
+                </button>
+                <button class="browser-button" data-browser="firefox">
+                    Firefox
+                </button>
+                <button class="browser-button" data-browser="edge">
+                    Edge
+                </button>
+                <button class="browser-button" data-browser="github">
+                    在Github Releases下载
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <section id="about">
-        <div align="center">
-            <img src="./icon.svg" width="100" height="100" alt="BiliScape Icon" />
-            <h1>BiliScape</h1>
-            <p>第三方哔哩哔哩客户端浏览器插件</p>
-            <img src="./shot2.png" class="screenshot" alt="动态" />
-            <img src="./shot3.png" class="screenshot" alt="播放" />
-            <img src="./shot4.png" class="screenshot" alt="搜索" /><br />
-            <img src="./shot1.png" class="fullwidth" alt="首页" /><br />
+    <section class="features">
+        <div class="feature-grid">
+            <div class="feature-card">
+                <img src="./shot1.png" class="feature-cover" />
+                <h3>简洁界面</h3>
+                <p>采用Material You设计，简化功能，浏览更流畅自然</p>
+            </div>
+
+            <div class="feature-card">
+                <img src="./shot2.png" class="feature-cover" />
+                <h3>消息灵通</h3>
+                <p>全新消息面板，一切通知尽掌握</p>
+            </div>
+
+            <div class="feature-card">
+                <img src="./shot3.png" class="feature-cover" />
+                <h3>快速搜索</h3>
+                <p>一次回车，一次搜索，一次记录</p>
+            </div>
+
+            <div class="feature-card">
+                <img src="./shot4.png" class="feature-cover" />
+                <h3>短小精悍</h3>
+                <p>必要功能一个不少</p>
+            </div>
+
+            <div class="feature-card">
+                <img src="./shot5.png" class="feature-cover" />
+                <h3>拓展功能</h3>
+                <p>支持将关注列表导出到PipePipe，有需求可提issue</p>
+            </div>
+
+            <div class="feature-card">
+                <img src="./shot6.png" class="feature-cover" />
+                <h3>流畅体验</h3>
+                <p>使用自带播放器播放媒体，流畅不止一点点</p>
+            </div>
         </div>
     </section>
 
-    <section id="installation">
-        <h2>安装</h2>
-        <p><b>Edge浏览器：</b> <a href="https://microsoftedge.microsoft.com/addons/detail/biliscape/baglkdkhhmbfimiacicchpflifnpibkp?hl=zh-CN" target="_blank">在 Microsoft Addons 查看</a></p>
-        <p><b>Firefox浏览器：</b> <a href="https://addons.mozilla.org/zh-CN/firefox/addon/biliscape/" target="_blank">在 Add-ons for Firefox 查看</a></p>
-        <p><b>Chrome浏览器：</b> 主菜单 > 扩展程序 > 管理扩展程序 > 启用 开发者模式 > 加载已解压的扩展程序 并选择文件夹 <b>或</b> 将打包为zip的扩展拖拽到页面内。</p>
-    </section>
-
-    <section id="tips">
-        <h2>提示</h2>
-        <p><b>安装为网页应用：</b></p>
-        <p><b>Edge：</b> 在扩展主窗口中右键“推荐列表” > “在 Microsoft Edge 新标签页中打开链接”，在打开的浏览器窗口中操作 `浏览器主菜单 > 应用 > 将此站点作为应用安装`</p>
-        <p><b>Chrome：</b> 在扩展主窗口中右键“推荐列表” > “在 Chrome 新标签页中打开链接”，在打开的浏览器窗口中操作 `浏览器主菜单 > 保存并分享 > 将网页作为应用安装`。</p>
-        <p><b>Firefox：</b> 不支持</p>
-    </section>
-
-    <section id="features">
-        <h2>功能</h2>
-        <ul>
-            <li>推荐视频列表</li>
-            <li>最热视频列表</li>
-            <li>直播板块
-                <ul>
-                    <li>热门直播（未完成）</li>
-                    <li>观看直播（未完成）</li>
-                </ul>
-            </li>
-            <li>番剧板块
-                <ul>
-                    <li>热门番剧（未完成）</li>
-                    <li>观看番剧（未完成）</li>
-                </ul>
-            </li>
-            <li>动态板块
-                <ul>
-                    <li>基本动态信息查看</li>
-                    <li>动态评论查看（未完成）</li>
-                </ul>
-            </li>
-            <li>搜索板块
-                <ul>
-                    <li>搜索视频</li>
-                    <li>热搜（未完成）</li>
-                    <li>搜索历史（未完成）</li>
-                </ul>
-            </li>
-            <li>视频播放板块
-                <ul>
-                    <li>播放视频（360P / 1080P）</li>
-                    <li>视频详情</li>
-                    <li>视频推荐列表</li>
-                    <li>查看评论/回复</li>
-                    <li>点赞、投币操作</li>
-                    <li>小窗播放</li>
-                    <li>弹幕</li>
-                    <li>字幕（未完成）</li>
-                    <li>记录播放历史（未完成）</li>
-                </ul>
-            </li>
-            <li>用户板块
-                <ul>
-                    <li>关注用户</li>
-                    <li>最近动态</li>
-                    <li>关注/取关（未完成）</li>
-                    <li>稍后再看</li>
-                    <li>观看记录</li>
-                    <li>我的收藏</li>
-                    <li>查看评论回复列表</li>
-                </ul>
-            </li>
-            <li>设置板块
-                <ul>
-                    <li>暗黑模式</li>
-                    <li>账户基本信息</li>
-                    <li>播放设置（界面完成，程序尚不能应用设置）</li>
-                </ul>
-            </li>
-        </ul>
-    </section>
-
-    <section id="references">
-        <h2>参考与使用</h2>
-        <ul>
-            <li><a href="https://jquery.com/" target="_blank">jQuery</a></li>
-            <li><a href="https://fonts.google.com/icons" target="_blank">Material Icon</a></li>
-            <li><a href="https://github.com/SocialSisterYi/bilibili-API-collect" target="_blank">SocialSisterYi/bilibili-API-collect</a></li>
-            <li><a href="https://soberjs.com/" target="_blank">apprat/sober</a></li>
-        </ul>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 BiliScape. This project is licensed under GPL-3.0.</p>
-        <p>Subscribe my channel on [<a href="https://space.bilibili.com/1018969624" target="_blank">BiliBili</a>] | Follow me on [<a href="https://github.com/EZ118/" target="_blank">GitHub</a>]</p>
+    <footer class="footer">
+        <p>&copy; 2024 EZ118. This project is licensed under GPL-3.0.</p>
+        <p>Subscribe my channel on [<a href="https://space.bilibili.com/1018969624" target="_blank">BiliBili</a>] |
+            Follow me on [<a href="https://github.com/EZ118/" target="_blank">GitHub</a>]</p>
     </footer>
 
     <script>
-        // Check if the URL contains "#installed" and display a thank you message
-        if (window.location.hash === '#installed') {
-            // Show the thank you message
-            document.getElementById('thankYouMessage').style.display = 'block';
-            document.getElementsByTagName('title')[0].innerHTML = '您已安装 BiliScape - Bilibili Third-Party Client for Browsers';
-        }
+        $(document).ready(function () {
+            const storeUrls = {
+                chrome: 'https://github.com/EZ118/BiliChrome/releases/latest/#tip=下载zip文件》扩展页》开启开发者选项》拖入zip》安装成功',
+                firefox: 'https://addons.mozilla.org/zh-CN/firefox/addon/biliscape/',
+                edge: 'https://microsoftedge.microsoft.com/addons/detail/biliscape/baglkdkhhmbfimiacicchpflifnpibkp?hl=zh-CN',
+                github: 'https://github.com/EZ118/BiliChrome/releases/latest/'
+            };
+
+            // Show modal when install button is clicked
+            $('#installButton').on('click', function (e) {
+                e.preventDefault();
+                $('#browserModal').css('display', 'flex');
+            });
+
+            // Handle browser selection
+            $('.browser-button').on('click', function () {
+                const browser = $(this).data('browser');
+                window.location.href = storeUrls[browser];
+            });
+
+            // Close modal when clicking outside
+            $('#browserModal').on('click', function (e) {
+                if (e.target === this) {
+                    $(this).css('display', 'none');
+                }
+            });
+
+            // Animation observer
+            const observerOptions = {
+                threshold: 0.2,
+                rootMargin: '0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        $(entry.target).css({
+                            opacity: '1',
+                            transform: 'translateY(0)'
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            $('.feature-card').css({
+                opacity: '0',
+                transform: 'translateY(20px)',
+                transition: 'all 0.6s ease-out'
+            }).each(function () {
+                observer.observe(this);
+            });
+
+
+            // 安装完成的提示
+            if (window.location.hash === '#installed') {
+                document.getElementsByTagName('title')[0].innerHTML = '您已成功安装 BiliScape !';
+                $('#installButton').hide();
+                $('#installButton').parent().append('<p style="color: #FFF; font-size: 3rem; margin-top:20px; "> > 安装结束，大功告成 < </p>');
+            }
+        });
     </script>
 </body>
+
 </html>
