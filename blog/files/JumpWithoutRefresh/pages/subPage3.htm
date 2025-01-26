@@ -1,0 +1,47 @@
+<h1 id="devdoc">DevDoc</h1>
+<p><strong>你的HTML页面需包含以下代码</strong>   </p>
+<pre><code class="language-html">&lt;div id=&quot;mainPage&quot;&gt;&lt;/div&gt;
+&lt;!--
+    两个脚本必须放置在body标签的结尾
+    JWR.min.js必须置于setup.js之后
+--&gt;
+&lt;script src=&quot;./setup.js&quot;&gt;&lt;/script&gt;				&lt;!--setup.js的文件名和内容可以自定义--&gt;
+&lt;script src=&quot;./JWR.min.js&quot;&gt;&lt;/script&gt;				&lt;!--引入库--&gt;
+
+&lt;script&gt;
+    var jwr = new JWR();					//调用类
+    jwr.SetPage(document.getElementById(&quot;mainPage&quot;));	//这里按照情况，获取的元素即为页面显示部分
+    jwr.SetLoaderStyle({
+        &quot;static&quot;:&quot;position:fixed;top:0;left:0;background:red;height:3px;z-index:10;&quot;,	//此处表示静态样式
+        &quot;active&quot;:&quot;width&quot;				//此处表示加载时动态的样式，可以填width、height等
+    });							//这个函数用于定义加载进度条的样式（可选）
+    jwr.SetUrlList(ULJson);					//这里的ULJson需要在setup.js中定义
+    jwr.ShowPage(jwr.GetFakeUrl(window.location.href));	//在页面加载完成后载入子页面
+    jwr.init();						//完成初始化
+&lt;/script&gt; 
+</code></pre>
+<p>在你的HTML父页面和子页面都可以通过使用<code>&lt;a href=&quot;#/subUrl/&quot;&gt;&lt;/a&gt;</code>标签跳转子页面</p>
+<p><strong>在setup.js中的内容：</strong>   </p>
+<pre><code class="language-js">ULJson = [
+    {
+        &quot;subUrl&quot;:&quot;default&quot;,					//当页面URL后没有路径信息，用default表示
+        &quot;realUrl&quot;:&quot;./mainPage.htm&quot;
+    },
+    {
+        &quot;subUrl&quot;:&quot;error&quot;,                  			//当页面的假URL路径错误，用error表示
+        &quot;realUrl&quot;:&quot;./error.htm&quot;
+    },
+    {
+        &quot;subUrl&quot;:&quot;/home/&quot;,					//真实页面路径对应的假URL路径
+        &quot;realUrl&quot;:&quot;./mainPage.htm&quot;				//假URL路径所表示页面的真实路径
+    },
+    {
+        &quot;subUrl&quot;:&quot;/test1/&quot;,
+        &quot;realUrl&quot;:&quot;./subPage1.htm&quot;
+    },
+    {
+        &quot;subUrl&quot;:&quot;/test2/&quot;,
+        &quot;realUrl&quot;:&quot;./subPage2.htm&quot;
+    }
+];
+</code></pre>

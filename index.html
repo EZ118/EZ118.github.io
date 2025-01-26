@@ -1,61 +1,78 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0">
-		<link rel="shortcut icon" href="./CommandLine/img/icon.png">
-		<style>
-		/* @font-face {
-			font-family: "TFont"; src: url("./CommandLine/font/Consola.woff");
-		} */
-		body{
-			background-color: #000;margin:10px;
-			/*font-family: "TFont";*/ font-size: 20px; color:#208d1d;
-			user-select: none;
-   			font-family: Menlo,Monaco,Consolas,"Andale Mono","lucida console","Courier New",monospace;
-		}
-		#bd{
-			background-color: #000; font-family: "TFont";
-			font-size: 20px; color:#208d1d;
-		}
-		input {
-			border:none; background: #000; border-radius: 0px;
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0">
+	<link rel="shortcut icon" href="./CommandLine/img/icon.png">
+	<style>
+		body {
+			background-color: #000;
+			margin: 10px;
 			font-size: 20px;
-			color:#000; outline: none; background-color: #208d1d;
-			margin:5px; width: 200px; padding: 3px;
+			color: #208d1d;
+			user-select: none;
+			font-family: Menlo, Monaco, Consolas, "Andale Mono", "lucida console", "Courier New", monospace;
 		}
-		input:active, input:hover{
+
+		#bd {
+			background-color: #000;
+			font-family: "TFont";
+			font-size: 20px;
+			color: #208d1d;
+		}
+
+		input {
+			border: none;
+			background: #000;
+			border-radius: 0px;
+			font-size: 20px;
+			color: #000;
+			outline: none;
+			background-color: #208d1d;
+			margin: 5px;
+			width: 200px;
+			padding: 3px;
+		}
+
+		input:active,
+		input:hover {
 			background-color: #589f56;
-			color:#262626;
+			color: #262626;
 		}
-		</style>
-		<title>EZ118的个人主页</title>
-	</head>
-	<body>
-		<noscript><div style="background-color:#FFF;width:100%;height:100px">This Page Requires Javascript Support!<br>该页面需要浏览器对Javascript的支持。</div></noscript>
-		<script>
-			function $GET(name){
-				var reg = new RegExp('(^|&)'+name+'=([^&]*)(&|$)', 'i');
-				var r = window.location.search.substr(1).match(reg);
-				if (r != null) { return unescape(r[2]); }
-				return "";
-			}
-			if($GET("aid") != "") {
-				top.location.href="./blogs/?aid=" + $GET("aid") + "&from=" + $GET("from");
-			}
-		</script>
-		<center width="100%" align="canter">
-			<pre style="font-weight:bold;">
+	</style>
+	<title>EZ118的个人主页</title>
+</head>
+
+<body>
+	<noscript>
+		<div style="background-color:#FFF;width:100%;height:100px">This Page Requires Javascript
+			Support!<br>该页面需要浏览器对Javascript的支持。</div>
+	</noscript>
+	<script>
+		function $GET(name) {
+			var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null) { return unescape(r[2]); }
+			return "";
+		}
+		if ($GET("aid") != "") {
+			top.location.href = "./blogs/?aid=" + $GET("aid") + "&from=" + $GET("from");
+		}
+	</script>
+	<center width="100%" align="canter">
+		<pre style="font-weight:bold;">
  __________  __ _      ____________  __
 /_  /_  /\ \/ /| | /| / /  _/ __/ / / /
  / /_/ /_ \  / | |/ |/ // /_\ \/ /_/ / 
 /___/___/ /_/__|__/|__/___/___/\____/  
            /___/                       </pre>
-			<span>Welcome To My Personal HomePage!</span><br><br>
-			<input type="button" value="View Blogs" onclick="location.href='./blogs/'"><br>
-			<input type="button" value="Online Office" onclick="location.href='./office/'"><br>
-			<input type="button" value="Online Photoshop" onclick="location.href='./statics/photopea/'"><br>
-			<input type="button" value="HLS Player" onclick="location.href='./statics/m3u8/'">
-		</center>
-	</body>
+		<span>Welcome To My Personal HomePage!</span><br><br>
+		<input type="button" value="My Blogs" onclick="location.href='./blog/'"><br>
+		<input type="button" value="Online Office" onclick="location.href='./office/'"><br>
+		<input type="button" value="Online Photoshop" onclick="location.href='./statics/photopea/'"><br>
+		<input type="button" value="HLS Player" onclick="location.href='./statics/m3u8/'">
+	</center>
+</body>
+
 </html>

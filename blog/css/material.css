@@ -1,0 +1,191 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    overflow: hidden auto;
+    height: 100%;
+    width: 100%;
+    font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    -webkit-appearance: none !important;
+}
+
+.m-page-containter {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    background-color: var(--s-color-surface-container-low);
+    color: var(--s-color-on-background);
+}
+
+.m-icon {
+    width: 24px;
+    height: 24px;
+    margin: 1px;
+    stroke: var(--s-color-on-surface-variant);
+    fill: var(--s-color-on-surface-variant);
+    color: var(--s-color-on-surface-variant);
+}
+
+
+/* 侧边主菜单 */
+.m-navbar {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    flex-wrap: wrap;
+    background: var(--s-color-surface-container-low);
+    border-right: 1px solid #55555555;
+    position: relative;
+    bottom: 0px;
+    left: 0px;
+    width: 80px;
+    height: 100vh;
+    user-select: none;
+    z-index: 999;
+}
+
+.m-navbar-logo {
+    width: 56px;
+    height: 56px;
+    margin: 12px;
+    border-radius: 12px;
+}
+
+.m-navbar-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.m-navbar-item:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+}
+
+.m-navbar-item:active {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.m-navbar-item-title {
+    color: var(--s-color-on-surface-variant);
+    font-size: .75rem;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+.m-navbar-item>.m-icon {
+    padding: 1px 2px;
+    background: transparent;
+    transition: all 0.2s;
+}
+
+.m-navbar-item.selected>.m-icon {
+    padding: 1px 10px;
+    border-radius: 1rem;
+    background-color: var(--s-color-on-primary);
+
+    stroke: var(--s-color-primary);
+    fill: var(--s-color-primary);
+    color: var(--s-color-primary);
+}
+
+.m-navbar-item.selected>.m-navbar-item-title {
+    color: var(--s-color-primary);
+}
+
+
+
+
+/* Tab栏 */
+.m-tab {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 2px 0px;
+
+    margin: 4px;
+}
+
+.m-tab-item {
+    background-color: inherit;
+    color: var(--s-color-on-surface-variant);
+    border: 1px solid var(--s-color-color-outline, #777680);
+
+    margin: 3px;
+
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    padding: 0 16px;
+    height: 32px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    font-size: .875rem;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.m-tab-item.selected {
+    background-color: var(--s-color-secondary-container);
+    color: var(--s-color-on-surface-variant);
+    border: 1px solid var(--s-color-secondary-container);
+}
+
+
+/* 卡片组件 */
+.m-card {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: var(--s-color-surface-container-low);
+    color: var(--s-color-on-surface);
+    border-radius: 12px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    margin: 7px;
+    box-shadow: var(--s-elevation-level2, 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12));
+    font-size: 0.875rem;
+    box-sizing: border-box;
+    vertical-align: middle;
+    width: 280px;
+    cursor:pointer;
+    transition: all 0.15s;
+}
+
+.m-card:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+}
+
+.m-card:active {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.m-card .m-card-title {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    margin: 16px 16px 0px;
+}
+
+.m-card .m-card-subtitle {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 4px 16px;
+}
+
+.m-card .m-card-text {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 8px 16px;
+    color: var(--s-color-on-surface-variant);
+}

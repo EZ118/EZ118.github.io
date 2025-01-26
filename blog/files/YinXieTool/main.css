@@ -1,0 +1,154 @@
+body {
+    text-align: center;
+    background-color: lightgray;
+}
+
+body, textarea, input {
+    font-family: Helvetica, Arial;
+    color: dimgray;
+    border: none;
+}
+
+a {color: dimgray;}
+
+p {text-indent: 1.5em;}
+
+input {
+    padding: 6px;
+    padding-left: 8px;
+    border-radius: 5px;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border-bottom: 2px solid #a9aeb1;
+    transition: all 0.3s;
+    outline: none;
+    margin: 0px;
+    color: #000;
+}
+input: focus {border-bottom: 2px solid #3393df;}
+
+button {
+    padding: 5px;
+    padding-left: 24px;
+    padding-right: 24px;
+    border-radius: 5px;
+    background-color: #FFF;
+    border: 1px solid #a9aeb1;
+    transition: all 0.3s;
+    outline: none;
+    margin: 0px;
+    color: #000;
+}
+button: hover {border: 1px solid #3393df;}
+
+textarea {
+    border: 1px solid rgb(220, 220, 220);
+    outline: none;
+    border-radius: 7px;
+    background-color: rgb(250, 250, 250);
+    transition: all 0.2s;
+    padding: 5px;
+}
+textarea: focus{border: 1px solid #a9aeb1;}
+
+.section {
+    width: 450px;
+    margin: auto;
+    overflow: auto;
+    margin-bottom: 30px;
+    padding: 30px;
+    border-radius: 5px;
+}
+
+@media (max-width: 700px) {
+    .section {width: 70%;}
+    h1 {margin-bottom: 60px;}
+}
+
+.dark {
+    background-color: lightgray;
+    border-style: solid;
+    border-width: 1px;
+    border-color: dimgray;
+}
+
+.sectionbody {margin-top: 40px; text-align: left;}
+
+.step {
+    text-transform: uppercase;
+    position: absolute;
+    margin-top: -50px;
+    margin-left: -50px;
+    background-color: dimgray;
+    color: lightgray;
+    padding: 20px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.left {width: 45%; float: left;}
+.right {width: 45%; float: right;}
+.password {width: 100%;}
+.message {width: 100%; height: 100px;}
+.submit {float: right; margin: 5px;}
+.preview {margin-top: 30px; width: 100px; float: right;}
+.hide {display: none;}
+
+#output[src] {
+    margin-bottom: 1em;
+    box-shadow: 0px 0.5em 1em rgba(0,0,0,0.5);
+    width: 90%;
+    max-width: 500px;
+    border-radius: 5px;
+}
+
+
+
+input[type="radio"]{
+    display:none;
+}
+/* 设置input的下一个节点label的样式 */
+input[type="radio"]+label{
+    display:block;
+    width:100%;
+    height:100%;
+    background:#ccc;
+    font-size:18px;
+    text-align: center;
+    line-height: 50px;
+    color:#333;
+	border-radius:5px;
+}
+/* 设置div内容的基础样式 隐藏内容div*/
+input[type="radio"]+label+div{
+    display:none;
+    position: absolute;
+    left:0;
+    top:50px;
+}
+/* input选中状态时候对应的label的样式 */
+input[type="radio"]:checked+label{
+    background: #333333;
+    color:#fff;
+	border-radius:5px;
+}
+/* input选中时候显示对应的div */
+input[type="radio"]:checked+label+div{
+    display:block;
+}
+
+/* 清除li样式 */
+ul,li{
+    list-style: none;
+}
+/* 将ul相对定位，目的是让内容的div绝对定位时相对ul定位，否则会相对body定位 */
+/* ul弹性盒，目的是让li横着排，也可以将li浮动或者转行内块 */
+ul{
+    position:relative;
+    display:flex;
+}
+/* 将三个li宽度平分，高度60px */
+li{
+    flex:1;
+    height:50px;
+}

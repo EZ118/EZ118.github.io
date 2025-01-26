@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0" />
+    <title>EZ118的动态</title>
+    <link rel="shortcut icon" href="./img/icon.png" />
+    <link rel="stylesheet" href="./css/material-theme.css" />
+    <link rel="stylesheet" href="./css/material.css" />
+    <script src="./js/petite-vue.iife.js"></script>
+</head>
+
+<body>
+    <div id="app" class="m-page-containter" v-scope v-effect="mounted()">
+        <!-- 侧边栏 -->
+        <div class="m-navbar">
+            <img src="./img/icon.png" alt="logo" class="m-navbar-logo">
+
+            <div v-for="item in MyContacts" :key="item.param"
+                :class="['m-navbar-item', { selected: currentPageView === item.param }]"
+                @click="switchNav(item.param, item.url)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="m-icon">
+                    <path :d="item.icon"></path>
+                </svg>
+                <span class="m-navbar-item-title">{{ item.name }}</span>
+            </div>
+        </div>
+
+        <!-- 主体 -->
+        <div style="flex-grow:1;height:100vh;overflow:hidden auto; max-width:calc(100vw - 82px);">
+            <h1 style="margin:10px 22px;padding:0;">EZ118</h1>
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+                <div v-for="item in MyBlogs" :key="item.id" class="m-card" @click="OpenReader(item)">
+                    <p class="m-card-title">{{ item.title }}</p>
+                    <p class="m-card-subtitle">{{ item.author }}</p>
+                    <p class="m-card-text">{{ item.content.slice(0, 25) }}</p>
+                </div>
+            </div>
+
+            <br><br>
+        </div>
+
+        <!-- 阅读器 -->
+    </div>
+
+    <script>
+        PetiteVue.createApp({
+            /* 变量 */
+            MyContacts: [
+                { param: 'github', name: 'GitHub', url: 'https://github.com/EZ118/', icon: 'M320-240 80-480l240-240 57 57-184 184 183 183-56 56Zm320 0-57-57 184-184-183-183 56-56 240 240-240 240Z' },
+                { param: 'gitee', name: 'Gitee', url: 'https://gitee.com/EZ118/', icon: 'm384-336 56-57-87-87 87-87-56-57-144 144 144 144Zm192 0 144-144-144-144-56 57 87 87-87 87 56 57ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z' },
+                { param: 'bilibili', name: 'BiliBili', url: 'https://space.bilibili.com/1018969624', icon: 'm460-380 280-180-280-180v360ZM320-240q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320Zm0-80h480v-480H320v480ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-720v480-480Z' },
+                { param: 'cnblog', name: 'CNBlog', url: 'https://www.cnblogs.com/ez118', icon: 'M280-280h280v-80H280v80Zm0-160h400v-80H280v80Zm0-160h400v-80H280v80Zm-80 480q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z' },
+                { param: 'csdn', name: 'CSDN', url: 'https://blog.csdn.net/weixin_46804006', icon: 'M280-280h280v-80H280v80Zm0-160h400v-80H280v80Zm0-160h400v-80H280v80Zm-80 480q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z' }
+            ],
+            MyBlogs: [],
+            currentPageView: 'home',
+
+            /* 函数 */
+            switchNav(param, url) {
+                this.currentPageView = param;
+                window.open(url, '_blank');
+            },
+            GetParam(name) {
+                var params = new URLSearchParams(window.location.search);
+                return params.get(name) || "";
+            },
+            mounted() {
+                if (this.GetParam("aid") !== "") {
+                    setTimeout(() => {
+                        //alert("本页不再提供文章相关文章，请点击侧边栏查看相关内容");
+                    }, 500);
+                }
+
+                fetch('./info.txt')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('数据请求出错，状态文本：' + response.statusText);
+                        }
+                        return response.text();
+                    })
+                    .then(text => {
+                        text.split('\n').forEach((line, index) => {
+                            if(index == 0) {return;}
+
+                            let [id, author, title, content, date] = line.split('\t');
+                            this.MyBlogs.unshift({ id, author, title, content, date });
+                        });
+                    })
+                    .catch(error => {
+                        console.error('数据请求出错，错误内容：', error);
+                    });
+            }
+        }).mount("#app");
+    </script>
+</body>
+
+</html>
