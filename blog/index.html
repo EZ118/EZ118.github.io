@@ -8,7 +8,9 @@
     <link rel="shortcut icon" href="./img/icon.png" />
     <link rel="stylesheet" href="./css/material-theme.css" />
     <link rel="stylesheet" href="./css/material.css" />
+    <link rel="stylesheet" href="./css/markup.css" />
     <script src="./js/petite-vue.iife.js"></script>
+    <script src="./js/markup.js"></script>
 </head>
 
 <body>
@@ -29,19 +31,34 @@
 
         <!-- 主体 -->
         <div style="flex-grow:1;height:100vh;overflow:hidden auto; max-width:calc(100vw - 82px);">
-            <h1 style="margin:10px 22px;padding:0;">EZ118</h1>
+            <!-- 页标题栏 -->
+            <div class="m-appbar">
+                <h1 class="m-appbar-title">EZ118</h1>
+            </div>
+
+            <!-- 文章列表 -->
             <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
                 <div v-for="item in MyBlogs" :key="item.id" class="m-card" @click="OpenReader(item)">
                     <p class="m-card-title">{{ item.title }}</p>
                     <p class="m-card-subtitle">{{ item.author }}</p>
-                    <p class="m-card-text">{{ item.content.slice(0, 25) }}</p>
+                    <p class="m-card-text" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                        {{ item.content.slice(0, 45) }}
+                    </p>
                 </div>
+                <br><br>
             </div>
-
-            <br><br>
         </div>
 
         <!-- 阅读器 -->
+        <div class="m-model-fullscreen" v-if="currentPageView === 'reader'">
+            <div class="m-model-content">
+                <h1 class="m-model-title">{{ currentBlog.title }}</h1>
+                <p class="m-model-subtitle">{{ currentBlog.author }} - {{ currentBlog.date }}</p>
+                <p class="m-model-text" v-html="TransToWeb(currentBlog.content)"></p>
+            </div>
+
+            <button class="m-button" @click="currentPageView = 'home'" style="position:absolute; bottom:15px; right:20px;">关闭</button>
+        </div>
     </div>
 
     <script>
@@ -56,11 +73,18 @@
             ],
             MyBlogs: [],
             currentPageView: 'home',
+            currentBlog: { id: '', author: '', title: '', content: '', date: '' },
 
             /* 函数 */
             switchNav(param, url) {
                 this.currentPageView = param;
-                window.open(url, '_blank');
+                setTimeout(() => {
+                    window.open(url, '_blank');
+                }, 500);
+            },
+            OpenReader(blog) {
+                this.currentBlog = blog;
+                this.currentPageView = 'reader';
             },
             GetParam(name) {
                 var params = new URLSearchParams(window.location.search);
@@ -82,7 +106,7 @@
                     })
                     .then(text => {
                         text.split('\n').forEach((line, index) => {
-                            if(index == 0) {return;}
+                            if (index == 0) { return; }
 
                             let [id, author, title, content, date] = line.split('\t');
                             this.MyBlogs.unshift({ id, author, title, content, date });
