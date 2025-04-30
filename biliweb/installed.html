@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>您已成功安装 BiliScape !</title>
-    <script src="./jquery.min.js"></script>
+    <title>BiliScape 安装完成！</title>
+    <script src="./zepto.min.js"></script>
     <link rel="stylesheet" href="./style.css" type="text/css" />
     <link rel="icon" href="./icon.svg">
 </head>
@@ -23,12 +23,15 @@
         </div>
         <h1>BiliScape</h1>
         <p>简洁快速的第三方哔哩哔哩客户端，基于浏览器插件开发</p>
-        <p style="color: #FFF; font-size: 3rem; margin-top:20px; "> > 安装结束，大功告成 < </p>
+        <p style="color: #FFF; font-size: 3rem; margin-top:20px; "> &gt; 安装结束，大功告成 &lt; </p>
         
         <br/>
         <p style="margin-top:calc(25vh - 100px); margin-bottom:10vh;">
-            您可以<a href="https://github.com/EZ118/BiliChromePlugin" style="color:#CCCCFF;">点此</a>浏览我们发布的插件，扩展您的 BiliScape<br/><br/>
-            <a href="./index.html" style="color:#CCCCFF;text-decoration:none;">[ 返回官网 ]</a>
+            您已安装「 <span id="currentVersion">未知</span> 」版本，立刻体验新功能新特性。
+            <br/><br/>
+            <a href="https://github.com/EZ118/BiliChromePlugin" style="color:#CCCCFF;text-decoration:none;"> 插件仓库 </a>
+            &nbsp;·&nbsp;
+            <a href="./index.html" style="color:#CCCCFF;text-decoration:none;"> 返回官网 </a>
         </p>
     </div>
 
@@ -39,7 +42,13 @@
     </footer>
 
     <script>
-        console.log(window.location.hash);
+        $(document).ready(function () {
+            // 获取当前版本号
+            var currentVersion = window.location.hash.substring(1);
+            if (currentVersion) {
+                $('#currentVersion').text(currentVersion);
+            }
+        });
     </script>
 </body>
 
