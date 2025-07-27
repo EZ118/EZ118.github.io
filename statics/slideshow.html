@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slideshow Agent</title>
+    <script src="https://unpkg.com/pptxgenjs@4.0.1/dist/pptxgen.bundle.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+			-webkit-appearance: none!important;
+        }
+
+        #app-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 左侧幻灯片列表 */
+        #slide-list-container {
+            width: 200px;
+            border-right: 1px solid #ccc;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            padding: 10px;
+        }
+
+        #slide-list {
+			border-top: 1px solid #CCC;
+            list-style-type: none;
+            padding: 5px 0 0 0;
+			margin: 5px 0px;
+        }
+
+        .slide-item {
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: #eee;
+            cursor: pointer;
+			user-select: none;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .slide-item:hover {
+            background-color: #ddd;
+        }
+
+        .slide-item.active {
+            background-color: #007bff;
+            color: white;
+        }
+		
+        #export-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #ffc107;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #export-btn:hover {
+            background-color: #e0a800;
+        }
+
+        #new-slide-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #new-slide-btn:hover {
+            background-color: #218838;
+        }
+
+        /* 中间预览区域 */
+        #preview-container {
+            flex: 1;
+            padding: 20px;
+            overflow: auto;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #slide-preview {
+            width: 90%; /* 例如 90% 宽度 */
+            height: 80%; /* 例如 80% 高度 */
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 预览元素样式 */
+        .preview-element {
+            position: absolute;
+            box-sizing: border-box;
+        }
+        .preview-text {
+            white-space: pre-wrap; /* 保留换行和空格 */
+            display: flex;
+            align-items: center;
+        }
+        .preview-image {
+            object-fit: contain; /* 保持图片比例 */
+        }
+        .preview-shape {
+            /* Shape 样式主要通过 JS 设置 */
+        }
+
+
+        /* 右侧编辑器和按钮 */
+        #editor-container {
+            width: 400px;
+            border-left: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            background-color: #f9f9f9;
+        }
+
+        #json-editor {
+            flex: 1;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            border: none;
+            resize: none;
+            background-color: #fff;
+        }
+
+        #button-container {
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #confirm-btn {
+            background-color: #007bff;
+            color: white;
+			flex-basis: 60%;
+        }
+
+        #confirm-btn:hover {
+            background-color: #0069d9;
+        }
+
+        #delete-btn {
+            background-color: #dc3545;
+            color: white;
+			flex-basis: 30%;
+        }
+
+        #delete-btn:hover {
+            background-color: #c82333;
+        }
+		
+		#help-btn {
+			background-color: #ffc107;
+			color: black;
+			flex-basis: 10%;
+		}
+		
+		#help-btn:hover {
+			background-color: #e0a800;
+		}
+    </style>
+</head>
+<body>
+
+<div id="app-container">
+    <!-- 左侧幻灯片列表 -->
+    <div id="slide-list-container">
+        <button id="export-btn">导出为 PPTX</button>
+        <ul id="slide-list">
+            <!-- 列表项将由 JS 动态生成 -->
+        </ul>
+        <button id="new-slide-btn">+ 新建幻灯片</button>
+    </div>
+
+    <!-- 中间预览区域 -->
+    <div id="preview-container">
+        <div id="slide-preview">
+            <!-- 预览内容将由 JS 动态生成 -->
+        </div>
+    </div>
+
+    <!-- 右侧编辑器和按钮 -->
+    <div id="editor-container">
+        <textarea id="json-editor" placeholder="在此输入幻灯片的JSON数据..."></textarea>
+        <div id="button-container">
+            <button id="confirm-btn" class="action-btn"> ✔ 确认</button>
+            <button id="delete-btn" class="action-btn"> ✘ 删除</button>
+            <button id="help-btn" class="action-btn" title="获取帮助"> ? </button>
+        </div>
+    </div>
+	
+	<!-- 用于存储提示词 -->
+	<pre id="reference-prompt-store" style="display:none;">
+你是一个PPT制作助手，工作流程如下：
+1. **询问用户需求**：询问用户该系列幻灯片的主题，并接受主题、要求和参考文档。
+2. **数据检索与整理**：检索网络数据，结合用户资料和要求，列出主要数据和内容。告知用户可以开始生成PPT（“数据已罗列完成，可以开始对第一页PPT提出要求”）。
+3. **生成每一页PPT**：在后续对话中，生成每一页PPT。每一页使用JSON格式输出，格式需简洁并用代码块包裹，无需注释。
+
+### PPT内容要求
+- 每一页需包含本页主题的副标题。
+- 内容需充实，图文并茂。
+- 充分利用图像、文本、图表和图形，营造良好视觉效果。
+
+### 单页PPT格式参考
+```json
+{
+	"chart": [
+		{
+			"type": "area/bar/bar3d/bubble/bubble3d/doughnut/line/pie/radar/scatter",
+			"pos": { "x": "10%", "y": "10%", "w": "10%", "h": "10%" },
+			"data": {
+				"name": "",
+				"labels": [],
+				"values": []
+			}
+		}
+	],
+	"image": [
+		{
+			"type": "remote",
+			"pos": { "x": "10%", "y": "10%", "w": "10%", "h": "10%" },
+			"data": "./path/to/image"
+		}
+	],
+	"shape": [
+		{
+			"type": "rect/ellipse/line",
+			"pos": { "x": "10%", "y": "10%", "w": "10%", "h": "10%" },
+			"data": {
+				"fill": { "type": "solid", "color": "0088CC" },
+				"line": { "color": "FF0000", "width": 1, "dashType": "lgDash" },
+				"rotate": 180,
+				"rectRadius": 0.5,
+				"align": "left/center/right"
+			}
+		}
+	],
+	"text": [
+		{
+			"pos": { "x": "10%", "y": "10%", "w": "10%", "h": "10%" },
+			"text": "text content",
+			"data": {
+				"fill": "0088CC",
+				"color": "0088CC",
+				"fontSize": 256,
+				"rotate": 180,
+				"bold": true/false,
+				"italic": true/false,
+				"margin": 99,
+				"align": "left/center/right"
+			}
+		}
+	]
+}
+```
+### 重要说明
+- 所有`type`、`pos`、`data`内的值可修改，特别是`pos`中的`x`、`y`、`w`、`h`必须被修改。
+- `text`和`shape`的`data`内的键值如果选择默认或`false`，可删去不写。
+
+接下来，请开始接受用户的要求。</pre>
+
+
+</div>
+
+<script>
+    // --- 应用状态 ---
+    let slides = [
+        {
+            text: [{ pos: { x: "10%", y: "35%", w: "80%", h: "20%" }, text: "欢迎使用 Slideshow Agent", data: { fontSize: 44, align: "center" } }],
+            image: [],
+            shape: [],
+            chart: []
+        }
+    ];
+    let currentSlideIndex = 0;
+
+    // --- DOM 元素 ---
+    const slideListElement = document.getElementById('slide-list');
+    const previewElement = document.getElementById('slide-preview');
+    const jsonEditorElement = document.getElementById('json-editor');
+    const confirmButton = document.getElementById('confirm-btn');
+    const deleteButton = document.getElementById('delete-btn');
+    const helpButton = document.getElementById('help-btn');
+    const newSlideButton = document.getElementById('new-slide-btn');
+    const exportButton = document.getElementById('export-btn');
+
+    // --- 初始化 ---
+    function init() {
+        updateSlideList();
+        showSlide(currentSlideIndex);
+        jsonEditorElement.value = JSON.stringify(slides[currentSlideIndex], null, 2);
+    }
+
+    // --- UI 更新函数 ---
+    function updateSlideList() {
+        slideListElement.innerHTML = '';
+        slides.forEach((slide, index) => {
+            const li = document.createElement('li');
+            li.textContent = ` 📊 幻灯片 ${index + 1}`;
+            li.classList.add('slide-item');
+            if (index === currentSlideIndex) {
+                li.classList.add('active');
+            }
+            li.addEventListener('click', () => selectSlide(index));
+            slideListElement.appendChild(li);
+        });
+    }
+
+    function selectSlide(index) {
+        currentSlideIndex = index;
+        updateSlideList(); // 更新列表项的 active 状态
+        showSlide(index);
+        jsonEditorElement.value = JSON.stringify(slides[index], null, 2);
+    }
+
+    function showSlide(index) {
+        renderSlidePreview(slides[index]);
+    }
+
+    // --- 核心预览渲染函数 ---
+    function renderSlidePreview(slideData) {
+        previewElement.innerHTML = ''; // 清空之前的预览
+
+        if (!slideData) return;
+		
+		// 渲染 Shape (简化为矩形、椭圆、直线)
+        if (slideData.shape && Array.isArray(slideData.shape)) {
+            slideData.shape.forEach(s => {
+                let shapeElement;
+                if (s.type === 'rect') {
+                    shapeElement = document.createElement('div');
+                } else if (s.type === 'ellipse') {
+                     shapeElement = document.createElement('div');
+                     shapeElement.style.borderRadius = '50%';
+                } else if (s.type === 'line') {
+                     shapeElement = document.createElement('div');
+                     // 简化处理直线，假设是水平或垂直的
+                     shapeElement.style.height = s.data && s.data.line && s.data.line.width ? `${s.data.line.width}px` : '2px';
+                     shapeElement.style.width = s.pos.w;
+                     shapeElement.style.backgroundColor = s.data && s.data.line && s.data.line.color ? `#${s.data.line.color}` : '#000000';
+                     // 忽略 dashType 等复杂样式简化
+                }
+
+                if (shapeElement && s.type !== 'line') { // line 已经设置了宽高
+                     shapeElement.classList.add('preview-element', 'preview-shape');
+                     shapeElement.style.left = s.pos.x;
+                     shapeElement.style.top = s.pos.y;
+                     shapeElement.style.width = s.pos.w;
+                     shapeElement.style.height = s.pos.h;
+
+                     if (s.data) {
+                         // 填充
+                         if (s.data.fill && s.data.fill.type === 'solid' && s.data.fill.color) {
+                             shapeElement.style.backgroundColor = `#${s.data.fill.color}`;
+                         }
+                         // 边框
+                         if (s.data.line) {
+                             const width = s.data.line.width || 1;
+                             const color = s.data.line.color || '000000';
+                             // 简化 dashType
+                             const style = s.data.line.dashType ? 'dashed' : 'solid';
+                             shapeElement.style.border = `${width}px ${style} #${color}`;
+                         }
+                         // 圆角 (仅对 rect 有效)
+                         if (s.type === 'rect' && s.data.rectRadius !== undefined) {
+                              const radiusValue = parseFloat(s.pos.w) * s.data.rectRadius; // 简化计算
+                              shapeElement.style.borderRadius = `${radiusValue}%`;
+                         }
+                         // 旋转
+                         if (s.data.rotate) {
+                             shapeElement.style.transform = `rotate(${s.data.rotate}deg)`;
+                             shapeElement.style.transformOrigin = 'center';
+                         }
+                     }
+                     previewElement.appendChild(shapeElement);
+                 } else if(shapeElement) { // Append line element
+                      shapeElement.classList.add('preview-element', 'preview-shape');
+                      shapeElement.style.position = 'absolute';
+                      shapeElement.style.left = s.pos.x;
+                      shapeElement.style.top = s.pos.y;
+                       previewElement.appendChild(shapeElement);
+                 }
+            });
+        }
+
+        // 渲染 Image
+        if (slideData.image && Array.isArray(slideData.image)) {
+            slideData.image.forEach(img => {
+                // 仅处理本地或同源图片，远程图片需要处理 CORS
+                if (img.type === 'remote' || !img.type) { // 假设默认是 remote/本地路径
+                    const imgElement = document.createElement('img');
+                    imgElement.classList.add('preview-element', 'preview-image');
+                    imgElement.src = img.data; // 设置图片路径
+                    imgElement.style.left = img.pos.x;
+                    imgElement.style.top = img.pos.y;
+                    imgElement.style.width = img.pos.w;
+                    imgElement.style.height = img.pos.h;
+                    // object-fit: contain 已在 CSS 中设置
+                    previewElement.appendChild(imgElement);
+                }
+            });
+        }
+
+        // Chart 渲染非常复杂，这里仅做占位符示意
+        if (slideData.chart && Array.isArray(slideData.chart)) {
+             slideData.chart.forEach((c, index) => {
+                 const chartPlaceholder = document.createElement('div');
+                 chartPlaceholder.classList.add('preview-element');
+                 chartPlaceholder.textContent = `[图表: ${c.type}]`;
+                 chartPlaceholder.style.left = c.pos.x;
+                 chartPlaceholder.style.top = c.pos.y;
+                 chartPlaceholder.style.width = c.pos.w;
+                 chartPlaceholder.style.height = c.pos.h;
+                 chartPlaceholder.style.display = 'flex';
+                 chartPlaceholder.style.justifyContent = 'center';
+                 chartPlaceholder.style.alignItems = 'center';
+                 chartPlaceholder.style.backgroundColor = '#e9ecef';
+                 chartPlaceholder.style.border = '1px dashed #6c757d';
+                 chartPlaceholder.style.color = '#6c757d';
+                 previewElement.appendChild(chartPlaceholder);
+             });
+        }
+
+		// 渲染 Text
+        if (slideData.text && Array.isArray(slideData.text)) {
+            slideData.text.forEach(t => {
+                const textDiv = document.createElement('div');
+                textDiv.classList.add('preview-element', 'preview-text');
+                textDiv.textContent = t.text;
+                textDiv.style.left = t.pos.x;
+                textDiv.style.top = t.pos.y;
+                textDiv.style.width = t.pos.w;
+                textDiv.style.height = t.pos.h;
+
+                if (t.data) {
+                    if (t.data.color) textDiv.style.color = `#${t.data.color}`;
+                    if (t.data.fontSize) textDiv.style.fontSize = `${t.data.fontSize}px`;
+                    if (t.data.bold) textDiv.style.fontWeight = 'bold';
+                    if (t.data.italic) textDiv.style.fontStyle = 'italic';
+                    // 简化处理 align
+                    if (t.data.align) {
+                         if(t.data.align === 'center') {
+                             textDiv.style.justifyContent = 'center';
+                             textDiv.style.textAlign = 'center';
+                         } else if (t.data.align === 'right') {
+                              textDiv.style.justifyContent = 'flex-end';
+                              textDiv.style.textAlign = 'right';
+                         } else {
+                              textDiv.style.justifyContent = 'flex-start';
+                              textDiv.style.textAlign = 'left';
+                         }
+                    }
+                    if (t.data.margin !== undefined) {
+                        textDiv.style.padding = `${t.data.margin}px`;
+                    }
+                    // rotate 需要更复杂的CSS处理，这里简化
+                    if (t.data.rotate) {
+                        textDiv.style.transform = `rotate(${t.data.rotate}deg)`;
+                        textDiv.style.transformOrigin = 'center';
+                    }
+                    if (t.data.fill) {
+                         textDiv.style.backgroundColor = `#${t.data.fill}`;
+                    }
+                }
+                previewElement.appendChild(textDiv);
+            });
+        }
+		
+    }
+
+
+    // --- 事件处理 ---
+    confirmButton.addEventListener('click', () => {
+        try {
+            const jsonData = JSON.parse(jsonEditorElement.value);
+            slides[currentSlideIndex] = jsonData;
+            showSlide(currentSlideIndex); // 更新预览
+            // alert('修改已确认并应用于当前幻灯片。');
+        } catch (e) {
+            alert('JSON格式错误: ' + e.message);
+        }
+    });
+	
+	deleteButton.addEventListener('click', () => {
+        if (slides.length <= 1) {
+            alert('至少需要保留一张幻灯片。');
+            return;
+        }
+        if (confirm(`确定要删除幻灯片 ${currentSlideIndex + 1} 吗?`)) {
+            slides.splice(currentSlideIndex, 1);
+            // 调整当前索引
+            if (currentSlideIndex >= slides.length) {
+                currentSlideIndex = slides.length - 1;
+            }
+            
+            updateSlideList();
+            showSlide(currentSlideIndex);
+			jsonEditorElement.value = JSON.stringify(slides[currentSlideIndex], null, 2);
+        }
+	});
+
+    newSlideButton.addEventListener('click', () => {
+        slides.push({ text: [], image: [], shape: [], chart: [] }); // 添加一个空幻灯片
+        currentSlideIndex = slides.length - 1;
+        updateSlideList();
+        showSlide(currentSlideIndex);
+        jsonEditorElement.value = JSON.stringify(slides[currentSlideIndex], null, 2);
+    });
+
+    exportButton.addEventListener('click', () => {
+        exportPPTX();
+    });
+	
+	helpButton.addEventListener('click', async () => {
+		const clipboardObj = navigator.clipboard;
+		try {
+			await navigator.clipboard.writeText(document.getElementById("reference-prompt-store").innerText);
+			alert("提示词已存至剪贴板，粘贴至大语言模型即可快速开始生成。");
+		} catch (err) {
+			alert("提示词复制失败，请更换至最新的浏览器再试。");
+		}
+    });
+
+
+    // --- PPTX 导出核心函数 ---
+    async function exportPPTX() {
+        try {
+            // --- 关键修改：使用正确的全局构造函数 ---
+            // 检查 PptxGenJS 是否存在
+            if (typeof PptxGenJS === 'undefined') {
+                alert('PPTX生成库加载失败，请刷新页面重试。');
+                console.error('PptxGenJS is not defined. Check the script loading.');
+                return;
+            }
+
+            // 使用 PptxGenJS 构造函数创建实例
+            const pptx = new PptxGenJS(); // <-- 修改点 1: 使用 PptxGenJS
+            // --- 修改结束 ---
+
+            for (const slideData of slides) {
+                const slide = pptx.addSlide();
+				
+                // 添加 Shape
+                if (slideData.shape && Array.isArray(slideData.shape)) {
+                    for (const s of slideData.shape) {
+                        const options = {
+                            x: s.pos.x,
+                            y: s.pos.y,
+                            w: s.pos.w,
+                            h: s.pos.h,
+                            fill: s.data?.fill?.color ? { color: s.data.fill.color } : undefined,
+                            line: s.data?.line ? { color: s.data.line.color, width: s.data.line.width, dashType: s.data.line.dashType } : undefined,
+                            rectRadius: s.type === 'rect' ? s.data?.rectRadius : undefined,
+                            rotate: s.data?.rotate
+                        };
+                        Object.keys(options).forEach(key => (options[key] === undefined || options[key] === null) && delete options[key]);
+
+                        // 映射 shape 类型
+                        let pptxShapeType = pptx.ShapeType.rect; // <-- 修改点 3: 使用 pptx.ShapeType
+                        if (s.type === 'ellipse') pptxShapeType = pptx.ShapeType.ellipse;
+                        else if (s.type === 'line') pptxShapeType = pptx.ShapeType.line;
+
+                        slide.addShape(pptxShapeType, options);
+                    }
+                }
+
+                 // 添加 Image
+                if (slideData.image && Array.isArray(slideData.image)) {
+                    for (const img of slideData.image) {
+                        if (img.type === 'remote' || !img.type) {
+                            const options = {
+                                x: img.pos.x,
+                                y: img.pos.y,
+                                w: img.pos.w,
+                                h: img.pos.h,
+                                path: img.data // 对于本地/同源文件路径
+                                // 如果是 base64: data: "data:image/...;base64,..."
+                                // 如果是远程URL，需要确保CORS允许或先转换为blob/base64
+                            };
+                            Object.keys(options).forEach(key => (options[key] === undefined || options[key] === null) && delete options[key]);
+                            
+                            try {
+                                // addImage 通常不返回 Promise, 但处理可能需要时间
+                                slide.addImage(options);
+                            } catch (imgErr) {
+                                 console.error("添加图片时出错:", imgErr);
+                                 // 可以选择跳过或提示
+                            }
+                        }
+                    }
+                }
+
+                // 添加 Chart
+                if (slideData.chart && Array.isArray(slideData.chart)) {
+                    for (const c of slideData.chart) {
+                         const chartData = [{
+                              name: c.data?.name || 'Series',
+                              labels: c.data?.labels || [],
+                              values: c.data?.values || []
+                         }];
+
+                         // 映射图表类型
+                         let chartType = pptx.ChartType.bar; // 默认
+                         const typeMap = {
+                             'area': pptx.ChartType.area,
+                             'bar': pptx.ChartType.bar,
+                             'bar3d': pptx.ChartType.bar3D,
+                             'bubble': pptx.ChartType.bubble,
+                             'bubble3d': pptx.ChartType.bubble3D,
+                             'doughnut': pptx.ChartType.doughnut,
+                             'line': pptx.ChartType.line,
+                             'pie': pptx.ChartType.pie,
+                             'radar': pptx.ChartType.radar,
+                             'scatter': pptx.ChartType.scatter
+                         };
+                         if (typeMap[c.type]) {
+                             chartType = typeMap[c.type];
+                         }
+
+                         const options = {
+                              x: c.pos.x,
+                              y: c.pos.y,
+                              w: c.pos.w,
+                              h: c.pos.h,
+                              type: chartType
+                         };
+                         Object.keys(options).forEach(key => (options[key] === undefined || options[key] === null) && delete options[key]);
+
+                         slide.addChart(chartType, chartData, options);
+                    }
+                }
+				
+				// 添加 Text
+                if (slideData.text && Array.isArray(slideData.text)) {
+                    for (const t of slideData.text) {
+                        const options = {
+                            x: t.pos.x,
+                            y: t.pos.y,
+                            w: t.pos.w,
+                            h: t.pos.h,
+                            fontSize: t.data?.fontSize,
+                            bold: t.data?.bold,
+                            italic: t.data?.italic,
+                            color: t.data?.color ? `#${t.data.color}` : undefined, // <-- 修改点 2: 确保颜色格式正确 (添加 #)
+                            fill: t.data?.fill ? `#${t.data.fill}` : undefined,     // <-- 修改点 2: 确保填充格式正确 (添加 #)
+                            align: t.data?.align,
+                            margin: t.data?.margin,
+                            rotate: t.data?.rotate // pptxgenjs 支持 rotate
+                        };
+                        Object.keys(options).forEach(key => (options[key] === undefined || options[key] === null) && delete options[key]);
+                        
+                        // 处理文本对齐 (pptxgenjs 使用 'ctr', 'l', 'r', 'just')
+                        if (options.align) {
+                            const alignMap = { 'left': 'l', 'center': 'ctr', 'right': 'r' };
+                            options.align = alignMap[options.align] || options.align;
+                        }
+                        
+                        slide.addText(t.text, options);
+                    }
+                }
+
+            }
+
+            // 触发下载
+            pptx.writeFile({ fileName: "生成的演示文稿.pptx" });
+        } catch (error) {
+            console.error("导出PPTX时发生错误:", error);
+            alert("导出失败: " + error.message);
+        }
+    }
+
+    // 启动应用
+    window.onload = init;
+</script>
+
+</body>
+</html>
