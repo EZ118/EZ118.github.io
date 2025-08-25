@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0" />
+    <title>新星社 - 文章</title>
+    <link rel="shortcut icon" href="./img/icon.png" />
+    <link rel="stylesheet" href="./css/material-theme.css" />
+    <link rel="stylesheet" href="./css/material.css" />
+    <script src="./js/petite-vue.iife.js"></script>
+    <style>
+        #loadingToast {
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+            width: 100%;
+            height: 100%;
+            background-color: var(--s-color-surface-container);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="m-page-container" v-scope v-effect="mounted()">
+        <!-- 加载球 -->
+        <div id="loadingToast" style="display:flex;">
+            <img src="./img/icon.png"
+                style="border-radius:50%;width:50px;height:50px;padding:5px;border:1px solid red;" />
+            <h2 style="margin:10px;">新星社</h2>
+            <p class="m-tip-text">加载中...</p>
+        </div>
+
+        <!-- 侧边栏 -->
+        <div class="m-navbar">
+            <img src="./img/icon.png" alt="logo" class="m-navbar-logo" title="界面焕新，大放异彩" />
+
+            <div v-for="item in sideNavBar" :key="item.param"
+                :class="['m-navbar-item', { selected: currentPageView === item.param }]" @click="switchNav(item)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="m-icon">
+                    <path d="M120-280v-80h560v80H120Zm80-160v-80h560v80H200Zm80-160v-80h560v80H280Z"></path>
+                </svg>
+                <span class="m-navbar-item-title">{{ item.name }}</span>
+            </div>
+        </div>
+
+        <!-- 悬浮搜索按钮 -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="m-button-rounded"
+            style="position:fixed;right:15px;bottom:15px;" @click="askForSearch()">
+            <path
+                d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z">
+            </path>
+        </svg>
+
+        <!-- 主体 -->
+        <div style="flex-grow:1;height:100vh;overflow:hidden auto;max-width:calc(100vw - 82px);">
+            <!-- 页标题栏 -->
+            <div class="m-appbar">
+                <h1 class="m-appbar-title">{{ currentPageTitle }}</h1>
+            </div>
+
+            <!-- 文章列表 -->
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+                <div v-for="item in articleList" :key="item.id" class="m-card" @click="OpenReader(item)">
+                    <p class="m-card-title">{{ item.title }}</p>
+                    <p class="m-card-subtitle">{{ item.author }}</p>
+                    <p class="m-card-text" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                        {{ item.content.slice(0, 45) }}
+                    </p>
+                </div>
+                <br><br>
+            </div>
+        </div>
+
+        <!-- 阅读器 -->
+        <div class="m-model-fullscreen" v-if="currentPageView === 'reader'"
+            style="overflow:hidden auto; display: block;">
+            <div class="m-model-content">
+                <h1 class="m-model-title">{{ currentBlog.title }}</h1>
+                <p class="m-model-subtitle">{{ currentBlog.author }}</p>
+                <p class="m-model-subtitle">获{{ currentBlog.praise || 0 }}赞 &nbsp; {{ currentBlog.subject }}学科</p>
+                <p class="m-model-text" v-html="currentBlog.content" style="user-select:text;"></p>
+            </div>
+
+            <button class="m-button" @click="currentPageView = 'home'"
+                style="position:fixed; bottom:15px; right:20px;">关闭</button>
+        </div>
+    </div>
+
+    <script>
+
+        PetiteVue.createApp({
+            /* 变量 */
+            sideNavBar: [
+                { param: 1, name: '第一期', desc: '植树的牧羊人小练笔' },
+                { param: 2, name: '第二期', desc: '《动物笑谈》小练笔' },
+                { param: 3, name: '第三期', desc: '《身后的目光》考试作文' },
+                { param: 4, name: '第四期', desc: '寒假读书笔记（2021-1）' },
+                { param: 5, name: '第五期', desc: '抄写本小练笔（两篇）20210416' }
+            ],
+            articleList: [],
+            totleArticleList: [],
+            currentPageView: 1,
+            currentPageTitle: "植树的牧羊人小练笔",
+            currentBlog: { id: '', author: '', title: '', week: '', praise: '', subject: '', content: '' },
+
+            /* 函数 */
+            switchNav(item) {
+                this.currentPageView = item.param;
+                this.currentPageTitle = item.desc;
+                this.showArticleList(this.currentPageView);
+            },
+            OpenReader(blog) {
+                blog.content = blog.content.replace(/\\n/g, '<br>');
+                blog.content = blog.content.replace(/\ /g, '&nbsp;');
+                this.currentBlog = blog;
+                this.currentPageView = 'reader';
+            },
+            GetParam(name) {
+                var params = new URLSearchParams(window.location.search);
+                return params.get(name) || "";
+            },
+            showArticleList(weekid) {
+                this.articleList = []; // 清空当前文章列表
+                var that = this;
+                this.totleArticleList.forEach((item) => {
+                    if (item.week == weekid) {
+                        that.articleList.push(item); // 使用 push 方法添加元素
+                    }
+                });
+            },
+            askForSearch() {
+                let wd = prompt("【搜索】请输入检索文本（建议：姓名/词语）。检索范围包括：标题、作者、文章文本。", "");
+                if (wd) {
+                    this.currentPageView = "search",
+                    this.currentPageTitle = "搜索：" + wd;
+                    this.articleList = []; // 清空当前文章列表
+                    var that = this;
+                    this.totleArticleList.forEach((item) => {
+                        if (item.author.includes(wd) || item.title.includes(wd) || item.content.includes(wd)) {
+                            that.articleList.push(item); // 使用 push 方法添加元素
+                        }
+                    });
+                }
+            },
+            mounted() {
+                if (this.GetParam("q") !== "") {
+                    setTimeout(() => {
+                        alert("尚未添加搜索功能");
+                    }, 500);
+                }
+
+                fetch('./xxs.csv')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('数据请求出错，状态文本：' + response.statusText);
+                        }
+                        return response.text();
+                    })
+                    .then(text => {
+                        text.split('\n').forEach((line, index) => {
+                            if (index == 0) { return; }
+
+                            let [id, author, title, week, praise, subject, content] = line.split('|');
+                            this.totleArticleList.unshift({ id, author, title, week, praise, subject, content });
+                        });
+
+                        this.showArticleList(this.currentPageView);
+
+
+                        // 隐藏加载球
+                        document.querySelector('#loadingToast').style.display = 'none';
+                    })
+                    .catch(error => {
+                        console.error('数据请求出错，错误内容：', error);
+
+                        //加载球报错文本
+                        document.querySelector('#loadingToast').innerHTML = '<p class="m-tip-text">[⨉] 文章数据获取失败</p>';
+                    });
+            }
+        }).mount("#app");
+    </script>
+</body>
+
+</html>
