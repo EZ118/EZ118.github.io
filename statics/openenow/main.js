@@ -101,7 +101,15 @@ $(document).ready(function () {
                 e.preventDefault()
                 $("#prevPage").click();
                 break;
+            case 'ArrowUp':
+                e.preventDefault()
+                $("#prevPage").click();
+                break;
             case 'ArrowRight':
+                e.preventDefault();
+                $("#nextPage").click();
+                break;
+            case 'ArrowDown':
                 e.preventDefault();
                 $("#nextPage").click();
                 break;
