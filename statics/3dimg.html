@@ -1,483 +1,488 @@
-<!--
-    Developed by EZ118, together with Gemini & Claude & DeepSeek.
-    Without permission, no one is allowed to copy, quote or use any part of the code.
-    Last updated: 2026-01-20
--->
-
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Spacial Photo</title>
+    <title>主体提取 + 3D视差预览</title>
     <style>
-        body {
-            margin: 0;
-            font-family: sans-serif;
-            background: #1a1a1a;
-            color: white;
-            overflow: hidden;
-        }
-
+        body { margin: 0; font-family: sans-serif; background: #1a1a1a; color: white; overflow: hidden; touch-action: manipulation; }
+        
         /* 编辑界面 */
-        #edit-view {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            height: 100vh;
-            box-sizing: border-box;
-        }
-
-        .controls {
-            background: #333;
-            padding: 15px;
-            border-radius: 12px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            width: 95%;
-            max-width: 900px;
-            margin-bottom: 10px;
-        }
-
-        .workspace {
-            position: relative;
-            border: 1px solid #555;
-            background: #000;
-            overflow: hidden;
-            cursor: crosshair;
-            max-height: 70vh;
-        }
-
-        canvas {
-            display: block;
-            max-width: 100%;
-            max-height: 70vh;
-        }
-
-        #brushCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            opacity: 0.5;
-        }
-
-        button {
-            padding: 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-            background: #007bff;
-            color: white;
-            font-size: 13px;
-        }
-
-        input[type="range"] {
-            width: 100%;
-        }
-
-        label {
-            font-size: 11px;
-            color: #bbb;
-        }
-
-        #confirmBtn {
-            background: #28a745;
-            grid-column: span 3;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
+        #edit-view { display: flex; flex-direction: column; align-items: center; padding: 20px; height: 100vh; box-sizing: border-box; }
+        .controls { background: #333; padding: 15px; border-radius: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 95%; max-width: 900px; margin-bottom: 10px; }
+        .workspace { position: relative; border: 1px solid #555; background: #000; overflow: hidden; cursor: crosshair; max-height: 70vh; touch-action: none; }
+        canvas { display: block; max-width: 100%; max-height: 70vh; }
+        #brushCanvas { position: absolute; top: 0; left: 0; pointer-events: none; opacity: 0.5; }
+        button { padding: 10px; cursor: pointer; border: none; border-radius: 4px; background: #007bff; color: white; font-size: 13px; touch-action: manipulation; }
+        input[type="range"] { width: 100%; touch-action: manipulation; }
+        label { font-size: 11px; color: #bbb; }
+        #confirmBtn { background: #28a745; grid-column: span 3; font-size: 16px; font-weight: bold; }
+        
         /* 3D预览界面 */
-        #preview-view {
+        #preview-view { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; perspective: 1000px; }
+        #canvas-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        .layer { position: absolute; will-change: transform; pointer-events: none; }
+        #back-btn { position: absolute; top: 20px; left: 20px; z-index: 100; background: rgba(30,30,30,0.9); padding: 12px 20px; }
+        #gyro-btn { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; background: #007AFF; }
+        
+        /* 移动端提示 */
+        .mobile-hint {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            perspective: 1000px;
-        }
-
-        #canvas-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .layer {
             position: absolute;
-            will-change: transform;
-            pointer-events: none;
-        }
-
-        #back-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-            background: rgba(30, 30, 30, 0.9);
-            padding: 12px 20px;
-        }
-
-        #gyro-btn {
-            position: absolute;
-            bottom: 20px;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 100;
-            background: #007AFF;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
         }
     </style>
 </head>
-
 <body>
 
-    <!-- 编辑视图 -->
-    <div id="edit-view">
-        <div class="controls">
-            <button onclick="document.getElementById('upload').click()">1. 上传图片</button>
-            <button id="processBtn" style="background:#28a745">2. 提取主体</button>
-            <button id="clearBtn" style="background:#666">清空涂抹</button>
-            <input type="file" id="upload" accept="image/*" style="display:none">
-
-            <div>
-                <label>笔刷大小: <span id="v_b">25</span></label>
-                <input type="range" id="brushSize" min="5" max="100" value="25">
-            </div>
-            <div>
-                <label>颜色容差: <span id="v_t">60</span></label>
-                <input type="range" id="tolerance" min="10" max="150" value="60">
-            </div>
-            <div>
-                <label>空间连通性: <span id="v_s">10</span></label>
-                <input type="range" id="smooth" min="0" max="30" value="10">
-            </div>
-
-            <button id="confirmBtn" style="display:none">3. 进入3D预览</button>
+<!-- 编辑视图 -->
+<div id="edit-view">
+    <div class="controls">
+        <button onclick="document.getElementById('upload').click()">1. 上传图片</button>
+        <button id="processBtn" style="background:#28a745">2. 提取主体</button>
+        <button id="clearBtn" style="background:#666">清空涂抹</button>
+        <input type="file" id="upload" accept="image/*" style="display:none">
+        
+        <div>
+            <label>笔刷大小: <span id="v_b">25</span></label>
+            <input type="range" id="brushSize" min="5" max="100" value="25">
         </div>
-
-        <div class="workspace" id="wrapper">
-            <canvas id="mainCanvas"></canvas>
-            <canvas id="brushCanvas"></canvas>
+        <div>
+            <label>颜色容差: <span id="v_t">60</span></label>
+            <input type="range" id="tolerance" min="10" max="150" value="60">
         </div>
-
-        <div style="font-size: 12px; color: #888; margin-top: 10px;">提示：涂抹主体区域后点击提取，确认无误后进入3D视差预览</div>
+        <div>
+            <label>空间连通性: <span id="v_s">10</span></label>
+            <input type="range" id="smooth" min="0" max="30" value="10">
+        </div>
+        
+        <button id="confirmBtn" style="display:none">3. 确认进入3D预览</button>
     </div>
 
-    <!-- 3D预览视图 -->
-    <div id="preview-view">
-        <button id="back-btn">← 返回编辑</button>
-        <button id="gyro-btn" style="display:none">启用陀螺仪</button>
-        <div id="canvas-container"></div>
+    <div class="workspace" id="wrapper">
+        <canvas id="mainCanvas"></canvas>
+        <canvas id="brushCanvas"></canvas>
+        <div class="mobile-hint" id="mobileHint">手指涂抹主体区域</div>
     </div>
 
-    <script>
-        // ============ 编辑模式变量 ============
-        const mainCanvas = document.getElementById('mainCanvas');
-        const brushCanvas = document.getElementById('brushCanvas');
-        const mCtx = mainCanvas.getContext('2d', { willReadFrequently: true });
-        const bCtx = brushCanvas.getContext('2d');
-        let originalImgData = null;
-        let originalImageDataUrl = null; // 新增：保存原始图像URL
-        let isDrawing = false;
-        let extractedSubject = null; // 存储提取的主体图像
+    <div style="font-size: 12px; color: #888; margin-top: 10px;">提示：涂抹主体区域后点击提取，确认无误后进入3D视差预览</div>
+</div>
 
-        const SUBJECT_SCALE = 1.05; // 主体放大比例（5%）
+<!-- 3D预览界面 -->
+<div id="preview-view">
+    <button id="back-btn">← 返回编辑</button>
+    <button id="gyro-btn" style="display:none">启用手机陀螺仪</button>
+    <div id="canvas-container"></div>
+</div>
 
-        const bind = (id) => document.getElementById(id).oninput = e => document.getElementById('v_' + id[0]).innerText = e.target.value;
-        ['brushSize', 'tolerance', 'smooth'].forEach(bind);
+<script>
+// ============ 编辑模式变量 ============
+const mainCanvas = document.getElementById('mainCanvas');
+const brushCanvas = document.getElementById('brushCanvas');
+const mCtx = mainCanvas.getContext('2d', { willReadFrequently: true });
+const bCtx = brushCanvas.getContext('2d');
+let originalImgData = null;
+let originalImageDataUrl = null;
+let isDrawing = false;
+let extractedSubject = null;
 
-        document.getElementById('upload').onchange = e => {
-            const reader = new FileReader();
-            reader.onload = evt => {
-                const img = new Image();
-                img.onload = () => {
-                    mainCanvas.width = brushCanvas.width = img.width;
-                    mainCanvas.height = brushCanvas.height = img.height;
+// 检测是否为移动设备
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+if (isMobile) {
+    document.getElementById('mobileHint').style.display = 'block';
+    setTimeout(() => {
+        document.getElementById('mobileHint').style.display = 'none';
+    }, 3000);
+}
 
-                    // 绘制原始图像到画布
-                    mCtx.drawImage(img, 0, 0);
+const SUBJECT_SCALE = 1.05;
 
-                    // 保存原始图像数据
-                    originalImgData = mCtx.getImageData(0, 0, img.width, img.height);
+const bind = (id) => document.getElementById(id).oninput = e => document.getElementById('v_'+id[0]).innerText = e.target.value;
+['brushSize','tolerance','smooth'].forEach(bind);
 
-                    // 保存原始图像的DataURL用于预览
-                    originalImageDataUrl = mainCanvas.toDataURL();
-
-                    bCtx.clearRect(0, 0, brushCanvas.width, brushCanvas.height);
-                    document.getElementById('confirmBtn').style.display = 'none';
-                    extractedSubject = null;
-                };
-                img.src = evt.target.result;
-            };
-            reader.readAsDataURL(e.target.files[0]);
+document.getElementById('upload').onchange = e => {
+    const reader = new FileReader();
+    reader.onload = evt => {
+        const img = new Image();
+        img.onload = () => {
+            mainCanvas.width = brushCanvas.width = img.width;
+            mainCanvas.height = brushCanvas.height = img.height;
+            mCtx.drawImage(img, 0, 0);
+            originalImgData = mCtx.getImageData(0, 0, img.width, img.height);
+            originalImageDataUrl = mainCanvas.toDataURL();
+            bCtx.clearRect(0, 0, brushCanvas.width, brushCanvas.height);
+            document.getElementById('confirmBtn').style.display = 'none';
+            extractedSubject = null;
         };
+        img.src = evt.target.result;
+    };
+    reader.readAsDataURL(e.target.files[0]);
+};
 
-        wrapper.onmousedown = () => isDrawing = true;
-        window.onmouseup = () => isDrawing = false;
-        wrapper.onmousemove = e => {
-            if (!isDrawing || !originalImgData) return;
-            const rect = mainCanvas.getBoundingClientRect();
-            const scale = mainCanvas.width / rect.width;
-            bCtx.fillStyle = 'red';
-            bCtx.beginPath();
-            bCtx.arc((e.clientX - rect.left) * scale, (e.clientY - rect.top) * scale, document.getElementById('brushSize').value, 0, 6.28);
-            bCtx.fill();
+// 获取画布坐标
+function getCanvasCoordinates(e) {
+    const rect = mainCanvas.getBoundingClientRect();
+    const scale = mainCanvas.width / rect.width;
+    
+    // 处理触摸事件
+    if (e.touches && e.touches[0]) {
+        const touch = e.touches[0];
+        return {
+            x: (touch.clientX - rect.left) * scale,
+            y: (touch.clientY - rect.top) * scale
         };
+    }
+    // 处理鼠标事件
+    else {
+        return {
+            x: (e.clientX - rect.left) * scale,
+            y: (e.clientY - rect.top) * scale
+        };
+    }
+}
 
-        document.getElementById('clearBtn').onclick = () => bCtx.clearRect(0, 0, brushCanvas.width, brushCanvas.height);
+// 绘制圆点
+function drawPoint(x, y) {
+    const brushSize = parseInt(document.getElementById('brushSize').value);
+    bCtx.fillStyle = 'red';
+    bCtx.beginPath();
+    bCtx.arc(x, y, brushSize, 0, Math.PI * 2);
+    bCtx.fill();
+}
 
-        document.getElementById('processBtn').onclick = () => {
-            if (!originalImgData) return;
+// 绘制线条（用于连续触摸）
+function drawLine(x1, y1, x2, y2) {
+    const brushSize = parseInt(document.getElementById('brushSize').value);
+    bCtx.strokeStyle = 'red';
+    bCtx.lineWidth = brushSize * 2;
+    bCtx.lineCap = 'round';
+    bCtx.lineJoin = 'round';
+    bCtx.beginPath();
+    bCtx.moveTo(x1, y1);
+    bCtx.lineTo(x2, y2);
+    bCtx.stroke();
+}
 
-            // 重新绘制原始图像（清除之前的蒙版）
-            mCtx.putImageData(originalImgData, 0, 0);
+// 鼠标事件
+wrapper.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    const pos = getCanvasCoordinates(e);
+    drawPoint(pos.x, pos.y);
+});
 
-            const w = mainCanvas.width, h = mainCanvas.height;
-            const bData = bCtx.getImageData(0, 0, w, h).data;
-            const iData = originalImgData.data;
-            const tolerance = parseInt(document.getElementById('tolerance').value);
+wrapper.addEventListener('mousemove', (e) => {
+    if (!isDrawing || !originalImgData) return;
+    const pos = getCanvasCoordinates(e);
+    drawPoint(pos.x, pos.y);
+});
 
-            let rSum = 0, gSum = 0, bSum = 0, count = 0;
-            let seeds = [];
+wrapper.addEventListener('mouseup', () => {
+    isDrawing = false;
+});
 
-            for (let y = 0; y < h; y++) {
-                for (let x = 0; x < w; x++) {
-                    const i = (y * w + x) * 4;
-                    if (bData[i] > 0) {
-                        rSum += iData[i]; gSum += iData[i + 1]; bSum += iData[i + 2];
-                        seeds.push({ x, y });
-                        count++;
-                    }
+wrapper.addEventListener('mouseleave', () => {
+    isDrawing = false;
+});
+
+// 触摸事件
+wrapper.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    isDrawing = true;
+    const pos = getCanvasCoordinates(e);
+    lastTouchPos = pos;
+    drawPoint(pos.x, pos.y);
+});
+
+let lastTouchPos = null;
+wrapper.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (!isDrawing || !originalImgData) return;
+    
+    const currentPos = getCanvasCoordinates(e);
+    
+    // 如果存在上一次触摸位置，绘制连线
+    if (lastTouchPos) {
+        drawLine(lastTouchPos.x, lastTouchPos.y, currentPos.x, currentPos.y);
+    } else {
+        drawPoint(currentPos.x, currentPos.y);
+    }
+    
+    lastTouchPos = currentPos;
+});
+
+wrapper.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    isDrawing = false;
+    lastTouchPos = null;
+});
+
+wrapper.addEventListener('touchcancel', (e) => {
+    e.preventDefault();
+    isDrawing = false;
+    lastTouchPos = null;
+});
+
+document.getElementById('clearBtn').onclick = () => bCtx.clearRect(0,0,brushCanvas.width,brushCanvas.height);
+
+document.getElementById('processBtn').onclick = () => {
+    if(!originalImgData) return;
+    mCtx.putImageData(originalImgData, 0, 0);
+    
+    const w = mainCanvas.width, h = mainCanvas.height;
+    const bData = bCtx.getImageData(0,0,w,h).data;
+    const iData = originalImgData.data;
+    const tolerance = parseInt(document.getElementById('tolerance').value);
+    
+    let rSum=0, gSum=0, bSum=0, count=0;
+    let seeds = [];
+    
+    for(let y=0; y<h; y++){
+        for(let x=0; x<w; x++){
+            const i = (y*w + x)*4;
+            if(bData[i] > 0){
+                rSum += iData[i]; gSum += iData[i+1]; bSum += iData[i+2];
+                seeds.push({x, y});
+                count++;
+            }
+        }
+    }
+    if(count === 0) return alert("请先涂抹主体区域");
+    const avgR = rSum/count, avgG = gSum/count, avgB = bSum/count;
+
+    let minX = w, maxX = 0, minY = h, maxY = 0;
+    seeds.forEach(s => {
+        minX = Math.min(minX, s.x); maxX = Math.max(maxX, s.x);
+        minY = Math.min(minY, s.y); maxY = Math.max(maxY, s.y);
+    });
+    const centerX = (minX + maxX) / 2;
+    const centerY = (minY + maxY) / 2;
+    const seedRadius = Math.max(maxX - minX, maxY - minY) / 2;
+
+    let points = [];
+    const scanStep = Math.max(1, Math.floor(h/400));
+    
+    for(let y=0; y<h; y+=scanStep){
+        let leftX = -1, rightX = -1;
+        
+        for(let x=0; x<w; x++){
+            const i = (y*w + x)*4;
+            const cDist = Math.sqrt((iData[i]-avgR)**2 + (iData[i+1]-avgG)**2 + (iData[i+2]-avgB)**2);
+            
+            if(cDist < tolerance){
+                const spatialDist = Math.sqrt((x-centerX)**2 + (y-centerY)**2);
+                const maxAllowedDist = seedRadius + w * 0.5;
+                
+                if(spatialDist < maxAllowedDist){
+                    if(leftX === -1) leftX = x;
+                    rightX = x;
                 }
             }
-            if (count === 0) return alert("请先涂抹主体区域");
-            const avgR = rSum / count, avgG = gSum / count, avgB = bSum / count;
+        }
+        if(leftX !== -1) points.push({l: leftX, r: rightX, y: y});
+    }
 
-            let minX = w, maxX = 0, minY = h, maxY = 0;
-            seeds.forEach(s => {
-                minX = Math.min(minX, s.x); maxX = Math.max(maxX, s.x);
-                minY = Math.min(minY, s.y); maxY = Math.max(maxY, s.y);
+    let contour = [];
+    for(let i=0; i<points.length; i++){
+        contour.push({x: points[i].l, y: points[i].y});
+    }
+    for(let i=points.length-1; i>=0; i--){
+        contour.push({x: points[i].r, y: points[i].y});
+    }
+
+    const smoothIter = parseInt(document.getElementById('smooth').value);
+    for(let iter=0; iter<smoothIter; iter++){
+        let newContour = [];
+        for(let i=0; i<contour.length; i++){
+            const curr = contour[i];
+            const next = contour[(i+1) % contour.length];
+            newContour.push({
+                x: curr.x * 0.75 + next.x * 0.25,
+                y: curr.y * 0.75 + next.y * 0.25
             });
-            const centerX = (minX + maxX) / 2;
-            const centerY = (minY + maxY) / 2;
-            const seedRadius = Math.max(maxX - minX, maxY - minY) / 2;
-
-            let points = [];
-            const scanStep = Math.max(1, Math.floor(h / 400));
-
-            for (let y = 0; y < h; y += scanStep) {
-                let leftX = -1, rightX = -1;
-
-                for (let x = 0; x < w; x++) {
-                    const i = (y * w + x) * 4;
-                    const cDist = Math.sqrt((iData[i] - avgR) ** 2 + (iData[i + 1] - avgG) ** 2 + (iData[i + 2] - avgB) ** 2);
-
-                    if (cDist < tolerance) {
-                        const spatialDist = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
-                        const maxAllowedDist = seedRadius + w * 0.5;
-
-                        if (spatialDist < maxAllowedDist) {
-                            if (leftX === -1) leftX = x;
-                            rightX = x;
-                        }
-                    }
-                }
-                if (leftX !== -1) points.push({ l: leftX, r: rightX, y: y });
-            }
-
-            let contour = [];
-            for (let i = 0; i < points.length; i++) {
-                contour.push({ x: points[i].l, y: points[i].y });
-            }
-            for (let i = points.length - 1; i >= 0; i--) {
-                contour.push({ x: points[i].r, y: points[i].y });
-            }
-
-            const smoothIter = parseInt(document.getElementById('smooth').value);
-            for (let iter = 0; iter < smoothIter; iter++) {
-                let newContour = [];
-                for (let i = 0; i < contour.length; i++) {
-                    const curr = contour[i];
-                    const next = contour[(i + 1) % contour.length];
-                    newContour.push({
-                        x: curr.x * 0.75 + next.x * 0.25,
-                        y: curr.y * 0.75 + next.y * 0.25
-                    });
-                    newContour.push({
-                        x: curr.x * 0.25 + next.x * 0.75,
-                        y: curr.y * 0.25 + next.y * 0.75
-                    });
-                }
-                if (newContour.length > 500) {
-                    const step = Math.ceil(newContour.length / 500);
-                    contour = newContour.filter((_, i) => i % step === 0);
-                } else {
-                    contour = newContour;
-                }
-            }
-
-            // 渲染预览
-            mCtx.putImageData(originalImgData, 0, 0);
-            if (contour.length > 0) {
-                mCtx.beginPath();
-                mCtx.moveTo(contour[0].x, contour[0].y);
-                contour.forEach(p => mCtx.lineTo(p.x, p.y));
-                mCtx.closePath();
-                mCtx.fillStyle = 'rgba(0, 255, 150, 0.35)';
-                mCtx.fill();
-                mCtx.strokeStyle = '#00ffaa';
-                mCtx.lineWidth = 2;
-                mCtx.stroke();
-
-                // 生成主体蒙版并保存
-                extractSubjectImage(contour);
-                document.getElementById('confirmBtn').style.display = 'block';
-            }
-        };
-
-        // 提取主体图像（带透明背景）
-        function extractSubjectImage(contour) {
-            const w = mainCanvas.width, h = mainCanvas.height;
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = w;
-            tempCanvas.height = h;
-            const tempCtx = tempCanvas.getContext('2d');
-
-            // 创建蒙版
-            tempCtx.beginPath();
-            tempCtx.moveTo(contour[0].x, contour[0].y);
-            contour.forEach(p => tempCtx.lineTo(p.x, p.y));
-            tempCtx.closePath();
-            tempCtx.fillStyle = 'white';
-            tempCtx.fill();
-
-            const maskData = tempCtx.getImageData(0, 0, w, h);
-            tempCtx.clearRect(0, 0, w, h);
-            tempCtx.putImageData(originalImgData, 0, 0);
-
-            // 应用蒙版
-            const imgData = tempCtx.getImageData(0, 0, w, h);
-            for (let i = 0; i < imgData.data.length; i += 4) {
-                imgData.data[i + 3] = maskData.data[i]; // 使用蒙版作为alpha
-            }
-            tempCtx.putImageData(imgData, 0, 0);
-
-            extractedSubject = tempCanvas.toDataURL();
-        }
-
-        // ============ 3D预览模式 ============
-        let layers = [];
-        let motion = { x: 0, y: 0 };
-        let baseOrientation = { gamma: 0, beta: 0 };
-        let hasBaseOrientation = false;
-
-        document.getElementById('confirmBtn').onclick = () => {
-            if (!extractedSubject || !originalImageDataUrl) return;
-
-            document.getElementById('edit-view').style.display = 'none';
-            document.getElementById('preview-view').style.display = 'block';
-
-            initPreview();
-        };
-
-        document.getElementById('back-btn').onclick = () => {
-            document.getElementById('preview-view').style.display = 'none';
-            document.getElementById('edit-view').style.display = 'flex';
-            document.getElementById('canvas-container').innerHTML = '';
-            layers = [];
-            hasBaseOrientation = false;
-        };
-
-        function initPreview() {
-            const container = document.getElementById('canvas-container');
-            container.innerHTML = '';
-            layers = [];
-
-            const scale = Math.min(window.innerWidth / mainCanvas.width, window.innerHeight / mainCanvas.height) * 0.9;
-
-            // 背景层（使用原始图像，没有蒙版痕迹）
-            const bgImg = document.createElement('img');
-            bgImg.src = originalImageDataUrl; // 使用保存的原始图像URL
-            bgImg.className = 'layer';
-            bgImg.style.width = (mainCanvas.width * scale) + 'px';
-            bgImg.style.left = '50%';
-            bgImg.style.top = '50%';
-            bgImg.style.marginLeft = (-mainCanvas.width * scale / 2) + 'px';
-            bgImg.style.marginTop = (-mainCanvas.height * scale / 2) + 'px';
-            container.appendChild(bgImg);
-            layers.push({ el: bgImg, depth: 0 });
-
-            // 前景层（主体，放大5%）
-            const fgImg = document.createElement('img');
-            fgImg.src = extractedSubject;
-            fgImg.className = 'layer';
-            const fgScale = scale * SUBJECT_SCALE;
-            fgImg.style.width = (mainCanvas.width * fgScale) + 'px';
-            fgImg.style.left = '50%';
-            fgImg.style.top = '50%';
-            fgImg.style.marginLeft = (-mainCanvas.width * fgScale / 2) + 'px';
-            fgImg.style.marginTop = (-mainCanvas.height * fgScale / 2) + 'px';
-            container.appendChild(fgImg);
-            layers.push({ el: fgImg, depth: 30 });
-
-            initGyro();
-            requestAnimationFrame(render);
-        }
-
-        function render() {
-            layers.forEach(layer => {
-                const tx = motion.x * layer.depth;
-                const ty = motion.y * layer.depth;
-                layer.el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+            newContour.push({
+                x: curr.x * 0.25 + next.x * 0.75,
+                y: curr.y * 0.25 + next.y * 0.75
             });
-            requestAnimationFrame(render);
         }
-
-        window.addEventListener('mousemove', (e) => {
-            motion.x = (e.clientX / window.innerWidth - 0.5) * 2;
-            motion.y = (e.clientY / window.innerHeight - 0.5) * 2;
-        });
-
-        function initGyro() {
-            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                const gyroBtn = document.getElementById('gyro-btn');
-                gyroBtn.style.display = 'block';
-                gyroBtn.onclick = () => {
-                    DeviceOrientationEvent.requestPermission().then(state => {
-                        if (state === 'granted') {
-                            window.addEventListener('deviceorientation', handleGyro);
-                            gyroBtn.style.display = 'none';
-                        }
-                    });
-                };
-            } else {
-                window.addEventListener('deviceorientation', handleGyro);
-            }
+        if(newContour.length > 500){
+            const step = Math.ceil(newContour.length / 500);
+            contour = newContour.filter((_, i) => i % step === 0);
+        } else {
+            contour = newContour;
         }
+    }
 
-        function handleGyro(e) {
-            if (!hasBaseOrientation) {
-                baseOrientation.gamma = e.gamma;
-                baseOrientation.beta = e.beta;
-                hasBaseOrientation = true;
-                return;
-            }
+    mCtx.putImageData(originalImgData, 0, 0);
+    if(contour.length > 0){
+        mCtx.beginPath();
+        mCtx.moveTo(contour[0].x, contour[0].y);
+        contour.forEach(p => mCtx.lineTo(p.x, p.y));
+        mCtx.closePath();
+        mCtx.fillStyle = 'rgba(0, 255, 150, 0.35)';
+        mCtx.fill();
+        mCtx.strokeStyle = '#00ffaa';
+        mCtx.lineWidth = 2;
+        mCtx.stroke();
+        
+        extractSubjectImage(contour);
+        document.getElementById('confirmBtn').style.display = 'block';
+    }
+};
 
-            const deltaX = e.gamma - baseOrientation.gamma;
-            const deltaY = e.beta - baseOrientation.beta;
-            const sensitivity = 20;
-            motion.x = Math.max(-1, Math.min(1, deltaX / sensitivity));
-            motion.y = Math.max(-1, Math.min(1, deltaY / sensitivity));
-        }
-    </script>
+function extractSubjectImage(contour) {
+    const w = mainCanvas.width, h = mainCanvas.height;
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = w;
+    tempCanvas.height = h;
+    const tempCtx = tempCanvas.getContext('2d');
+    
+    tempCtx.beginPath();
+    tempCtx.moveTo(contour[0].x, contour[0].y);
+    contour.forEach(p => tempCtx.lineTo(p.x, p.y));
+    tempCtx.closePath();
+    tempCtx.fillStyle = 'white';
+    tempCtx.fill();
+    
+    const maskData = tempCtx.getImageData(0, 0, w, h);
+    tempCtx.clearRect(0, 0, w, h);
+    tempCtx.putImageData(originalImgData, 0, 0);
+    
+    const imgData = tempCtx.getImageData(0, 0, w, h);
+    for(let i=0; i<imgData.data.length; i+=4){
+        imgData.data[i+3] = maskData.data[i];
+    }
+    tempCtx.putImageData(imgData, 0, 0);
+    
+    extractedSubject = tempCanvas.toDataURL();
+}
+
+// ============ 3D预览模式 ============
+let layers = [];
+let motion = { x: 0, y: 0 };
+let baseOrientation = { gamma: 0, beta: 0 };
+let hasBaseOrientation = false;
+
+document.getElementById('confirmBtn').onclick = () => {
+    if(!extractedSubject || !originalImageDataUrl) return;
+    
+    document.getElementById('edit-view').style.display = 'none';
+    document.getElementById('preview-view').style.display = 'block';
+    
+    initPreview();
+};
+
+document.getElementById('back-btn').onclick = () => {
+    document.getElementById('preview-view').style.display = 'none';
+    document.getElementById('edit-view').style.display = 'flex';
+    document.getElementById('canvas-container').innerHTML = '';
+    layers = [];
+    hasBaseOrientation = false;
+};
+
+function initPreview() {
+    const container = document.getElementById('canvas-container');
+    container.innerHTML = '';
+    layers = [];
+    
+    const scale = Math.min(window.innerWidth / mainCanvas.width, window.innerHeight / mainCanvas.height) * 0.9;
+    
+    const bgImg = document.createElement('img');
+    bgImg.src = originalImageDataUrl;
+    bgImg.className = 'layer';
+    bgImg.style.width = (mainCanvas.width * scale) + 'px';
+    bgImg.style.left = '50%';
+    bgImg.style.top = '50%';
+    bgImg.style.marginLeft = (-mainCanvas.width * scale / 2) + 'px';
+    bgImg.style.marginTop = (-mainCanvas.height * scale / 2) + 'px';
+    container.appendChild(bgImg);
+    layers.push({ el: bgImg, depth: 0 });
+    
+    const fgImg = document.createElement('img');
+    fgImg.src = extractedSubject;
+    fgImg.className = 'layer';
+    const fgScale = scale * SUBJECT_SCALE;
+    fgImg.style.width = (mainCanvas.width * fgScale) + 'px';
+    fgImg.style.left = '50%';
+    fgImg.style.top = '50%';
+    fgImg.style.marginLeft = (-mainCanvas.width * fgScale / 2) + 'px';
+    fgImg.style.marginTop = (-mainCanvas.height * fgScale / 2) + 'px';
+    container.appendChild(fgImg);
+    layers.push({ el: fgImg, depth: 30 });
+    
+    initGyro();
+    requestAnimationFrame(render);
+}
+
+function render() {
+    layers.forEach(layer => {
+        const tx = motion.x * layer.depth;
+        const ty = motion.y * layer.depth;
+        layer.el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+    });
+    requestAnimationFrame(render);
+}
+
+// 鼠标和触摸控制3D预览
+window.addEventListener('mousemove', (e) => {
+    motion.x = (e.clientX / window.innerWidth - 0.5) * 2;
+    motion.y = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+// 触摸控制3D预览
+window.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (e.touches[0]) {
+        motion.x = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
+        motion.y = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+    }
+});
+
+function initGyro() {
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        const gyroBtn = document.getElementById('gyro-btn');
+        gyroBtn.style.display = 'block';
+        gyroBtn.onclick = () => {
+            DeviceOrientationEvent.requestPermission().then(state => {
+                if (state === 'granted') {
+                    window.addEventListener('deviceorientation', handleGyro);
+                    gyroBtn.style.display = 'none';
+                }
+            });
+        };
+    } else {
+        window.addEventListener('deviceorientation', handleGyro);
+    }
+}
+
+function handleGyro(e) {
+    if (!hasBaseOrientation) {
+        baseOrientation.gamma = e.gamma;
+        baseOrientation.beta = e.beta;
+        hasBaseOrientation = true;
+        return;
+    }
+
+    const deltaX = e.gamma - baseOrientation.gamma;
+    const deltaY = e.beta - baseOrientation.beta;
+    const sensitivity = 20;
+    motion.x = Math.max(-1, Math.min(1, deltaX / sensitivity));
+    motion.y = Math.max(-1, Math.min(1, deltaY / sensitivity));
+}
+</script>
 </body>
-
 </html>
