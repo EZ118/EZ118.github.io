@@ -1,0 +1,16 @@
+{
+  "name": "MM Player",
+  "short_name": "MM Player",
+  "descriptions": "A lightweight online music player based on MithrilJs",
+  "start_url": "./",
+  "background_color": "#1e1e1e",
+  "display": "standalone",
+  "theme_color": "#bb86fc",
+  "icons": [
+    {
+      "src": "./img/icon.png",
+      "type": "image/png"
+    }
+  ],
+  "display_override": ["window-controls-overlay"]
+}
