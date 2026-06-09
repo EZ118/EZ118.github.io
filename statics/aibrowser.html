@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 浏览器</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f7;color:#1d1d1f;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* toolbar */
+.toolbar{background:#fff;border-bottom:1px solid #e0e0e0;padding:8px 12px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.nav-group{display:flex;gap:2px}
+.icon-btn{background:none;border:1px solid transparent;color:#555;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.15s}
+.icon-btn:hover:not(:disabled){background:#f0f0f0;border-color:#d0d0d0;color:#1d1d1f}
+.icon-btn:disabled{opacity:.3;cursor:not-allowed}
+.icon-btn.stop:not(:disabled){color:#c00}
+.icon-btn.stop:hover:not(:disabled){background:#fff0f0;border-color:#fcc}
+.sep{width:1px;height:20px;background:#e0e0e0;flex-shrink:0}
+.url-bar{flex:1;display:flex;align-items:center;background:#f5f5f7;border:1px solid #e0e0e0;border-radius:20px;padding:0 4px 0 12px;gap:6px;min-width:0;transition:.15s}
+.url-bar:focus-within{background:#fff;border-color:#aaa;box-shadow:0 0 0 3px rgba(0,0,0,.06)}
+.url-input{flex:1;background:none;border:none;color:#1d1d1f;font-size:13px;outline:none;padding:6px 0;min-width:0}
+.url-input::placeholder{color:#999}
+.go-btn{background:#1d1d1f;border:none;color:#fff;padding:5px 14px;border-radius:16px;cursor:pointer;font-size:13px;font-weight:500;transition:.15s;flex-shrink:0}
+.go-btn:hover{background:#333}
+.go-btn:active{transform:scale(.97)}
+
+/* progress bar */
+.progress{height:2px;background:#f0f0f0;flex-shrink:0;overflow:hidden}
+.progress-fill{height:100%;width:0;background:#0071e3;border-radius:0 1px 1px 0;transition:width .3s}
+.progress-fill.streaming{animation:prog 2s ease-in-out infinite}
+@keyframes prog{0%{width:0}60%{width:70%}100%{width:85%}}
+.progress-fill.done{width:100%;opacity:0;transition:width .1s,opacity .4s .2s}
+
+/* browser area */
+.browser-area{flex:1;position:relative;overflow:hidden;background:#fff}
+.browser-frame{width:100%;height:100%;border:none;display:none}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;color:#999;padding:40px;text-align:center}
+.empty svg{opacity:.3;margin-bottom:4px}
+.empty h2{font-size:15px;color:#555;font-weight:500}
+.empty p{font-size:13px;line-height:1.6;max-width:260px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px}
+.chip{background:#fff;border:1px solid #e0e0e0;padding:5px 12px;border-radius:16px;font-size:12px;color:#555;cursor:pointer;transition:.15s}
+.chip:hover{background:#f5f5f7;border-color:#c0c0c0;color:#1d1d1f}
+
+/* settings overlay */
+.overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:50;align-items:center;justify-content:center}
+.overlay.show{display:flex}
+.panel{background:#fff;border:1px solid #e0e0e0;border-radius:14px;padding:20px;width:min(360px,92%);box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.panel h3{font-size:15px;font-weight:600;margin-bottom:16px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.field input{width:100%;background:#f5f5f7;border:1px solid #e0e0e0;color:#1d1d1f;padding:8px 10px;border-radius:8px;font-size:13px;outline:none;transition:.15s}
+.field input:focus{background:#fff;border-color:#aaa}
+.panel-btns{display:flex;gap:8px;margin-top:16px}
+.btn-save{flex:1;padding:8px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:500;background:#1d1d1f;color:#fff;transition:.15s}
+.btn-save:hover{background:#333}
+.btn-cancel{flex:1;padding:8px;border-radius:8px;border:1px solid #e0e0e0;cursor:pointer;font-size:13px;background:#fff;color:#555;transition:.15s}
+.btn-cancel:hover{background:#f5f5f7}
+
+/* toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(6px);background:#1d1d1f;color:#fff;padding:7px 16px;border-radius:20px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* mobile bottom bar */
+.bottom-bar{display:none;background:#fff;border-top:1px solid #e0e0e0;padding:6px 8px;flex-shrink:0}
+.bottom-nav{display:flex;justify-content:space-around;gap:4px}
+.b-btn{flex:1;background:none;border:1px solid transparent;color:#555;height:42px;border-radius:10px;cursor:pointer;font-size:11px;font-weight:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:.15s}
+.b-btn span{font-size:17px;line-height:1}
+.b-btn:hover:not(:disabled){background:#f0f0f0;color:#1d1d1f}
+.b-btn:disabled{opacity:.3;cursor:not-allowed}
+.b-btn.stop{color:#c00}
+
+@media(max-width:600px){
+  .nav-group,.sep{display:none}
+  .bottom-bar{display:block}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="nav-group">
+    <button class="icon-btn" id="backBtn" disabled title="后退">←</button>
+    <button class="icon-btn" id="fwdBtn" disabled title="前进">→</button>
+    <button class="icon-btn" id="refreshBtn" disabled title="刷新">↻</button>
+    <button class="icon-btn stop" id="stopBtn" disabled title="停止">■</button>
+  </div>
+  <div class="sep"></div>
+  <div class="url-bar">
+    <input class="url-input" id="urlInput" placeholder="输入指令或描述…" autocomplete="off">
+    <button class="go-btn" id="goBtn">Go</button>
+  </div>
+  <div class="sep"></div>
+  <div class="nav-group">
+    <button class="icon-btn" id="settingsBtn" title="设置">⚙</button>
+    <button class="icon-btn" id="resetBtn" title="重置">↺</button>
+  </div>
+</div>
+
+<div class="progress"><div class="progress-fill" id="prog"></div></div>
+
+<div class="browser-area">
+  <div class="empty" id="empty">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    <h2>AI 浏览器</h2>
+    <p>输入任何描述，AI 即时生成网页</p>
+    <div class="chips">
+      <span class="chip" onclick="quick('创建一个计算器')">计算器</span>
+      <span class="chip" onclick="quick('制作 Todo 清单')">待办清单</span>
+      <span class="chip" onclick="quick('生成一个密码生成器')">密码生成器</span>
+      <span class="chip" onclick="quick('写一个简单的个人简历页面')">个人简历</span>
+      <span class="chip" onclick="quick('做一个单位换算工具')">单位换算</span>
+    </div>
+  </div>
+  <iframe class="browser-frame" id="frame" sandbox="allow-same-origin allow-scripts"></iframe>
+
+  <div class="overlay" id="overlay">
+    <div class="panel">
+      <h3>⚙ API 设置</h3>
+      <div class="field"><label>API 地址</label><input id="apiUrl" placeholder="https://api.openai.com/v1"></div>
+      <div class="field"><label>Token</label><input type="password" id="apiToken" placeholder="sk-…"></div>
+      <div class="field"><label>模型</label><input id="apiModel" placeholder="gpt-4o"></div>
+      <div class="panel-btns">
+        <button class="btn-save" id="saveBtn">保存</button>
+        <button class="btn-cancel" id="cancelBtn">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="bottom-nav">
+    <button class="b-btn" id="bBack" disabled><span>←</span>后退</button>
+    <button class="b-btn" id="bFwd" disabled><span>→</span>前进</button>
+    <button class="b-btn" id="bRefresh" disabled><span>↻</span>刷新</button>
+    <button class="b-btn stop" id="bStop" disabled><span>■</span>停止</button>
+    <button class="b-btn" id="bSettings"><span>⚙</span>设置</button>
+    <button class="b-btn" id="bReset"><span>↺</span>重置</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = 'aiBrowserSettings';
+const SYS = `你是一个简洁的网页生成器。直接输出完整HTML代码，不使用markdown代码块。从<!DOCTYPE html>开始，页面简洁实用，优先使用jQuery，表单用GET方法。`;
+
+let cfg = { apiUrl: '', token: '', model: '' };
+let hist = [], idx = -1;
+let msgs = [{ role: 'system', content: SYS }];
+let ctrl = null, streaming = false, streamed = '', wActive = false, wDoc = null;
+
+// DOM
+const $ = id => document.getElementById(id);
+const backBtn=$('backBtn'), fwdBtn=$('fwdBtn'), refreshBtn=$('refreshBtn'), stopBtn=$('stopBtn');
+const bBack=$('bBack'), bFwd=$('bFwd'), bRefresh=$('bRefresh'), bStop=$('bStop');
+const urlInput=$('urlInput'), goBtn=$('goBtn'), frame=$('frame');
+const overlay=$('overlay'), saveBtn=$('saveBtn'), cancelBtn=$('cancelBtn');
+const apiUrl=$('apiUrl'), apiToken=$('apiToken'), apiModel=$('apiModel');
+const prog=$('prog'), empty=$('empty'), toast=$('toast');
+
+// settings
+function loadCfg() {
+  try { cfg = JSON.parse(localStorage.getItem(STORAGE_KEY)) || cfg; } catch(e) {}
+  apiUrl.value = cfg.apiUrl || ''; apiToken.value = cfg.token || ''; apiModel.value = cfg.model || '';
+}
+loadCfg();
+
+const openSettings = () => overlay.classList.add('show');
+const closeSettings = () => overlay.classList.remove('show');
+$('settingsBtn').onclick = $('bSettings').onclick = openSettings;
+cancelBtn.onclick = closeSettings;
+overlay.onclick = e => { if (e.target === overlay) closeSettings(); };
+saveBtn.onclick = () => {
+  cfg = { apiUrl: apiUrl.value.trim(), token: apiToken.value.trim(), model: apiModel.value.trim() };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg));
+  closeSettings(); showToast('已保存');
+};
+
+function showToast(msg) {
+  toast.textContent = msg; toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function setProgress(state) {
+  prog.className = 'progress-fill' + (state === 'on' ? ' streaming' : state === 'done' ? ' done' : '');
+}
+
+function updateNav() {
+  [backBtn, bBack].forEach(b => b.disabled = idx <= 0);
+  [fwdBtn, bFwd].forEach(b => b.disabled = idx >= hist.length - 1);
+  [refreshBtn, bRefresh].forEach(b => b.disabled = idx < 0);
+}
+function updateStop(dis) { [stopBtn, bStop].forEach(b => b.disabled = dis); }
+updateNav(); updateStop(true);
+
+function getDoc() { return frame.contentDocument || frame.contentWindow.document; }
+
+function stripMarkdown(html) {
+  return html.replace(/^```(?:html)?\s*\n?/i, '').replace(/\n?```\s*$/i, '').trim();
+}
+
+function prepareStream() {
+  wDoc = getDoc(); wDoc.open(); wDoc.write('<!DOCTYPE html>');
+  wActive = true; streamed = '<!DOCTYPE html>';
+  empty.style.display = 'none'; frame.style.display = 'block';
+}
+function writeChunk(c) { if (wActive && wDoc) { wDoc.write(c); streamed += c; } }
+function finalizeDoc() {
+  if (wDoc) { wDoc.close(); }
+  wActive = false;
+  streamed = stripMarkdown(streamed);
+  const d = getDoc(); d.open(); d.write(streamed); d.close();
+  bindEvents();
+}
+function setHtml(html) {
+  stopStreaming(); html = stripMarkdown(html);
+  frame.srcdoc = html; empty.style.display = 'none'; frame.style.display = 'block';
+}
+
+function collectForms(doc) {
+  return Array.from(doc.querySelectorAll('form')).map((f, i) => {
+    const fields = Array.from(f.querySelectorAll('input,select,textarea'))
+      .filter(el => !['submit','button','reset'].includes(el.type))
+      .map(el => `${el.name||el.id||'?'}=${el.value}`).join(' ');
+    return fields ? `表单${i+1}: ${fields}` : null;
+  }).filter(Boolean).join('\n') || '无';
+}
+
+function bindEvents() {
+  try {
+    const doc = getDoc();
+    doc.addEventListener('click', e => {
+      const t = e.target.closest('a,button,input[type=submit],input[type=button]');
+      if (!t) return; e.preventDefault(); e.stopPropagation();
+      const label = t.textContent.trim() || t.href || t.value || '按钮';
+      urlInput.value = label;
+      sendPrompt(`用户点击"${label}"\n表单数据: ${collectForms(doc)}\n请生成新页面HTML`);
+    }, true);
+    doc.addEventListener('submit', e => {
+      e.preventDefault(); e.stopPropagation();
+      urlInput.value = '[表单提交]';
+      sendPrompt(`表单提交\n数据: ${collectForms(doc)}\n请生成新页面HTML`);
+    }, true);
+  } catch(e) {}
+}
+
+frame.addEventListener('load', () => { if (!wActive) bindEvents(); });
+
+function stopStreaming() {
+  if (ctrl) { ctrl.abort(); ctrl = null; }
+  if (streaming) { streaming = false; updateStop(true); finalizeDoc(); setProgress(''); }
+}
+
+async function sendPrompt(prompt) {
+  if (!cfg.apiUrl || !cfg.token || !cfg.model) { showToast('请先配置 API'); openSettings(); return; }
+  stopStreaming();
+
+  msgs = idx >= 0 ? JSON.parse(JSON.stringify(hist[idx].snap)) : [{ role:'system', content:SYS }];
+  msgs.push({ role:'user', content:prompt });
+
+  ctrl = new AbortController(); streaming = true; updateStop(false); setProgress('on');
+  prepareStream();
+
+  try {
+    const res = await fetch(cfg.apiUrl.replace(/\/+$/, '') + '/chat/completions', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${cfg.token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: cfg.model, messages: msgs, stream: true, temperature: 0.3 }),
+      signal: ctrl.signal
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+
+    const reader = res.body.getReader(); const dec = new TextDecoder(); let buf = '';
+    while (true) {
+      const { done, value } = await reader.read(); if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const lines = buf.split('\n'); buf = lines.pop() || '';
+      for (const line of lines) {
+        const t = line.trim();
+        if (!t || t === 'data: [DONE]') continue;
+        if (t.startsWith('data: ')) {
+          try { const d = JSON.parse(t.slice(6)).choices?.[0]?.delta?.content; if (d) writeChunk(d); } catch(e) {}
+        }
+      }
+    }
+
+    streamed = stripMarkdown(streamed);
+    const d = getDoc(); d.open(); d.write(streamed); d.close(); wActive = false; bindEvents();
+    msgs.push({ role:'assistant', content: streamed });
+    if (idx < hist.length - 1) hist.splice(idx + 1);
+    hist.push({ prompt, snap: JSON.parse(JSON.stringify(msgs)), html: streamed });
+    idx = hist.length - 1; updateNav(); urlInput.value = '';
+    setProgress('done');
+
+  } catch(e) {
+    if (e.name !== 'AbortError') {
+      finalizeDoc(); showToast('请求失败: ' + e.message); setProgress('');
+      if (idx >= 0) setHtml(hist[idx].html);
+    }
+  } finally {
+    streaming = false; updateStop(true); ctrl = null; wActive = false; updateNav();
+  }
+}
+
+function goBack() { if (idx > 0) showEntry(--idx); }
+function goFwd() { if (idx < hist.length - 1) showEntry(++idx); }
+function showEntry(i) {
+  stopStreaming(); const e = hist[i];
+  msgs = JSON.parse(JSON.stringify(e.snap)); setHtml(e.html); urlInput.value = e.prompt; updateNav();
+}
+function doRefresh() {
+  if (idx < 0) return; const p = hist[idx].prompt;
+  stopStreaming(); hist.splice(idx); idx = hist.length - 1;
+  msgs = idx >= 0 ? JSON.parse(JSON.stringify(hist[idx].snap)) : [{ role:'system', content:SYS }];
+  sendPrompt(p);
+}
+function doReset() {
+  stopStreaming(); hist = []; idx = -1; msgs = [{ role:'system', content:SYS }];
+  frame.style.display = 'none'; empty.style.display = 'flex';
+  urlInput.value = ''; updateNav(); showToast('已重置');
+}
+function quick(t) { urlInput.value = t; sendPrompt(t); }
+
+backBtn.onclick = bBack.onclick = goBack;
+fwdBtn.onclick = bFwd.onclick = goFwd;
+refreshBtn.onclick = bRefresh.onclick = doRefresh;
+stopBtn.onclick = bStop.onclick = stopStreaming;
+$('resetBtn').onclick = bReset.onclick = doReset;
+goBtn.onclick = () => { const v = urlInput.value.trim(); if (v) sendPrompt(v); };
+urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') { const v = urlInput.value.trim(); if (v) sendPrompt(v); } });
+</script>
+</body>
+</html>
