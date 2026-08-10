@@ -1,0 +1,233 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>腾訊会议</title>
+    <meta name="description" content="基于腾訊20多年音视频通讯经验，腾訊会议提供一站式音视频会议解决方案，让您能随时随地体验高清流畅的会议以及会议协作。" />
+    <link rel="icon" href="./include/favicon.ico">
+    <script src="./include/jquery.min.js"></script>
+    <link rel="stylesheet" href="./include/all.css">
+
+    <meta property="og:title" content="腾訊会议">
+    <meta property="og:description" content="腾訊会议，会开会。来自用户个人的快速会议邀请。">
+    <meta property="og:image" content="https://meeting.tencent.com/static/imgs/detail/qrcode_icon2x.png"/>
+</head>
+
+<body>
+    <div class="topNav">
+        <div align="left" class="langSel">
+            &nbsp;🌐&nbsp;简体中文&nbsp;▾
+        </div>
+        <div align="center" class="centeralLogo">
+            <img
+                src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDU1MCAxNTAiIHdpZHRoPSI1NTAiIGhlaWdodD0iMTUwIj48c3R5bGU+dHNwYW57d2hpdGUtc3BhY2U6cHJlfS5he2ZpbGw6bm9uZTtzdHJva2U6I2JhYmJiYjtzdHJva2Utd2lkdGg6Nn0uYntmb250LXNpemU6IDgwcHg7ZmlsbDogI2JhYmJiYjtmb250LXdlaWdodDogNTAwO2ZvbnQtZmFtaWx5OiAiU291cmNlSGFuU2Fuc1NDLUJvbGQiLCAiU291cmNlIEhhbiBTYW5zIFNDIn08L3N0eWxlPjxwYXRoIGNsYXNzPSJhIiBkPSJtMjMuNSAxMDMuNmMtNy4zLTcuNi03LjMtMTkuOCAwLTI3LjNsNDcuMy00OC4zIDMxLjUgMzIuMi02MC42IDYxLjl6Ii8+PHBhdGggY2xhc3M9ImEiIGQ9Im0xMzQgMjguNmwzMS44IDMxLjctNjEuOSA2MS45LTMxLjctMzEuOHoiLz48cGF0aCBjbGFzcz0iYSIgZD0ibTEzNSA5MS4zbDMwLjktMzAuOSAxNi43IDE2LjdjNy44IDcuOSA3LjcgMjAuNS0wLjEgMjguM2wtMTYuOCAxNi44eiIvPjx0ZXh0IHN0eWxlPSJ0cmFuc2Zvcm06bWF0cml4KDEsMCwwLDEsMjE0LjUsMTAzKSIgPjx0c3BhbiB4PSIwIiB5PSIwIiBjbGFzcz0iYiI+6IW+6K6v5Lya6K6uPC90c3Bhbj48L3RleHQ+PC9zdmc+">
+        </div>
+        <div align="right" class="loginBtn">
+            <a href="https://meeting.tencent.com/qrcode-login.html">登录&nbsp;</a>
+        </div>
+    </div>
+
+    <div class="detailCard">
+        <div class="cardLogo">
+            <img src="./include/sub_header_title.png">
+            <p class="meetingTitle"><span class="dynamic_creater">John</span>的快速会议</p>
+            <p class="meetingCode">533 331 824</p>
+        </div>
+        <div class="cardDetail">
+            <table class="meetingTime">
+                <tr>
+                    <td align="left" style="font-size: 30px; color: #000;" class="meetingTimeSpan">19:35</td>
+                    <td align="center" style="font-size: 12px; color: #cecece;">
+                        —
+                        <span
+                            style="margin:10px 20px; background:#f5f6f7; color:#4e5461; padding:2px 6px; border-radius:3px; font-size:10px;">1
+                            小时</span>
+                        —
+                    </td>
+                    <td align="right" style="font-size: 30px; color: #000;" class="meetingTimeSpan">20:35</td>
+                </tr>
+                <tr>
+                    <td align="left" style="font-size: 11px; color: #000;" class="meetingDate">2024年04月01日</td>
+                    <td align="center" style="font-size: 11px; color: #AAA;">(GMT+08:00)</td>
+                    <td align="right" style="font-size: 11px; color: #000;" class="meetingDate">2024年04月01日</td>
+                </tr>
+            </table>
+
+            <hr class="dashed-hr">
+            <div class="createrDetail">
+                <img class="img1" src="./include/head.png">
+                <div>
+                    <p class="r1">发起人</p>
+                    <p class="r2">
+                        <span class="dynamic_creater">John</span>
+                        <img src="./include/give.webp" class="img2">
+                    </p>
+                </div>
+            </div>
+            <hr class="dashed-hr">
+            <button class="wideBtn-plain" id="addtoMeetingPlanBtn">📆 点击添加到会议列表</button>
+            <div style="height:5px"></div>
+        </div>
+    </div>
+
+    <!-- 底部按钮 -->
+    <div class="bottomButton">
+        <button class="wideBtn" id="enterMeetingBtn_miniPrograme">小程序入会</button>
+        <button class="wideBtn-solid" id="enterMeetingBtn">加入会议</button>
+        <p class="tipText">你可以<a href="javascript:alert('会议邀请已复制到剪贴板')">复制会议邀请</a>，发送至会议成员</p>
+    </div>
+
+    <!-- 假授权弹窗 -->
+    <div class="permissionDlg" style="display:none;">
+        <div class="dlgBody">
+            <table class="dlgContent">
+                <tr height="50px" class="appDetail">
+                    <td align="left" width="38px">
+                        <img src="./include/favicon.ico" height="35px" style="border-radius:30px;">
+                    </td>
+                    <td align="left">腾讯会议</td>
+                    <td align="right">申请</td>
+                    <td align="right" width="30px" style="color:#535353;">ℹ&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="vertical-align:top;">
+                        <p class="dlgTitle">获取你的账号信息</p>
+                        <p class="dlgDetail">提供账号注册及登录功能、入会的昵称与头像的显示、通过短信等方式向您进行消息推送（包括服务消息、活动宣传或其他商业性信息）</p>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right">
+                        <button id="cancelBtn">拒绝</button>
+                    </td>
+                    <td colspan="2" align="left">
+                        <button id="confirmBtn">允许</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <p class="userToU">
+                            * 点击“允许”则默认您已阅读并接受<br>
+                            <a
+                                href="https://privacy.qq.com/document/preview/4467add90f9d4baaabd790cb1cb08b26">《隐私政策》</a>
+                            与
+                            <a href="https://rule.tencent.com/rule/ab9ea528-0bf1-47b3-a8c3-f001b98912e2">《用户协议》</a>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+
+
+
+        /* ---- */
+        function $GET(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURIComponent(r[2]); return null;
+        }
+
+        function targetFunc() {
+            location.href = "https://player.youku.com/embed/XNTg5NDEyMTYxNg==?autoplay=true";
+
+            /*
+            location.href = $GET("url");
+            */
+        }
+
+        window.onload = function () {
+            /* 初始化区 */
+            (function () {
+                const date = new Date();
+                const year = date.getFullYear();
+                const month = ('0' + (date.getMonth() + 1)).slice(-2);
+                const strDate = ('0' + date.getDate()).slice(-2);
+
+                $(".meetingDate").html(year + "年" + month + "月" + strDate + "日");
+            })();
+            (function () {
+                const now = new Date();
+                var hours = now.getHours();
+                var minutes = now.getMinutes();
+                if (minutes < 15) { minutes = 0 }
+                else if (minutes < 30) { minutes = 15 }
+                else if (minutes < 45) { minutes = 30 }
+                else if (minutes < 59) { minutes = 45 }
+
+                minutes = ('0' + minutes).slice(-2);
+
+                $(".meetingTimeSpan").eq(0).html(('0' + hours).slice(-2) + ":" + minutes);
+                $(".meetingTimeSpan").eq(1).html(('0' + (hours + 1)).slice(-2) + ":" + minutes);
+            })();
+
+            /* 事件区 */
+            $("#enterMeetingBtn_miniPrograme,#enterMeetingBtn,#addtoMeetingPlanBtn").click(function () {
+                setTimeout(function () {
+                    $(".permissionDlg").show();
+                    $(".permissionDlg").css("bottom", "-50vh")
+                    $(".permissionDlg").css("opacity", "0.2");
+                    $(".permissionDlg").animate({ bottom: "0px", opacity: "1" }, 200);
+                }, 200);
+            });
+
+            $("#confirmBtn").click(function () {
+                $(".permissionDlg").animate({ bottom: "-50vh", opacity: "0" }, 200);
+                setTimeout(function () {
+                    $(".permissionDlg").hide();
+                    location.href = "?status=login";
+                }, 200);
+            });
+            $("#cancelBtn").click(function () {
+                $(".permissionDlg").animate({ bottom: "-50vh", opacity: "0" }, 200);
+                setTimeout(function () {
+                    $(".permissionDlg").hide();
+                    location.href = "?status=login_fail&code=" + encodeURI($GET("code") || "") + "&creater=" + encodeURI($GET("creater") || "");
+                }, 200);
+            });
+
+            /* 仿数据区 */
+            if ($GET("creater") && $GET("code")) {
+                $(".dynamic_creater").text($GET("creater"));
+                $(".meetingCode").text($GET("code"));
+            }
+
+            /* 状态判断区 */
+            if ($GET("status") == "login") {
+                $("title").text("登录中...");
+                $(".detailCard").hide();
+
+                setTimeout(function () {
+                    alert("登录成功");
+                    $("title").text("登录成功 | 腾讯会议");
+                }, 400);
+                setTimeout(function () {
+                    targetFunc()
+                }, 1000);
+            } else if ($GET("status") == "login_fail") {
+                $("title").text("登录中...");
+                $(".detailCard").hide();
+
+                setTimeout(function () {
+                    alert("未登录，请授权登录");
+                    $("title").text("未登录 | 腾讯会议");
+                }, 400);
+                setTimeout(function () {
+                    top.location.href = "?status=refresh&code=" + encodeURI($GET("code") || "") + "&creater=" + encodeURI($GET("creater") || "");;
+                }, 700);
+            }
+
+        }
+    </script>
+</body>
+
+</html>
+
+
+<!--
+    https://cdn.meeting.tencent.com/assets/next-detail/_next/static/images/sub_header_1x-68a5caa04e66ce4bd77856f2664a0665.png
+-->

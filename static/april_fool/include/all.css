@@ -1,0 +1,314 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #f7f8fc;
+    user-select: none;
+    -webkit-appearance: none !important;
+    font-family: "PingFangSC-Medium", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+}
+
+a {
+    color: #006fff;
+    text-decoration: none;
+}
+
+.dashed-hr {
+    border: none;
+    border-top: 1px dashed #CCC;
+    width: calc(100% - 30px);
+    margin: 5px;
+}
+
+.topNav {
+    width: calc(100vw - 20px);
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    user-select: none
+}
+
+.topNav .langSel {
+    cursor: pointer;
+    width: 35%;
+    text-align: left;
+    color: #3c3c3c;
+    font-size: 13px;
+}
+
+.topNav .loginBtn {
+    color: #006fff;
+    text-decoration: none;
+    width: 35%;
+    text-align: right;
+    font-size: 13px
+}
+
+.topNav .centeralLogo {
+    width: 30%;
+    text-align: center;
+    color: #767676
+}
+
+.topNav .centeralLogo img {
+    vertical-align: middle;
+    height: 25px
+}
+
+/* ---- */
+.detailCard {
+    width: calc(100vw - 34px);
+    padding: 0px;
+    margin: 17px;
+    margin-top: 6px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .04);
+    background-color: #FFF;
+    overflow: hidden;
+}
+
+.cardLogo {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: url(./sub_header.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 140px;
+    margin-bottom: 10px;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    flex-direction: column
+}
+
+.cardLogo img {
+    height: 20px;
+    width: 117px;
+    margin-top: 90px;
+    margin-bottom: 25px;
+    -webkit-user-drag: none
+}
+
+.cardLogo .meetingTitle {
+    margin: 8px;
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: 500;
+}
+
+.cardLogo .meetingCode {
+    margin: 10px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 26px;
+}
+
+.cardDetail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.cardDetail .meetingTime {
+    width: 92%;
+    margin-bottom: 10px;
+    max-width: 500px;
+    min-width: 280px;
+    overflow: hidden
+}
+
+.createrDetail {
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    text-align: left;
+    width: calc(100% - 15px);
+}
+
+.createrDetail .img1 {
+    height: 42px;
+    width: 42px;
+    border-radius: 50px;
+    margin: 5px 10px;
+    background: #FFF;
+    box-shadow: 1px 1px 5px #e0e0e0;
+}
+
+.createrDetail .img2 {
+    width: 52px;
+    transform: translateY(2px);
+    margin: 0px 2px;
+}
+
+.createrDetail .r1 {
+    margin: 1px;
+    font-size: 12px;
+    color: #4e5461;
+    line-height: 22px;
+}
+
+.createrDetail .r2 {
+    margin: 1px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+    line-height: 22px;
+    text-overflow: ellipsis;
+}
+
+
+
+.bottomButton {
+    width: calc(100vw);
+    position: absolute;
+    bottom: 25px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bottomButton .tipText {
+    color: #7b818f;
+    font-size: 12px;
+    margin: 6px;
+}
+
+.bottomButton .tipText a {
+    color: #006fff;
+    text-decoration: none;
+}
+
+.wideBtn-solid {
+    background-color: #06f;
+    color: #FFF;
+    width: calc(100% - 34px);
+    cursor: pointer;
+    padding: 13px 3px;
+    border: 1px solid #06f;
+    border-radius: 7px;
+    margin: 5px 8px;
+    font-size: 14px;
+}
+
+.wideBtn {
+    background-color: #FFF;
+    /* border: 1px solid #006fff; */
+    border: 1px solid #dcdcdc;
+    color: #000000;
+    width: calc(100% - 34px);
+    cursor: pointer;
+    padding: 12px 4px;
+    border-radius: 7px;
+    margin: 5px 8px;
+    font-size: 14px;
+}
+
+.wideBtn-plain {
+    background-color: #FFF;
+    border: none;
+    color: #006fff;
+    width: calc(100% - 34px);
+    cursor: pointer;
+    padding: 8px 4px;
+    border-radius: 7px;
+    margin: 5px 8px;
+    font-size: 14px;
+}
+
+/* 模拟弹窗 */
+.permissionDlg {
+    background: #00000050;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 101;
+}
+
+.permissionDlg .dlgBody {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: calc(100vw - 15px * 2);
+    max-width: 500px;
+    transform: translate(-50%, 0);
+    padding: 15px;
+    color: #FFF;
+    background-color: #191919;
+    height: fit-content;
+    border-radius: 12px 12px 0 0;
+}
+
+.permissionDlg .dlgBody .dlgContent {
+    width: 100%;
+    color: #FFF;
+}
+
+.dlgContent h3 {
+    margin: 8px 0px;
+}
+
+.dlgContent #cancelBtn {
+    padding: 12px 45px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2b2b2b;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: medium;
+    color: #FFF;
+    margin: 5px 8px;
+}
+
+.dlgContent #confirmBtn {
+    padding: 12px 45px;
+    border-radius: 8px;
+    border: none;
+    background-color: #07c060;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: medium;
+    color: #FFF;
+    margin: 5px 8px;
+}
+
+.dlgContent .userToU {
+    font-size: small;
+    color: #5f5f5f;
+    margin: 10px 0px;
+    text-align: center;
+}
+
+.dlgContent .userToU a {
+    color: #828c95;
+    text-decoration: none;
+}
+
+.dlgContent .appDetail {
+    font-weight: bold;
+}
+
+.dlgContent .dlgDetail {
+    color: #767676;
+    margin: 10px 0;
+    font-size: medium;
+    font-weight: light;
+}
+
+.dlgContent .dlgTitle {
+    margin: 10px 0px;
+    font-weight: bold;
+    font-size: large;
+}
