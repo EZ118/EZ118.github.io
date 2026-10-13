@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+  <title>CASIO FX-991CNX 模拟器</title>
+  <meta name="description" content="在线使用 CASIO FX-991CNX（ClassWiz）科学计算器模拟器：运行真机 ROM，完整还原按键与液晶屏，可调节处理速度，支持安装为网页应用（PWA）离线使用。">
+  <meta name="keywords" content="卡西欧计算器,FX-991CNX,991CNX,计算器模拟器,在线计算器,科学计算器,ClassWiz,卡西欧模拟器,网页计算器,PWA 计算器,casio calculator,fx-991cnx,fx-991cnx emulator,991cnx,calculator emulator,online calculator,scientific calculator,classwiz,casio emulator,web calculator,pwa calculator">
+  <meta name="author" content="EZ118">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#0f1216">
+  <link rel="canonical" href="https://ez118.github.io/static/casio/">
+
+  <!-- PWA / iOS web app -->
+  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="FX-991CNX">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CASIO FX-991CNX Emulator">
+  <meta property="og:description" content="在线使用FX-991CNX模拟器，支持调节处理速度、安装为网页应用。">
+  <meta property="og:image" content="https://www.casio.com/content/dam/casio/global/common/logo/casiologosns.png">
+  <meta property="og:url" content="https://ez118.github.io/static/casio/">
+  <meta property="og:site_name" content="EZ Page">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CASIO FX-991CNX 模拟器",
+    "alternateName": "CASIO FX-991CNX Emulator",
+    "applicationCategory": "UtilitiesApplication",
+    "applicationSubCategory": "Calculator",
+    "operatingSystem": "Any (Web Browser)",
+    "browserRequirements": "Requires JavaScript and WebAssembly-free Canvas support",
+    "description": "在线运行真机 ROM 的 CASIO FX-991CNX（ClassWiz）科学计算器模拟器，完整还原按键与液晶屏，支持调节处理速度，可安装为网页应用离线使用。",
+    "url": "https://ez118.github.io/static/casio/",
+    "image": "https://www.casio.com/content/dam/casio/global/common/logo/casiologosns.png",
+    "author": { "@type": "Person", "name": "EZ118" },
+    "inLanguage": ["zh-CN", "en"],
+    "isAccessibleForFree": true,
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" }
+  }
+  </script>
+  <script type="module" crossorigin src="./assets/index-QWPq8iZ7.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-sWTFQRQm.css">
+</head>
+
+<body>
+  <div class="app">
+    <div class="stage">
+      <canvas id="calc" width="276" height="585" aria-label="fx-991CN X 模拟器"></canvas>
+    </div>
+
+    <aside class="glass" id="glass" hidden>
+      <canvas id="lcdBig" aria-label="放大的液晶屏"></canvas>
+    </aside>
+
+    <nav class="rail" id="rail" aria-label="模拟器控制">
+      <button type="button" class="rail-btn" id="btnFullscreen" title="全屏" aria-label="全屏">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5" />
+        </svg>
+        <span>全屏</span>
+      </button>
+      <button type="button" class="rail-btn" id="btnReset" title="重置" aria-label="重置">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="2 5 2 11 8 11" />
+          <path d="M4.4 15a8.4 8.4 0 1 0 2-8.7L2 11" />
+        </svg>
+        <span>重置</span>
+      </button>
+      <button type="button" class="rail-btn" id="btnSpeed" title="调速" aria-label="调速">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3.5 17.5a9 9 0 1 1 17 0" />
+          <path d="M12 17.5l4.4-5.6" />
+          <circle cx="12" cy="17.5" r="1.5" fill="currentColor" stroke="none" />
+        </svg>
+        <span>调速</span>
+      </button>
+      <button type="button" class="rail-btn" id="btnZoom" title="放大画面" aria-label="放大画面" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2.5" y="4.5" width="13" height="9.5" rx="2" />
+          <path d="M5.5 8h6M5.5 11h3.5" />
+          <circle cx="16.4" cy="15.4" r="4" />
+          <path d="M19.3 18.3 22 21" />
+        </svg>
+        <span>放大画面</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="modal" id="speedModal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-label="调速">
+      <div class="modal-head"><span>处理速度</span><span class="val" id="speedVal">1×</span></div>
+      <input id="speed" type="range" min="0" max="8" step="1" value="4" aria-label="处理速度">
+      <p class="modal-hint">拖动滑块调速；点击对话框外部关闭。</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <noscript>
+    <p style="padding:16px">本模拟器需要启用 JavaScript 才能运行。This emulator requires JavaScript.</p>
+  </noscript>
+
+</body>
+
+</html>

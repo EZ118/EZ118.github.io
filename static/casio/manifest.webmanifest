@@ -1,0 +1,36 @@
+{
+  "name": "CASIO FX-991CNX 模拟器",
+  "short_name": "FX-991CNX",
+  "description": "在线运行真机 ROM 的 CASIO FX-991CNX（ClassWiz）科学计算器模拟器，完整还原按键与液晶屏，支持调节处理速度，可安装为网页应用离线使用。",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "any",
+  "background_color": "#0f1216",
+  "theme_color": "#0f1216",
+  "categories": ["education", "utilities", "productivity"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
